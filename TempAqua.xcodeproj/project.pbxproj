@@ -1,0 +1,795 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B3117B8924C9E94300884F92 /* Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3117B8824C9E94300884F92 /* Mapping.swift */; };
+		B3117B8B24CAC60200884F92 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3117B8A24CAC60200884F92 /* TextView.swift */; };
+		B39920C124C0CD8200153AEF /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39920C024C0CD8200153AEF /* Settings.swift */; };
+		B39920C324C0D24F00153AEF /* Catchment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39920C224C0D24F00153AEF /* Catchment.swift */; };
+		B39920C524C0D59E00153AEF /* SettingsCatchments.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39920C424C0D59E00153AEF /* SettingsCatchments.swift */; };
+		B3CC625324CEC20A00ABEA7F /* ArcgisBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CC625224CEC20A00ABEA7F /* ArcgisBorder.swift */; };
+		B3CC625524CED32400ABEA7F /* CapturePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CC625424CED32400ABEA7F /* CapturePhoto.swift */; };
+		B3F026DC2516833800F30A2A /* SurveyExportObservations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F026DB2516833800F30A2A /* SurveyExportObservations.swift */; };
+		C224968824978B95009239B3 /* SurveyExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224968724978B95009239B3 /* SurveyExport.swift */; };
+		C224968C2497988A009239B3 /* MultipleSelectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224968B2497988A009239B3 /* MultipleSelectionRow.swift */; };
+		C224968E24979FF3009239B3 /* SurveyExportParticipants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224968D24979FF3009239B3 /* SurveyExportParticipants.swift */; };
+		C22496902497A921009239B3 /* Survey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224968F2497A921009239B3 /* Survey.swift */; };
+		C22496922497F653009239B3 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22496912497F653009239B3 /* DateFormatter.swift */; };
+		C22496942497FEE3009239B3 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22496932497FEE3009239B3 /* CustomTextField.swift */; };
+		C224969624981541009239B3 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224969524981541009239B3 /* Colors.swift */; };
+		C22496982498321B009239B3 /* SettingsSurveys.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22496972498321B009239B3 /* SettingsSurveys.swift */; };
+		C2691DD92494C7F000E9FC3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691DD82494C7F000E9FC3A /* AppDelegate.swift */; };
+		C2691DDB2494C7F000E9FC3A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691DDA2494C7F000E9FC3A /* SceneDelegate.swift */; };
+		C2691DDF2494C7F400E9FC3A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2691DDE2494C7F400E9FC3A /* Assets.xcassets */; };
+		C2691DE22494C7F400E9FC3A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2691DE12494C7F400E9FC3A /* Preview Assets.xcassets */; };
+		C2691DE52494C7F400E9FC3A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2691DE32494C7F400E9FC3A /* LaunchScreen.storyboard */; };
+		C2691DF02494C7F400E9FC3A /* TempAquaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691DEF2494C7F400E9FC3A /* TempAquaTests.swift */; };
+		C2691DFB2494C7F400E9FC3A /* TempAquaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691DFA2494C7F400E9FC3A /* TempAquaUITests.swift */; };
+		C2691E13249530A000E9FC3A /* ObservationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691E12249530A000E9FC3A /* ObservationRow.swift */; };
+		C2691E36249536C200E9FC3A /* SurveyDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691E35249536C200E9FC3A /* SurveyDetails.swift */; };
+		C2691E43249543FB00E9FC3A /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691E40249543FA00E9FC3A /* UserData.swift */; };
+		C2691E7C24954D8500E9FC3A /* Observation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691E7B24954D8400E9FC3A /* Observation.swift */; };
+		C2691E7E24954E9600E9FC3A /* ObservationDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691E7D24954E9600E9FC3A /* ObservationDetail.swift */; };
+		C2691E8424956DFC00E9FC3A /* MainPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691E8324956DFC00E9FC3A /* MainPage.swift */; };
+		C2691EC22495769F00E9FC3A /* SurveyMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691EC12495769F00E9FC3A /* SurveyMap.swift */; };
+		C2691EC8249600DB00E9FC3A /* DBStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691EC7249600DB00E9FC3A /* DBStorage.swift */; };
+		C2691ECA249644D900E9FC3A /* GPSConverer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691EC9249644D900E9FC3A /* GPSConverer.swift */; };
+		C2691ECE2496A6A000E9FC3A /* ArcgisStreams.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691ECD2496A6A000E9FC3A /* ArcgisStreams.swift */; };
+		C2BF41352498E6B400706DFD /* KeyboardAdaptive.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF41342498E6B400706DFD /* KeyboardAdaptive.swift */; };
+		C2BF41372498EC9C00706DFD /* Hacking.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF41362498EC9C00706DFD /* Hacking.swift */; };
+		C2BF413924992C0800706DFD /* ObservationPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF413824992C0800706DFD /* ObservationPhotos.swift */; };
+		C2BF413F249B4E1000706DFD /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF413E249B4E0F00706DFD /* ProgressBar.swift */; };
+		C2BF4142249B603100706DFD /* ExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF4141249B603100706DFD /* ExportManager.swift */; };
+		C2BF4148249B88C400706DFD /* ObservationCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF4147249B88C400706DFD /* ObservationCategory.swift */; };
+		C2BF414A249B88D700706DFD /* ObservationMultimedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF4149249B88D700706DFD /* ObservationMultimedia.swift */; };
+		C2BF414C249B88FD00706DFD /* ObservationMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF414B249B88FD00706DFD /* ObservationMarker.swift */; };
+		C2BF414F249B8D9200706DFD /* RestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF414E249B8D9200706DFD /* RestStatus.swift */; };
+		C2BF4151249B963B00706DFD /* ImportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF4150249B963B00706DFD /* ImportManager.swift */; };
+		C2BF4155249BECF200706DFD /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF4154249BECF200706DFD /* VideoPlayer.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C2691DEC2494C7F400E9FC3A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2691DCD2494C7F000E9FC3A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C2691DD42494C7F000E9FC3A;
+			remoteInfo = TempAqua;
+		};
+		C2691DF72494C7F400E9FC3A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2691DCD2494C7F000E9FC3A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C2691DD42494C7F000E9FC3A;
+			remoteInfo = TempAqua;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		B3117B8824C9E94300884F92 /* Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mapping.swift; sourceTree = "<group>"; };
+		B3117B8A24CAC60200884F92 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
+		B39920C024C0CD8200153AEF /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		B39920C224C0D24F00153AEF /* Catchment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Catchment.swift; sourceTree = "<group>"; };
+		B39920C424C0D59E00153AEF /* SettingsCatchments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCatchments.swift; sourceTree = "<group>"; };
+		B3CC625224CEC20A00ABEA7F /* ArcgisBorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcgisBorder.swift; sourceTree = "<group>"; };
+		B3CC625424CED32400ABEA7F /* CapturePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturePhoto.swift; sourceTree = "<group>"; };
+		B3F026DB2516833800F30A2A /* SurveyExportObservations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyExportObservations.swift; sourceTree = "<group>"; };
+		C224968724978B95009239B3 /* SurveyExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyExport.swift; sourceTree = "<group>"; };
+		C224968B2497988A009239B3 /* MultipleSelectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionRow.swift; sourceTree = "<group>"; };
+		C224968D24979FF3009239B3 /* SurveyExportParticipants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyExportParticipants.swift; sourceTree = "<group>"; };
+		C224968F2497A921009239B3 /* Survey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Survey.swift; sourceTree = "<group>"; };
+		C22496912497F653009239B3 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		C22496932497FEE3009239B3 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		C224969524981541009239B3 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		C22496972498321B009239B3 /* SettingsSurveys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSurveys.swift; sourceTree = "<group>"; };
+		C2691DD52494C7F000E9FC3A /* TempAqua.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TempAqua.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2691DD82494C7F000E9FC3A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C2691DDA2494C7F000E9FC3A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		C2691DDE2494C7F400E9FC3A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C2691DE12494C7F400E9FC3A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C2691DE42494C7F400E9FC3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C2691DE62494C7F400E9FC3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C2691DEB2494C7F400E9FC3A /* TempAquaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TempAquaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2691DEF2494C7F400E9FC3A /* TempAquaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempAquaTests.swift; sourceTree = "<group>"; };
+		C2691DF12494C7F400E9FC3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C2691DF62494C7F400E9FC3A /* TempAquaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TempAquaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2691DFA2494C7F400E9FC3A /* TempAquaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempAquaUITests.swift; sourceTree = "<group>"; };
+		C2691DFC2494C7F400E9FC3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C2691E12249530A000E9FC3A /* ObservationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationRow.swift; sourceTree = "<group>"; };
+		C2691E35249536C200E9FC3A /* SurveyDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyDetails.swift; sourceTree = "<group>"; };
+		C2691E40249543FA00E9FC3A /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		C2691E7B24954D8400E9FC3A /* Observation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observation.swift; sourceTree = "<group>"; };
+		C2691E7D24954E9600E9FC3A /* ObservationDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationDetail.swift; sourceTree = "<group>"; };
+		C2691E8324956DFC00E9FC3A /* MainPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPage.swift; sourceTree = "<group>"; };
+		C2691EC12495769F00E9FC3A /* SurveyMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyMap.swift; sourceTree = "<group>"; };
+		C2691EC42496002F00E9FC3A /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		C2691EC7249600DB00E9FC3A /* DBStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBStorage.swift; sourceTree = "<group>"; };
+		C2691EC9249644D900E9FC3A /* GPSConverer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPSConverer.swift; sourceTree = "<group>"; };
+		C2691ECD2496A6A000E9FC3A /* ArcgisStreams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcgisStreams.swift; sourceTree = "<group>"; };
+		C2BF41342498E6B400706DFD /* KeyboardAdaptive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardAdaptive.swift; sourceTree = "<group>"; };
+		C2BF41362498EC9C00706DFD /* Hacking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hacking.swift; sourceTree = "<group>"; };
+		C2BF413824992C0800706DFD /* ObservationPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationPhotos.swift; sourceTree = "<group>"; };
+		C2BF413E249B4E0F00706DFD /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
+		C2BF4141249B603100706DFD /* ExportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportManager.swift; sourceTree = "<group>"; };
+		C2BF4147249B88C400706DFD /* ObservationCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationCategory.swift; sourceTree = "<group>"; };
+		C2BF4149249B88D700706DFD /* ObservationMultimedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationMultimedia.swift; sourceTree = "<group>"; };
+		C2BF414B249B88FD00706DFD /* ObservationMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationMarker.swift; sourceTree = "<group>"; };
+		C2BF414E249B8D9200706DFD /* RestStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestStatus.swift; sourceTree = "<group>"; };
+		C2BF4150249B963B00706DFD /* ImportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportManager.swift; sourceTree = "<group>"; };
+		C2BF4154249BECF200706DFD /* VideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C2691DD22494C7F000E9FC3A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2691DE82494C7F400E9FC3A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2691DF32494C7F400E9FC3A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C2691DCC2494C7F000E9FC3A = {
+			isa = PBXGroup;
+			children = (
+				C2BF414D249B8A1400706DFD /* hacking */,
+				C2BF4140249B601400706DFD /* Controllers */,
+				C2691E30249531B600E9FC3A /* SupportingViews */,
+				C2691E0F24952FE400E9FC3A /* Resources */,
+				C2691E0E24952FDF00E9FC3A /* Models */,
+				C2691DD72494C7F000E9FC3A /* TempAqua */,
+				C2691DEE2494C7F400E9FC3A /* TempAquaTests */,
+				C2691DF92494C7F400E9FC3A /* TempAquaUITests */,
+				C2691DD62494C7F000E9FC3A /* Products */,
+				C2691EC32496002F00E9FC3A /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		C2691DD62494C7F000E9FC3A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C2691DD52494C7F000E9FC3A /* TempAqua.app */,
+				C2691DEB2494C7F400E9FC3A /* TempAquaTests.xctest */,
+				C2691DF62494C7F400E9FC3A /* TempAquaUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C2691DD72494C7F000E9FC3A /* TempAqua */ = {
+			isa = PBXGroup;
+			children = (
+				C2691DD82494C7F000E9FC3A /* AppDelegate.swift */,
+				C2691DDA2494C7F000E9FC3A /* SceneDelegate.swift */,
+				C2691DDE2494C7F400E9FC3A /* Assets.xcassets */,
+				C2691DE32494C7F400E9FC3A /* LaunchScreen.storyboard */,
+				C2691DE62494C7F400E9FC3A /* Info.plist */,
+				C2691E7D24954E9600E9FC3A /* ObservationDetail.swift */,
+				B3117B8824C9E94300884F92 /* Mapping.swift */,
+				C2BF413824992C0800706DFD /* ObservationPhotos.swift */,
+				B3CC625424CED32400ABEA7F /* CapturePhoto.swift */,
+				C2691E8324956DFC00E9FC3A /* MainPage.swift */,
+				C2691E35249536C200E9FC3A /* SurveyDetails.swift */,
+				C2691E12249530A000E9FC3A /* ObservationRow.swift */,
+				C224968724978B95009239B3 /* SurveyExport.swift */,
+				B3F026DB2516833800F30A2A /* SurveyExportObservations.swift */,
+				C224968D24979FF3009239B3 /* SurveyExportParticipants.swift */,
+				B39920C024C0CD8200153AEF /* Settings.swift */,
+				C22496972498321B009239B3 /* SettingsSurveys.swift */,
+				B39920C424C0D59E00153AEF /* SettingsCatchments.swift */,
+				C2691EC12495769F00E9FC3A /* SurveyMap.swift */,
+				C2691DE02494C7F400E9FC3A /* Preview Content */,
+			);
+			path = TempAqua;
+			sourceTree = "<group>";
+		};
+		C2691DE02494C7F400E9FC3A /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				C2691DE12494C7F400E9FC3A /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C2691DEE2494C7F400E9FC3A /* TempAquaTests */ = {
+			isa = PBXGroup;
+			children = (
+				C2691DEF2494C7F400E9FC3A /* TempAquaTests.swift */,
+				C2691DF12494C7F400E9FC3A /* Info.plist */,
+			);
+			path = TempAquaTests;
+			sourceTree = "<group>";
+		};
+		C2691DF92494C7F400E9FC3A /* TempAquaUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C2691DFA2494C7F400E9FC3A /* TempAquaUITests.swift */,
+				C2691DFC2494C7F400E9FC3A /* Info.plist */,
+			);
+			path = TempAquaUITests;
+			sourceTree = "<group>";
+		};
+		C2691E0E24952FDF00E9FC3A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C2691E7B24954D8400E9FC3A /* Observation.swift */,
+				B3CC625224CEC20A00ABEA7F /* ArcgisBorder.swift */,
+				C2691ECD2496A6A000E9FC3A /* ArcgisStreams.swift */,
+				C224968F2497A921009239B3 /* Survey.swift */,
+				C2BF4147249B88C400706DFD /* ObservationCategory.swift */,
+				C2BF4149249B88D700706DFD /* ObservationMultimedia.swift */,
+				C2BF414B249B88FD00706DFD /* ObservationMarker.swift */,
+				C2BF414E249B8D9200706DFD /* RestStatus.swift */,
+				B39920C224C0D24F00153AEF /* Catchment.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C2691E0F24952FE400E9FC3A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C2691E30249531B600E9FC3A /* SupportingViews */ = {
+			isa = PBXGroup;
+			children = (
+				C2691EC9249644D900E9FC3A /* GPSConverer.swift */,
+				C224968B2497988A009239B3 /* MultipleSelectionRow.swift */,
+				C22496912497F653009239B3 /* DateFormatter.swift */,
+				C22496932497FEE3009239B3 /* CustomTextField.swift */,
+				C224969524981541009239B3 /* Colors.swift */,
+				C2BF413E249B4E0F00706DFD /* ProgressBar.swift */,
+				C2BF4154249BECF200706DFD /* VideoPlayer.swift */,
+				B3117B8A24CAC60200884F92 /* TextView.swift */,
+			);
+			path = SupportingViews;
+			sourceTree = "<group>";
+		};
+		C2691EC32496002F00E9FC3A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C2691EC42496002F00E9FC3A /* libsqlite3.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C2BF4140249B601400706DFD /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C2691EC7249600DB00E9FC3A /* DBStorage.swift */,
+				C2691E40249543FA00E9FC3A /* UserData.swift */,
+				C2BF4141249B603100706DFD /* ExportManager.swift */,
+				C2BF4150249B963B00706DFD /* ImportManager.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		C2BF414D249B8A1400706DFD /* hacking */ = {
+			isa = PBXGroup;
+			children = (
+				C2BF41342498E6B400706DFD /* KeyboardAdaptive.swift */,
+				C2BF41362498EC9C00706DFD /* Hacking.swift */,
+			);
+			path = hacking;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C2691DD42494C7F000E9FC3A /* TempAqua */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C2691DFF2494C7F400E9FC3A /* Build configuration list for PBXNativeTarget "TempAqua" */;
+			buildPhases = (
+				C2691DD12494C7F000E9FC3A /* Sources */,
+				C2691DD22494C7F000E9FC3A /* Frameworks */,
+				C2691DD32494C7F000E9FC3A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TempAqua;
+			productName = TempAqua;
+			productReference = C2691DD52494C7F000E9FC3A /* TempAqua.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C2691DEA2494C7F400E9FC3A /* TempAquaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C2691E022494C7F400E9FC3A /* Build configuration list for PBXNativeTarget "TempAquaTests" */;
+			buildPhases = (
+				C2691DE72494C7F400E9FC3A /* Sources */,
+				C2691DE82494C7F400E9FC3A /* Frameworks */,
+				C2691DE92494C7F400E9FC3A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C2691DED2494C7F400E9FC3A /* PBXTargetDependency */,
+			);
+			name = TempAquaTests;
+			productName = TempAquaTests;
+			productReference = C2691DEB2494C7F400E9FC3A /* TempAquaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C2691DF52494C7F400E9FC3A /* TempAquaUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C2691E052494C7F400E9FC3A /* Build configuration list for PBXNativeTarget "TempAquaUITests" */;
+			buildPhases = (
+				C2691DF22494C7F400E9FC3A /* Sources */,
+				C2691DF32494C7F400E9FC3A /* Frameworks */,
+				C2691DF42494C7F400E9FC3A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C2691DF82494C7F400E9FC3A /* PBXTargetDependency */,
+			);
+			name = TempAquaUITests;
+			productName = TempAquaUITests;
+			productReference = C2691DF62494C7F400E9FC3A /* TempAquaUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C2691DCD2494C7F000E9FC3A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1150;
+				LastUpgradeCheck = 1200;
+				TargetAttributes = {
+					C2691DD42494C7F000E9FC3A = {
+						CreatedOnToolsVersion = 11.5;
+					};
+					C2691DEA2494C7F400E9FC3A = {
+						CreatedOnToolsVersion = 11.5;
+						TestTargetID = C2691DD42494C7F000E9FC3A;
+					};
+					C2691DF52494C7F400E9FC3A = {
+						CreatedOnToolsVersion = 11.5;
+						TestTargetID = C2691DD42494C7F000E9FC3A;
+					};
+				};
+			};
+			buildConfigurationList = C2691DD02494C7F000E9FC3A /* Build configuration list for PBXProject "TempAqua" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C2691DCC2494C7F000E9FC3A;
+			productRefGroup = C2691DD62494C7F000E9FC3A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C2691DD42494C7F000E9FC3A /* TempAqua */,
+				C2691DEA2494C7F400E9FC3A /* TempAquaTests */,
+				C2691DF52494C7F400E9FC3A /* TempAquaUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C2691DD32494C7F000E9FC3A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2691DE52494C7F400E9FC3A /* LaunchScreen.storyboard in Resources */,
+				C2691DE22494C7F400E9FC3A /* Preview Assets.xcassets in Resources */,
+				C2691DDF2494C7F400E9FC3A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2691DE92494C7F400E9FC3A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2691DF42494C7F400E9FC3A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C2691DD12494C7F000E9FC3A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B39920C324C0D24F00153AEF /* Catchment.swift in Sources */,
+				C22496922497F653009239B3 /* DateFormatter.swift in Sources */,
+				C224969624981541009239B3 /* Colors.swift in Sources */,
+				C2BF41352498E6B400706DFD /* KeyboardAdaptive.swift in Sources */,
+				C2691DD92494C7F000E9FC3A /* AppDelegate.swift in Sources */,
+				B3CC625324CEC20A00ABEA7F /* ArcgisBorder.swift in Sources */,
+				C2691EC8249600DB00E9FC3A /* DBStorage.swift in Sources */,
+				C2691EC22495769F00E9FC3A /* SurveyMap.swift in Sources */,
+				C2BF4155249BECF200706DFD /* VideoPlayer.swift in Sources */,
+				C22496902497A921009239B3 /* Survey.swift in Sources */,
+				B3117B8924C9E94300884F92 /* Mapping.swift in Sources */,
+				C2BF41372498EC9C00706DFD /* Hacking.swift in Sources */,
+				C22496942497FEE3009239B3 /* CustomTextField.swift in Sources */,
+				C224968E24979FF3009239B3 /* SurveyExportParticipants.swift in Sources */,
+				C2BF413F249B4E1000706DFD /* ProgressBar.swift in Sources */,
+				C2BF414F249B8D9200706DFD /* RestStatus.swift in Sources */,
+				C2691DDB2494C7F000E9FC3A /* SceneDelegate.swift in Sources */,
+				C2691E7C24954D8500E9FC3A /* Observation.swift in Sources */,
+				C2691E8424956DFC00E9FC3A /* MainPage.swift in Sources */,
+				C224968824978B95009239B3 /* SurveyExport.swift in Sources */,
+				C2BF414C249B88FD00706DFD /* ObservationMarker.swift in Sources */,
+				C2691E7E24954E9600E9FC3A /* ObservationDetail.swift in Sources */,
+				B39920C524C0D59E00153AEF /* SettingsCatchments.swift in Sources */,
+				C2BF4151249B963B00706DFD /* ImportManager.swift in Sources */,
+				C2691E43249543FB00E9FC3A /* UserData.swift in Sources */,
+				B3CC625524CED32400ABEA7F /* CapturePhoto.swift in Sources */,
+				C2691ECE2496A6A000E9FC3A /* ArcgisStreams.swift in Sources */,
+				B3F026DC2516833800F30A2A /* SurveyExportObservations.swift in Sources */,
+				C2691ECA249644D900E9FC3A /* GPSConverer.swift in Sources */,
+				C2BF4142249B603100706DFD /* ExportManager.swift in Sources */,
+				C2691E36249536C200E9FC3A /* SurveyDetails.swift in Sources */,
+				C2BF414A249B88D700706DFD /* ObservationMultimedia.swift in Sources */,
+				B39920C124C0CD8200153AEF /* Settings.swift in Sources */,
+				C2BF413924992C0800706DFD /* ObservationPhotos.swift in Sources */,
+				C22496982498321B009239B3 /* SettingsSurveys.swift in Sources */,
+				C2BF4148249B88C400706DFD /* ObservationCategory.swift in Sources */,
+				B3117B8B24CAC60200884F92 /* TextView.swift in Sources */,
+				C224968C2497988A009239B3 /* MultipleSelectionRow.swift in Sources */,
+				C2691E13249530A000E9FC3A /* ObservationRow.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2691DE72494C7F400E9FC3A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2691DF02494C7F400E9FC3A /* TempAquaTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2691DF22494C7F400E9FC3A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2691DFB2494C7F400E9FC3A /* TempAquaUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C2691DED2494C7F400E9FC3A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C2691DD42494C7F000E9FC3A /* TempAqua */;
+			targetProxy = C2691DEC2494C7F400E9FC3A /* PBXContainerItemProxy */;
+		};
+		C2691DF82494C7F400E9FC3A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C2691DD42494C7F000E9FC3A /* TempAqua */;
+			targetProxy = C2691DF72494C7F400E9FC3A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C2691DE32494C7F400E9FC3A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C2691DE42494C7F400E9FC3A /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C2691DFD2494C7F400E9FC3A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C2691DFE2494C7F400E9FC3A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C2691E002494C7F400E9FC3A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"TempAqua/Preview Content\"";
+				DEVELOPMENT_TEAM = 3WZPS4N428;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = TempAqua/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = TempAqua;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		C2691E012494C7F400E9FC3A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"TempAqua/Preview Content\"";
+				DEVELOPMENT_TEAM = 3WZPS4N428;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = TempAqua/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = TempAqua;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		C2691E032494C7F400E9FC3A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = TempAquaTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ch.epfl.TempAquaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TempAqua.app/TempAqua";
+			};
+			name = Debug;
+		};
+		C2691E042494C7F400E9FC3A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = TempAquaTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ch.epfl.TempAquaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TempAqua.app/TempAqua";
+			};
+			name = Release;
+		};
+		C2691E062494C7F400E9FC3A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = TempAquaUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ch.epfl.TempAquaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TempAqua;
+			};
+			name = Debug;
+		};
+		C2691E072494C7F400E9FC3A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = TempAquaUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ch.epfl.TempAquaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TempAqua;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C2691DD02494C7F000E9FC3A /* Build configuration list for PBXProject "TempAqua" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C2691DFD2494C7F400E9FC3A /* Debug */,
+				C2691DFE2494C7F400E9FC3A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C2691DFF2494C7F400E9FC3A /* Build configuration list for PBXNativeTarget "TempAqua" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C2691E002494C7F400E9FC3A /* Debug */,
+				C2691E012494C7F400E9FC3A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C2691E022494C7F400E9FC3A /* Build configuration list for PBXNativeTarget "TempAquaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C2691E032494C7F400E9FC3A /* Debug */,
+				C2691E042494C7F400E9FC3A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C2691E052494C7F400E9FC3A /* Build configuration list for PBXNativeTarget "TempAquaUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C2691E062494C7F400E9FC3A /* Debug */,
+				C2691E072494C7F400E9FC3A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C2691DCD2494C7F000E9FC3A /* Project object */;
+}
