@@ -17,7 +17,7 @@ struct MainPage: View {
                     Image(systemName: "mappin.and.ellipse")
                     Text("Mapping")
                 }.tag(0)
-            SurveyDetails()
+            ObservationsView()
                 .tabItem {
                     Image(systemName: "list.dash")
                     Text("Observations")

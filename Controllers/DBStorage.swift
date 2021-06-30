@@ -54,8 +54,8 @@ survey_observation
  gps_device TEXT,
  direction INTEGER,
  elevation INTEGER,
- water_level INTEGER,
- discharge INTEGER,
+ water_level REAL,
+ discharge REAL,
  anchor_point TEXT,
  marker TEXT,
  parent INTEGER,
@@ -214,8 +214,8 @@ class DBStorage {
             sqlite3_bind_int(statement, 5, Int32(observation.accuracy))
             bind_int_or_null(queryStatement: statement, index: 6, value: observation.direction)
             bind_int_or_null(queryStatement: statement, index: 7, value: observation.elevation)
-            bind_int_or_null(queryStatement: statement, index: 8, value: observation.waterLevel)
-            bind_int_or_null(queryStatement: statement, index: 9, value: observation.discharge)
+            bind_double_or_null(queryStatement: statement, index: 8, value: observation.waterLevel)
+            bind_double_or_null(queryStatement: statement, index: 9, value: observation.discharge)
             bind_string_or_null(queryStatement: statement, index: 10, value: observation.anchorPoint)
             sqlite3_bind_text(statement, 11, (observation.marker.rawValue as NSString).utf8String, -1, nil)
             bind_int_or_null(queryStatement: statement, index: 12, value: observation.parent)
@@ -260,8 +260,8 @@ class DBStorage {
                 bind_string(queryStatement: statement, index: 9, value: observation.gpsDevice)
                 bind_int_or_null(queryStatement: statement, index: 10, value: observation.direction)
                 bind_int_or_null(queryStatement: statement, index: 11, value: observation.elevation)
-                bind_int_or_null(queryStatement: statement, index: 12, value: observation.waterLevel)
-                bind_int_or_null(queryStatement: statement, index: 13, value: observation.discharge)
+                bind_double_or_null(queryStatement: statement, index: 12, value: observation.waterLevel)
+                bind_double_or_null(queryStatement: statement, index: 13, value: observation.discharge)
                 bind_string_or_null(queryStatement: statement, index: 14, value: observation.anchorPoint)
                 bind_string(queryStatement: statement, index: 15, value: observation.marker.rawValue)
                 bind_int_or_null(queryStatement: statement, index: 16, value: observation.parent)
@@ -505,8 +505,8 @@ class DBStorage {
                 observation.gpsDevice = String(describing: String(cString: sqlite3_column_text(queryStatement, 8)))
                 observation.direction = read_int_or_null(queryStatement: queryStatement, index: 9)
                 observation.elevation = read_int_or_null(queryStatement: queryStatement, index: 10)
-                observation.waterLevel = read_int_or_null(queryStatement: queryStatement, index: 11)
-                observation.discharge = read_int_or_null(queryStatement: queryStatement, index: 12)
+                observation.waterLevel = read_double_or_null(queryStatement: queryStatement, index: 11)
+                observation.discharge = read_double_or_null(queryStatement: queryStatement, index: 12)
                 observation.anchorPoint = read_string_or_null(queryStatement: queryStatement, index: 13)
                 observation.marker = ObservationMarker(rawValue: read_string_or_null(queryStatement: queryStatement, index: 14)!)!
                 observation.parent = read_int_or_null(queryStatement: queryStatement, index: 15)
@@ -586,11 +586,27 @@ class DBStorage {
             sqlite3_bind_null(queryStatement, Int32(index))
         }
     }
-    
+
     func read_int_or_null(queryStatement: OpaquePointer?, index: Int) -> Int? {
         var value: Int? = nil
         if SQLITE_NULL != sqlite3_column_type(queryStatement, Int32(index)) {
             value = Int(sqlite3_column_int(queryStatement, Int32(index)))
+        }
+        return value
+    }
+    
+    func bind_double_or_null(queryStatement: OpaquePointer?, index: Int, value: Double?) {
+        if let unwrapped = value {
+            sqlite3_bind_double(queryStatement, Int32(index), Double(unwrapped))
+        } else {
+            sqlite3_bind_null(queryStatement, Int32(index))
+        }
+    }
+    
+    func read_double_or_null(queryStatement: OpaquePointer?, index: Int) -> Double? {
+        var value: Double? = nil
+        if SQLITE_NULL != sqlite3_column_type(queryStatement, Int32(index)) {
+            value = Double(sqlite3_column_double(queryStatement, Int32(index)))
         }
         return value
     }

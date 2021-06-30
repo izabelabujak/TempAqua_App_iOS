@@ -16,7 +16,7 @@ enum ObservationMarker: String, CaseIterable, Codable, Hashable {
         if self == ObservationMarker.red {
             return "Red - default"
         } else if self == ObservationMarker.green {
-            return "Green - Rick sensor"
+            return "Green - Flow sensor"
         } else if self == ObservationMarker.blue {
             return "Blue - Water level"
         } else if self == ObservationMarker.yellow {

@@ -72,7 +72,7 @@ struct ObservationDetail: View {
         self._observationMultimedia = State(initialValue: observation.multimedia)
         self._parent = State(initialValue: observation.parent)
         var from: Set<Observation> = Set()
-        for (i, o) in userData.observations.enumerated() {
+        for (_i, o) in userData.observations.enumerated() {
             if let parent = observation.parent {
                 if o.id == parent {
                     self._observationTo = State(initialValue: o)
@@ -92,8 +92,18 @@ struct ObservationDetail: View {
         var heap : Set<NearCatchmentLocation> = Set()
         for (catchment) in userData.catchments {
             for (location) in catchment.locations {
-                let distance = calculateDistance(p1: geo, p2: location.wgs())
-                heap.insert(NearCatchmentLocation(id: "\(catchment.id)@\(location.id)", distance: distance))
+                let anchorPointId = "\(catchment.id)@\(location.id)";
+                var found = false;
+                for (observation) in userData.observations {
+                    if observation.anchorPoint == anchorPointId {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found || self.id > 0) {
+                    let distance = calculateDistance(p1: geo, p2: location.wgs())
+                    heap.insert(NearCatchmentLocation(id: anchorPointId, distance: distance))
+                }
             }
         }
         return Array(heap.sorted())
@@ -219,12 +229,12 @@ struct ObservationDetail: View {
             HStack {
                 VStack {
                     Text("Water level (cm)")
-                    TextField("?", text: $waterLevel.bound).font(.system(size: 30)).keyboardType(.numberPad)
+                    TextField("?", text: $waterLevel.bound).font(.system(size: 30)).keyboardType(.decimalPad)
                 }
                 Spacer()
                 VStack {
                     Text("Discharge [L/min]")
-                    TextField("?", text: $discharge.bound).font(.system(size: 30)).keyboardType(.numberPad)
+                    TextField("?", text: $discharge.bound).font(.system(size: 30)).keyboardType(.decimalPad)
                 }
             }
             HStack {
@@ -308,8 +318,9 @@ struct ObservationDetail: View {
                 self.userData.observations[index].longitude = Int(self.longitude) ?? 0
                 self.userData.observations[index].accuracy = Int(self.accuracy) ?? 99
                 self.userData.observations[index].anchorPoint = self.anchorPoint
-                self.userData.observations[index].waterLevel = Int(self.waterLevel ?? "") ?? 0
-                self.userData.observations[index].discharge = Int(self.discharge ?? "") ?? 0
+                // hack to convert from comma separated decimal format to the dot notation.
+                self.userData.observations[index].waterLevel = Double((self.waterLevel ?? "").replacingOccurrences(of: ",", with: ".")) ?? 0
+                self.userData.observations[index].discharge = Double((self.discharge ?? "").replacingOccurrences(of: ",", with: ".")) ?? 0
                 self.userData.observations[index].gpsDevice = "Garmin"
                 self.userData.observations[index].multimedia = self.observationMultimedia
                 if let obs = self.observationTo {

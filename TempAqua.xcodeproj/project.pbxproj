@@ -31,7 +31,7 @@
 		C2691DF02494C7F400E9FC3A /* TempAquaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691DEF2494C7F400E9FC3A /* TempAquaTests.swift */; };
 		C2691DFB2494C7F400E9FC3A /* TempAquaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691DFA2494C7F400E9FC3A /* TempAquaUITests.swift */; };
 		C2691E13249530A000E9FC3A /* ObservationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691E12249530A000E9FC3A /* ObservationRow.swift */; };
-		C2691E36249536C200E9FC3A /* SurveyDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691E35249536C200E9FC3A /* SurveyDetails.swift */; };
+		C2691E36249536C200E9FC3A /* ObservationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691E35249536C200E9FC3A /* ObservationsView.swift */; };
 		C2691E43249543FB00E9FC3A /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691E40249543FA00E9FC3A /* UserData.swift */; };
 		C2691E7C24954D8500E9FC3A /* Observation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691E7B24954D8400E9FC3A /* Observation.swift */; };
 		C2691E7E24954E9600E9FC3A /* ObservationDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691E7D24954E9600E9FC3A /* ObservationDetail.swift */; };
@@ -101,7 +101,7 @@
 		C2691DFA2494C7F400E9FC3A /* TempAquaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempAquaUITests.swift; sourceTree = "<group>"; };
 		C2691DFC2494C7F400E9FC3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C2691E12249530A000E9FC3A /* ObservationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationRow.swift; sourceTree = "<group>"; };
-		C2691E35249536C200E9FC3A /* SurveyDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyDetails.swift; sourceTree = "<group>"; };
+		C2691E35249536C200E9FC3A /* ObservationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationsView.swift; sourceTree = "<group>"; };
 		C2691E40249543FA00E9FC3A /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		C2691E7B24954D8400E9FC3A /* Observation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observation.swift; sourceTree = "<group>"; };
 		C2691E7D24954E9600E9FC3A /* ObservationDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationDetail.swift; sourceTree = "<group>"; };
@@ -188,7 +188,7 @@
 				C2BF413824992C0800706DFD /* ObservationPhotos.swift */,
 				B3CC625424CED32400ABEA7F /* CapturePhoto.swift */,
 				C2691E8324956DFC00E9FC3A /* MainPage.swift */,
-				C2691E35249536C200E9FC3A /* SurveyDetails.swift */,
+				C2691E35249536C200E9FC3A /* ObservationsView.swift */,
 				C2691E12249530A000E9FC3A /* ObservationRow.swift */,
 				C224968724978B95009239B3 /* SurveyExport.swift */,
 				B3F026DB2516833800F30A2A /* SurveyExportObservations.swift */,
@@ -454,7 +454,7 @@
 				B3F026DC2516833800F30A2A /* SurveyExportObservations.swift in Sources */,
 				C2691ECA249644D900E9FC3A /* GPSConverer.swift in Sources */,
 				C2BF4142249B603100706DFD /* ExportManager.swift in Sources */,
-				C2691E36249536C200E9FC3A /* SurveyDetails.swift in Sources */,
+				C2691E36249536C200E9FC3A /* ObservationsView.swift in Sources */,
 				C2BF414A249B88D700706DFD /* ObservationMultimedia.swift in Sources */,
 				B39920C124C0CD8200153AEF /* Settings.swift in Sources */,
 				C2BF413924992C0800706DFD /* ObservationPhotos.swift in Sources */,

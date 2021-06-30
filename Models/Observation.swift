@@ -18,8 +18,8 @@ struct Observation: Hashable, Codable, Identifiable {
     var direction: Int?
     var elevation: Int?
     var anchorPoint: String?
-    var waterLevel: Int?
-    var discharge: Int?
+    var waterLevel: Double?
+    var discharge: Double?
     var marker: ObservationMarker = .red
     var multimedia: [ObservationMultimedia]
     var parent: Int?

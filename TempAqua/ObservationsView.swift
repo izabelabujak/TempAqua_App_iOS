@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-struct SurveyDetails: View {
+struct ObservationsView: View {
     @EnvironmentObject var userData: UserData
     @EnvironmentObject var exportManager: ExportManager
     @State var isExportView = false    
@@ -66,6 +66,6 @@ struct SurveyDetails: View {
 
 struct ObservationList_Previews: PreviewProvider {
     static var previews: some View {
-        SurveyDetails().environmentObject(UserData())
+        ObservationsView().environmentObject(UserData())
     }
 }
