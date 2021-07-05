@@ -100,10 +100,14 @@ struct SurveyMap: UIViewRepresentable {
         var ccc: [MapPin] = []
         for catchment in self.userData.displayCatchments {
             for location in catchment.locations {
+                var color = UIColor.cyan
+                if location.id.starts(with: "CA") {
+                    color = UIColor.orange
+                }
                 let newLocation = MapPin(observationId: String(location.id),
                                          title: "\(location.id)",
                                          locationName: "\(location.id), \(location.equipment)",
-                                         markerTintColor: UIColor.cyan,
+                                         markerTintColor: color,
                                          coordinate: location.wgs(),
                                          type: "CatchmentLocation")
                 newLocation.old = true
@@ -173,7 +177,7 @@ struct SurveyMap: UIViewRepresentable {
                                      title: "new",
                                      locationName: "\(getTimeFormatter().string(from: observation.observedAt)), \(observation.category.description())",
                                      markerTintColor: observation.marker.uiColor(),
-                                     coordinate: observation.location(),
+                                     coordinate: observation.locationAnchorPoint(catchments: self.userData.catchments),
                                      type: "NewObservation")
             aaa.append(newLocation)
         }
@@ -185,7 +189,7 @@ struct SurveyMap: UIViewRepresentable {
         for observation in userData.observations {
             if let parent_id = observation.parent {
                 if let parent = userData.observations.first(where: { $0.id == parent_id }) {
-                    let myPolyline = MKPolyline(coordinates: [observation.location(), parent.location()], count: 2)
+                    let myPolyline = MKPolyline(coordinates: [observation.locationAnchorPoint(catchments: self.userData.catchments), parent.locationAnchorPoint(catchments: self.userData.catchments)], count: 2)
                     myPolyline.title = "\(parent.category.rawValue)_mapping"
                     uiView.addOverlay(myPolyline)
                 }

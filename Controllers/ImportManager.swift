@@ -107,6 +107,9 @@ final class ImportManager: UIViewController, ObservableObject {
             DispatchQueue.main.async {
                 userData.catchments = catchments
                 for catchment in catchments {
+                    if catchment.id == "LAB" || catchment.id == "RAI" {
+                        continue
+                    }
                     db.insert_catchment(catchment: catchment)
                     userData.displayCatchments.insert(catchment)
                     self.fetchCatchmentStreams(catchment_id: catchment.id)

@@ -93,6 +93,7 @@ struct MappingObservation: View {
         for (catchment) in userData.catchments {
             for (location) in catchment.locations {
                 let anchorPointId = "\(catchment.id)@\(location.id)";
+                let parent = location.parent
                 var found = false;
                 for (observation) in userData.observations {
                     if observation.anchorPoint == anchorPointId {
@@ -102,7 +103,7 @@ struct MappingObservation: View {
                 }
                 if (!found || self.id > 0) {
                     let distance = calculateDistance(p1: geo, p2: location.wgs())
-                    heap.insert(NearCatchmentLocation(id: anchorPointId, distance: distance))
+                    heap.insert(NearCatchmentLocation(catchmentId: catchment.id, locationId: location.id, id: anchorPointId, parent: parent, distance: distance))
                 }
             }
         }
@@ -111,185 +112,234 @@ struct MappingObservation: View {
     
     var body: some View {
         List {
-            HStack {
-                if self.id == 0 {
-                    Button(action: {
-                        let latitude = geolocation.latitude
-                        let longitude = geolocation.longitude
-                        self.accuracy = String(Int(floor(geolocation_accuracy)))
-                        self.latitude = String(WGStoCHx(lat: latitude, lng: longitude))
-                        self.longitude = String(WGStoCHy(lat: latitude, lng: longitude))
-                        if let course = geolocationCourse {
-                            self.direction = String(format: "%d", course)
-                        }
-                        if let altitude = geolocationAltitude {
-                            self.elevation = String(format: "%d", altitude)
-                        }
-                        self.observedAt = Date()
-                        self.nearCatchmentLocations = self.findNearCatchmentLocations(userData: self.userData)
-                    }) {
-                        Image(systemName: "arrow.clockwise")
-                    }.buttonStyle(BorderlessButtonStyle())
-                }
-                VStack {
-                    Text("Easting (x)")
-                    TextField("CH-1903", text: $longitude).font(.system(size: 30)).keyboardType(.numberPad)
-                }
-                Spacer()
-                VStack {
-                    Text("Northing (y)")
-                    TextField("CH-1903", text: $latitude).font(.system(size: 30)).keyboardType(.numberPad)
-                }
-            }
-            HStack {
-                VStack {
-                    Text("Accur. [m]")
-                    TextField("?", text: $accuracy).font(.system(size: 30)).keyboardType(.numberPad)
-                }
-                Spacer()
-                VStack {
-                    Text("Heading [°T]")
-                    TextField("?", text: $direction.bound).font(.system(size: 30)).keyboardType(.numberPad)
-                }
-                Spacer()
-                VStack {
-                    Text("Altitude [m]")
-                    TextField("?", text: $elevation.bound).font(.system(size: 30)).keyboardType(.numberPad)
-                }
-            }
-            HStack {
-                VStack{
-                    Text("Anchor point: \(self.anchorPoint ?? "None")")
-                    ScrollView (.horizontal) {
-                        HStack(spacing: 5) {
-                            ForEach(self.nearCatchmentLocations, id: \.id) { c in
-                                Button(action: {
-                                    self.anchorPoint = c.id
-                                }) {
-                                    HStack(spacing: 10) {
-                                        if self.anchorPoint == c.id {
-                                            Text("\(c.id)").font(.system(size: 30)).foregroundColor(Color.blue)
-                                            Text("\(c.distance)m\naway").font(.system(size: 12)).foregroundColor(Color.blue)
-                                        } else {
-                                            Text("\(c.id)").font(.system(size: 30))
-                                            Text("\(c.distance)m\naway").font(.system(size: 12))
-                                        }
-                                    }
-                                }.padding(10).buttonStyle(PlainButtonStyle())
-                            }
-                        }
+            Section(header: Text("GPS Coordinates")) {
+                HStack {
+                    if self.id == 0 {
+                        Button(action: {
+                            readPhoneLocation()
+                        }) {
+                            Image(systemName: "arrow.clockwise")
+                        }.buttonStyle(BorderlessButtonStyle())
+                    }
+                    VStack {
+                        Text("Easting (x)")
+                        TextField("CH-1903", text: $longitude).font(.system(size: 30)).keyboardType(.numberPad)
+                    }
+                    Spacer()
+                    VStack {
+                        Text("Northing (y)")
+                        TextField("CH-1903", text: $latitude).font(.system(size: 30)).keyboardType(.numberPad)
                     }
                 }
-            }
-            HStack {
-                Text("Water flows FROM")
-                Spacer()
-                NavigationLink(destination: ObservationDetailFrom(observationFrom: self.$observationFrom, longitude: self.longitude, latitude: self.latitude)
-                ) {
-                    if observationFrom.count > 0 {
-                        Text("\(convertToIds(observations: self.observationFrom))")
-                    } else {
-                        Text("?")
+                HStack {
+                    VStack {
+                        Text("Accur. [m]")
+                        TextField("?", text: $accuracy).font(.system(size: 30)).keyboardType(.numberPad)
+                    }
+                    Spacer()
+                    VStack {
+                        Text("Heading [°T]")
+                        TextField("?", text: $direction.bound).font(.system(size: 30)).keyboardType(.numberPad)
+                    }
+                    Spacer()
+                    VStack {
+                        Text("Altitude [m]")
+                        TextField("?", text: $elevation.bound).font(.system(size: 30)).keyboardType(.numberPad)
                     }
                 }
+            }.onAppear {
+                readPhoneLocation()
             }
-            HStack {
-                Text("Water flows TO")
-                Spacer()
-                NavigationLink(destination: ObservationDetailTo(observationTo: self.$observationTo, longitude: self.longitude, latitude: self.latitude)) {
-                    if let obs = observationTo {
-                        Text("#\(obs.id)")
-                    } else {
-                        Text("?")
-                    }
-                }
-            }
-            HStack {
-                VStack{
-                    Text("Category: \(self.category.description())")
-                    ScrollView (.horizontal) {
-                        HStack(spacing: 5) {
-                            ForEach(ObservationCategory.allCases, id: \.self) { c in
-                                Button(action: {
-                                    self.category = c
-                                }) {
-                                    HStack(spacing: 10) {
-                                        if self.category == c {
-                                            Text("\(c.rawValue)").font(.system(size: 30)).foregroundColor(Color.blue)
-                                        } else {
-                                            Text("\(c.rawValue)").font(.system(size: 30))
-                                        }
-                                    }
-                                }.padding(10).buttonStyle(PlainButtonStyle())
-                            }
-                        }
-                    }
-                }
-            }
-            HStack {
-                VStack {
-                    Text("Water level (cm)")
-                    TextField("?", text: $waterLevel.bound).font(.system(size: 30)).keyboardType(.decimalPad)
-                }
-                Spacer()
-                VStack {
-                    Text("Discharge [L/min]")
-                    TextField("?", text: $discharge.bound).font(.system(size: 30)).keyboardType(.decimalPad)
-                }
-            }
-            HStack {
-                VStack {
-                    Text("Comment")
-                    TextEditor(text: $comment).border(Color.gray, width: 1)
-                }
-            }
-            HStack {
-                VStack{
-                    Text("Photos/Videos")
-                    ScrollView (.horizontal) {
-                        HStack(spacing: 5) {
-                            NavigationLink(destination: CapturePhotoView(multimedia: self.$observationMultimedia)
-                            ) {
-                                Image(systemName: "plus").frame(width: 50, height: 50).border(Color.gray, width: 1).aspectRatio(contentMode: .fill)
-                            }
-                            ForEach(self.observationMultimedia, id: \.self) { multimedia in
-                                NavigationLink(destination: ObservationPhotos(multimedia: self.$observationMultimedia, showCaptureImageView: false, currentlyDisplayedImage: multimedia)) {
-                                    if multimedia.format == "jpg" {
-                                        multimedia.image().resizable()
-                                            .frame(width: 50, height: 50).aspectRatio(contentMode: .fill)
-                                    } else {
-                                        Image(systemName: "film")
-                                            .frame(width: 50, height: 50).aspectRatio(contentMode: .fill)
+            Section(header: Text("Anchor points and stream flow")) {
+                if self.nearCatchmentLocations.count > 0 {
+                    HStack {
+                        VStack{
+                            Text("Anchor point: \(self.anchorPoint ?? "None")")
+                            ScrollView (.horizontal) {
+                                HStack(spacing: 5) {
+                                    ForEach(self.nearCatchmentLocations, id: \.id) { c in
+                                        Button(action: {
+                                            if self.anchorPoint == c.id {
+                                                self.anchorPoint = nil
+                                                self.observationTo = nil
+                                                self.observationFrom = Set()
+                                            } else {
+                                                self.anchorPoint = c.id
+                                                if let parent = c.parent {
+                                                    // check if there is already an observation of the parent anchor point
+                                                    // if yes, then water flows from here to the parent
+                                                    for observation in userData.observations {
+                                                        if observation.anchorPoint == "\(c.catchmentId)@\(parent)" {
+                                                            self.observationTo = observation
+                                                            break
+                                                        }
+                                                    }
+                                                }
+                                                // check if there is our child observation
+                                                var childAnchorPoint: String? = nil
+                                                for catchment in userData.catchments {
+                                                    if catchment.id != c.catchmentId {
+                                                        continue
+                                                    }
+                                                    for location in catchment.locations {
+                                                        if location.parent == c.locationId {
+                                                            childAnchorPoint = "\(catchment.id)@\(location.id)"
+                                                            break
+                                                        }
+                                                    }
+                                                }
+                                                if childAnchorPoint != nil {
+                                                    for observation in userData.observations {
+                                                        if observation.anchorPoint == childAnchorPoint {
+                                                            self.observationFrom.insert(observation)
+                                                            break
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }) {
+                                            VStack(spacing: 10) {
+                                                if self.anchorPoint == c.id {
+                                                    VStack {
+                                                        Text("\(c.catchmentId)").font(.system(size: 12)).foregroundColor(Color.blue).padding(.bottom, 0)
+                                                        Text("\(c.locationId)").font(.system(size: 30)).foregroundColor(Color.blue)
+                                                        Text("\(c.distance, specifier: "%d")m away").font(.system(size: 12)).foregroundColor(Color.blue)
+                                                    }
+                                                } else {
+                                                    VStack {
+                                                        Text("\(c.catchmentId)").font(.system(size: 12)).padding(.bottom, 0)
+                                                        Text("\(c.locationId)").font(.system(size: 30)).padding(0)
+                                                        Text("\(c.distance, specifier: "%d")m away").font(.system(size: 12)).padding(.top, 0)
+                                                    }
+                                                }
+                                            }
+                                        }.padding(10).buttonStyle(PlainButtonStyle())
                                     }
                                 }
                             }
-                        }.padding(1).buttonStyle(PlainButtonStyle())
+                        }
+                    }
+                }
+                HStack {
+                    Text("Water flows FROM:")
+                    Spacer()
+                    NavigationLink(destination: ObservationDetailFrom(observationFrom: self.$observationFrom, longitude: self.longitude, latitude: self.latitude)
+                    ) {
+                        if observationFrom.count > 0 {
+                            Text("\(convertToIds(observations: self.observationFrom))")
+                        } else {
+                            Text("?")
+                        }
+                    }
+                }
+                HStack {
+                    Text("Water flows TO:")
+                    Spacer()
+                    NavigationLink(destination: ObservationDetailTo(observationTo: self.$observationTo, longitude: self.longitude, latitude: self.latitude)) {
+                        if let obs = observationTo {
+                            if let anchorPoint = obs.anchorPoint {
+                                Text("\(anchorPoint)")
+                            } else {
+                                Text("#\(obs.id)")
+                            }
+                            
+                        } else {
+                            Text("?")
+                        }
                     }
                 }
             }
-            HStack {
-                VStack{
-                    Text("Marker: \(self.marker.description())")
-                    ScrollView (.horizontal) {
-                        HStack(spacing: 5) {
-                            ForEach(ObservationMarker.allCases, id: \.self) { m in
-                                Button(action: {
-                                    self.marker = m
-                                }) {
-                                    HStack(spacing: 10) {
-                                        if self.marker == m {
-                                            Text("\(m.rawValue)").foregroundColor(m.color())
+            Section(header: Text("Stream state")) {
+                HStack {
+                    VStack{
+                        Text("Category: \(self.category.description())")
+                        ScrollView (.horizontal) {
+                            HStack(spacing: 5) {
+                                ForEach(ObservationCategory.allCases, id: \.self) { c in
+                                    Button(action: {
+                                        self.category = c
+                                    }) {
+                                        HStack(spacing: 10) {
+                                            if self.category == c {
+                                                Text("\(c.rawValue)").font(.system(size: 30)).foregroundColor(Color.blue)
+                                            } else {
+                                                Text("\(c.rawValue)").font(.system(size: 30))
+                                            }
+                                        }
+                                    }.padding(10).buttonStyle(PlainButtonStyle())
+                                }
+                            }
+                        }
+                    }
+                }
+                HStack {
+                    VStack {
+                        Text("Water level (cm)")
+                        TextField("?", text: $waterLevel.bound).font(.system(size: 30)).keyboardType(.decimalPad)
+                    }
+                    Spacer()
+                    VStack {
+                        Text("Discharge [L/min]")
+                        TextField("?", text: $discharge.bound).font(.system(size: 30)).keyboardType(.decimalPad)
+                    }
+                }
+            }
+            Section(header: Text("Soft data")) {
+                HStack {
+                    VStack {
+                        Text("Comment")
+                        TextEditor(text: $comment).border(Color.gray, width: 1)
+                    }
+                }
+                HStack {
+                    VStack{
+                        Text("Photos/Videos")
+                        ScrollView (.horizontal) {
+                            HStack(spacing: 5) {
+                                NavigationLink(destination: CapturePhotoView(multimedia: self.$observationMultimedia)
+                                ) {
+                                    Image(systemName: "plus").frame(width: 50, height: 50).border(Color.gray, width: 1).aspectRatio(contentMode: .fill)
+                                }
+                                ForEach(self.observationMultimedia, id: \.self) { multimedia in
+                                    NavigationLink(destination: ObservationPhotos(multimedia: self.$observationMultimedia, showCaptureImageView: false, currentlyDisplayedImage: multimedia)) {
+                                        if multimedia.format == "jpg" {
+                                            multimedia.image().resizable()
+                                                .frame(width: 50, height: 50).aspectRatio(contentMode: .fill)
                                         } else {
-                                            Text("\(m.rawValue)")
+                                            Image(systemName: "film")
+                                                .frame(width: 50, height: 50).aspectRatio(contentMode: .fill)
                                         }
                                     }
-                                }.padding(10).buttonStyle(PlainButtonStyle())
+                                }
+                            }.padding(1).buttonStyle(PlainButtonStyle())
+                        }
+                    }
+                }
+                HStack {
+                    VStack{
+                        Text("Marker: \(self.marker.description())")
+                        ScrollView (.horizontal) {
+                            HStack(spacing: 5) {
+                                ForEach(ObservationMarker.allCases, id: \.self) { m in
+                                    Button(action: {
+                                        self.marker = m
+                                    }) {
+                                        HStack(spacing: 10) {
+                                            if self.marker == m {
+                                                Text("\(m.rawValue)").foregroundColor(m.color())
+                                            } else {
+                                                Text("\(m.rawValue)")
+                                            }
+                                        }
+                                    }.padding(10).buttonStyle(PlainButtonStyle())
+                                }
                             }
                         }
                     }
                 }
             }
-        }.listStyle(PlainListStyle())
+        }.listStyle(InsetGroupedListStyle())
+            .gesture(DragGesture().onChanged{_ in UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)})
             .navigationBarTitle(Text("Observation \(getTimeHourMinutesFormatter().string(from: self.observedAt))"), displayMode: .inline)
             .navigationBarItems(
                 leading: Button(action: {
@@ -398,6 +448,22 @@ struct MappingObservation: View {
             }).disabled(self.latitude.isEmpty || self.longitude.isEmpty)
         )
     }
+    
+    func readPhoneLocation() {
+        let latitude = geolocation.latitude
+        let longitude = geolocation.longitude
+        self.accuracy = String(Int(floor(geolocation_accuracy)))
+        self.latitude = String(WGStoCHx(lat: latitude, lng: longitude))
+        self.longitude = String(WGStoCHy(lat: latitude, lng: longitude))
+        if let course = geolocationCourse {
+            self.direction = String(format: "%d", course)
+        }
+        if let altitude = geolocationAltitude {
+            self.elevation = String(format: "%d", altitude)
+        }
+        self.observedAt = Date()
+        self.nearCatchmentLocations = self.findNearCatchmentLocations(userData: self.userData)
+    }
 }
 
 struct ObservationDetailFrom: View {
@@ -441,7 +507,11 @@ struct ObservationDetailTo: View {
 func convertToIds(observations: Set<Observation>) -> String {
     var ret = ""
     observations.forEach { obs in
-        ret += String("#\(obs.id) ")
+        if let anchorPoint = obs.anchorPoint {
+            ret += String("\(anchorPoint) ")
+        } else {
+            ret += String("#\(obs.id) ")
+        }
     }
     return ret
 }

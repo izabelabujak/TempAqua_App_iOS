@@ -36,6 +36,7 @@ catchment_location
  latitude INTEGER,
  longitude INTEGER,
  equipment TEXT,
+ parent TEXT,
  PRIMARY KEY(catchment_id, location_id)
 );
 """
@@ -120,7 +121,7 @@ class DBStorage {
         createTable(sql: CREATE_LOG_TABLE_SQL)
     }
 
-    let dbPath: String = "tempaqua25.sqlite"
+    let dbPath: String = "tempaqua27.sqlite"
     var db:OpaquePointer?
 
     func openDatabase() -> OpaquePointer? {
@@ -200,7 +201,7 @@ class DBStorage {
     }
     
     func insert_catchment_location(catchment_id: String, location: CatchmentLocation) {
-        let sql = "INSERT INTO catchment_location (catchment_id, location_id, latitude, longitude, equipment) VALUES (?, ?, ?, ?, ?);"
+        let sql = "INSERT INTO catchment_location (catchment_id, location_id, latitude, longitude, equipment, parent) VALUES (?, ?, ?, ?, ?, ?);"
         var statement: OpaquePointer? = nil
         if sqlite3_prepare_v2(db, sql, -1, &statement, nil) == SQLITE_OK {
             sqlite3_bind_text(statement, 1, (catchment_id as NSString).utf8String, -1, SQLITE_TRANSIENT)
@@ -208,6 +209,7 @@ class DBStorage {
             sqlite3_bind_int(statement, 3, Int32(location.latitude))
             sqlite3_bind_int(statement, 4, Int32(location.longitude))
             sqlite3_bind_text(statement, 5, (location.equipment as NSString).utf8String, -1, SQLITE_TRANSIENT)
+            bind_string_or_null(queryStatement: statement, index: 6, value: location.parent)
             if sqlite3_step(statement) == SQLITE_DONE {
 //                print("Successfully inserted row.")
             } else {
@@ -580,7 +582,7 @@ class DBStorage {
             while sqlite3_step(queryStatement) == SQLITE_ROW {
                 let id = String(cString: sqlite3_column_text(queryStatement, 0))
                 let name = String(cString: sqlite3_column_text(queryStatement, 1))
-                let queryStatementString = "SELECT location_id, longitude, latitude, equipment FROM catchment_location WHERE catchment_id = ? ORDER BY location_id;"
+                let queryStatementString = "SELECT location_id, longitude, latitude, equipment, parent FROM catchment_location WHERE catchment_id = ? ORDER BY location_id;"
                 var queryStatement: OpaquePointer? = nil
                 var locations: [CatchmentLocation] = []
                 if sqlite3_prepare_v2(db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
@@ -590,7 +592,8 @@ class DBStorage {
                         let longitude = read_int_or_null(queryStatement: queryStatement, index: 1) ?? 0
                         let latitude = read_int_or_null(queryStatement: queryStatement, index: 2) ?? 0
                         let equipment = read_string_or_null(queryStatement: queryStatement, index: 3) ?? ""
-                        let catchmentLocation = CatchmentLocation(id: location_id, longitude: longitude, latitude: latitude, equipment: equipment)
+                        let parent = read_string_or_null(queryStatement: queryStatement, index: 4) ?? ""
+                        let catchmentLocation = CatchmentLocation(id: location_id, longitude: longitude, latitude: latitude, equipment: equipment, parent: parent)
                         locations.append(catchmentLocation)
                     }
                 }

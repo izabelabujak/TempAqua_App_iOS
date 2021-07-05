@@ -46,4 +46,22 @@ struct Observation: Hashable, Codable, Identifiable {
     func location() -> CLLocationCoordinate2D {
         return locationFromCH1903(longitude: Double(self.longitude), latitude: Double(self.latitude))
     }
+    
+    func locationAnchorPoint(catchments: [Catchment]) -> CLLocationCoordinate2D {
+        if let anchorPoint = self.anchorPoint {
+            let catchmentId = anchorPoint.components(separatedBy: "@")[0]
+            let locationId = anchorPoint.components(separatedBy: "@")[1]
+            for catchment in catchments {
+                if catchment.id != catchmentId {
+                    continue
+                }
+                for location in catchment.locations {
+                    if location.id == locationId {
+                        return locationFromCH1903(longitude: Double(location.longitude), latitude: Double(location.latitude))
+                    }
+                }
+            }
+        }        
+        return location()
+    }
 }

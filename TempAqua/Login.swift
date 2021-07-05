@@ -9,7 +9,7 @@ struct Login: View {
     @EnvironmentObject var userData: UserData
     @EnvironmentObject var importManager: ImportManager
     
-    @State var email: String = "izabela.bujak@epfl.ch"
+    @State var email: String = ""
     @State var password: String = ""
     @State var url: String = "izabelabujak.com/tempaqua"
     let lightGreyColor = Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0)

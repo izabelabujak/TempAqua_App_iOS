@@ -24,6 +24,7 @@ struct CatchmentLocation: Hashable, Codable {
     var longitude: Int
     var latitude: Int
     var equipment: String
+    var parent: String?
     
     func wgs() -> CLLocationCoordinate2D {
         return locationFromCH1903(longitude: Double(self.longitude), latitude: Double(self.latitude))
@@ -35,6 +36,9 @@ struct NearCatchmentLocation: Hashable, Codable, Comparable {
         lhs.distance < rhs.distance
     }
     
+    var catchmentId: String
+    var locationId: String
     var id: String
+    var parent: String?
     var distance: Int
 }

@@ -48,9 +48,6 @@ final class ExportManager: UIViewController, ObservableObject {
         // first export the survey
         exportSurvey(survey: survey)
         
-        // the survey has been exported successfully.
-        // now store all multimedia in the database and remove all current observations to make
-        // place for the new campaign
         var newMultimediaToExport = Set<ObservationMultimedia>()
         if var unwrapped = survey.observations {
             for (oindex, observation) in unwrapped.enumerated() {
@@ -69,11 +66,12 @@ final class ExportManager: UIViewController, ObservableObject {
         }
         // place all multimedia to a cache
         self.multimediaToExport = self.multimediaToExport.union(newMultimediaToExport)
+        
         // remove all observations
-        db.deleteNewSurvey()
-        userData.observations = []
-        userData.surveyExportObservations = Set()
-        userData.surveyExportParticipants = Set()
+        //db.deleteNewSurvey()
+        //userData.observations = []
+        //userData.surveyExportObservations = Set()
+        //userData.surveyExportParticipants = Set()
         
         // start the process that will upload multimedia to the server
         resumeUploading()
@@ -90,7 +88,7 @@ final class ExportManager: UIViewController, ObservableObject {
                 guard self.isExportingNow else { return }
                 if let multimedia = self.multimediaToExport.first {
                     self.exportMultimedia(session: session, multimedia: multimedia)
-                    usleep(2500000) // sleep 2.5 sec to make sure we do not DDoS the server
+                    usleep(2500000) // sleep 2.5 sec to make sure we do not ddos the server
                     self.verifyAndRemoveMultimedia(session: session, multimedia: multimedia)
                 } else {
                     // finish exporting because there is no more multimedia to export in the database
