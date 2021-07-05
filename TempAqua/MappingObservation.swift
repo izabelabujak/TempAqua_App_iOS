@@ -6,7 +6,7 @@
 import SwiftUI
 import CoreLocation
 
-struct ObservationDetail: View {
+struct MappingObservation: View {
     @EnvironmentObject var userData: UserData
     @Environment(\.presentationMode) var presentationMode
     @State var category: ObservationCategory = .trickling

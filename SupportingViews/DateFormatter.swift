@@ -35,3 +35,14 @@ func getFullDateFormatter() -> DateFormatter {
     return formatter
 }
 
+func getDateTimeFormatter() -> DateFormatter {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    return formatter
+}
+
+func getIsoDateTimeFormatterNoTimeZone() -> DateFormatter {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-ddTHH:mm:ss+00:00"
+    return formatter
+}

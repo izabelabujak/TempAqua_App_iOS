@@ -12,11 +12,16 @@ final class UserData: UIViewController, CLLocationManagerDelegate, ObservableObj
     // observations
     @Published var observations = db.read()
     @Published var selection = 1
+    @Published var isExportView = false
     
     // data to export
     @Published var catchment: Catchment? = nil
     @Published var surveyExportObservations = Set<Observation>()
     @Published var surveyExportParticipants = Set<Participant>()
+    
+    // authenticated user
+    @Published var authenticationCredentials = db.read_auth()
+    @Published var loading = false
 
     func surveyDuration() -> String {
         let observations = Array(self.surveyExportObservations)

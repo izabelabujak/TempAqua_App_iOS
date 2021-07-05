@@ -87,6 +87,25 @@ media_to_export
 );
 """
 
+let CREATE_AUTH_TABLE_SQL = """
+CREATE TABLE IF NOT EXISTS
+auth
+(email TEXT PRIMARY KEY,
+ password TEXT,
+ url TEXT
+);
+"""
+
+let CREATE_LOG_TABLE_SQL = """
+CREATE TABLE IF NOT EXISTS
+syslog
+(id INTEGER PRIMARY KEY AUTOINCREMENT,
+ message TEXT,
+ status TEXT,
+ created_at TEXT
+);
+"""
+
 
 class DBStorage {
     init() {
@@ -97,9 +116,11 @@ class DBStorage {
         createTable(sql: CREATE_SURVEY_OBSERATION_TABLE_SQL)
         createTable(sql: CREATE_SURVEY_OBSERATION_MULTIMEDIA_TABLE_SQL)
         createTable(sql: CREATE_MEDIA_TO_EXPORT_TABLE_SQL)
+        createTable(sql: CREATE_AUTH_TABLE_SQL)
+        createTable(sql: CREATE_LOG_TABLE_SQL)
     }
 
-    let dbPath: String = "tempaqua15.sqlite"
+    let dbPath: String = "tempaqua25.sqlite"
     var db:OpaquePointer?
 
     func openDatabase() -> OpaquePointer? {
@@ -285,6 +306,27 @@ class DBStorage {
         }
     }
     
+    // reads one observation multimedia
+    func read_multimedia_to_export() -> ObservationMultimedia? {
+        let queryStatementString = "SELECT survey_id, observation_id, taken_at, format, data FROM media_to_export ORDER BY taken_at ASC LIMIT 1;"
+        var queryStatement: OpaquePointer? = nil
+        var multimedia: ObservationMultimedia? = nil
+        if sqlite3_prepare_v2(db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
+            while sqlite3_step(queryStatement) == SQLITE_ROW {
+                let surveyId = read_string_or_null(queryStatement: queryStatement, index: 0)!
+                let observationId = read_int_or_null(queryStatement: queryStatement, index: 1)!
+                let takenAt = read_date_or_null(queryStatement: queryStatement, index: 2)!
+                let format = read_string_or_null(queryStatement: queryStatement, index: 3)!
+                let data = read_string_or_null(queryStatement: queryStatement, index: 4)!
+                multimedia = ObservationMultimedia(surveyId: surveyId, observationId: observationId, takenAt: takenAt, format: format, data: data.data(using: .utf8)!)
+            }
+        } else {
+            print("SELECT statement could not be prepared")
+        }
+        sqlite3_finalize(queryStatement)
+        return multimedia
+    }
+    
     func read_media_to_export() -> [ObservationMultimedia] {
         let queryStatementString = "SELECT survey_id, observation_id, taken_at, format, data FROM media_to_export ORDER BY taken_at ASC;"
         var queryStatement: OpaquePointer? = nil
@@ -324,7 +366,22 @@ class DBStorage {
         sqlite3_finalize(statement)
     }
     
-    func insert_media_to_export(multimediaList: [ObservationMultimedia]) {
+    func removeAllMultimediaToExport() {
+        let deleteStatementString = "DELETE FROM media_to_export;"
+        var statement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, deleteStatementString, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) == SQLITE_DONE {
+                //print("Successfully deleted row.")
+            } else {
+                print("Could not delete row.")
+            }
+        } else {
+            print("DELETE statement could not be prepared")
+        }
+        sqlite3_finalize(statement)
+    }
+    
+    func insert_media_to_export(multimediaList: [ObservationMultimedia]) -> Bool {
         for multimedia in multimediaList {
             let sql = """
                          INSERT INTO media_to_export
@@ -339,19 +396,20 @@ class DBStorage {
                 bind_date(queryStatement: statement, index: 3, value: multimedia.takenAt)
                 bind_string(queryStatement: statement, index: 4, value: multimedia.format)
                 bind_string(queryStatement: statement, index: 5, value: multimedia.data.base64EncodedString())
-
-                if sqlite3_step(statement) == SQLITE_DONE {
-//                    print("Successfully inserted row.")
-                } else {
+                if sqlite3_step(statement) != SQLITE_DONE {
                     let errorMessage = String(cString: sqlite3_errmsg(db))
-                    print("Could not insert row: \(errorMessage)")
+                    insert_log(message: "Could not insert multimedia into the export table: \(errorMessage)", status: "ERROR")
+                    return false
                 }
             } else {
                 let errorMessage = String(cString: sqlite3_errmsg(db))
                 print("INSERT statement could not be prepared. \(errorMessage)")
+                insert_log(message: "Could not insert multimedia into the export table: \(errorMessage)", status: "ERROR")
+                return false
             }
             sqlite3_finalize(statement)
         }
+        return true
     }
     
     func insert_multimedia(surveyId: String, observationId: Int, multimedia: ObservationMultimedia) {
@@ -428,6 +486,90 @@ class DBStorage {
             print("DELETE statement could not be prepared")
         }
         sqlite3_finalize(deleteStatement2)
+    }
+    
+    func read_auth() -> AuthenticationCredential? {
+        let queryStatementString = "SELECT * FROM auth;"
+        var queryStatement: OpaquePointer? = nil
+        var authenticationCredentials: [AuthenticationCredential] = []
+        if sqlite3_prepare_v2(db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
+            while sqlite3_step(queryStatement) == SQLITE_ROW {
+                let email = String(cString: sqlite3_column_text(queryStatement, 0))
+                let password = String(cString: sqlite3_column_text(queryStatement, 1))
+                let url = String(cString: sqlite3_column_text(queryStatement, 2))
+                let auth = AuthenticationCredential(email: email, password: password, url: url)
+                authenticationCredentials.append(auth)
+            }
+        } else {
+            print("SELECT statement could not be prepared")
+        }
+        sqlite3_finalize(queryStatement)
+        return authenticationCredentials.first
+    }
+    
+    func read_logs() -> [LogEntry] {
+        let queryStatementString = "SELECT * FROM log;"
+        var queryStatement: OpaquePointer? = nil
+        var logs: [LogEntry] = []
+        if sqlite3_prepare_v2(db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
+            while sqlite3_step(queryStatement) == SQLITE_ROW {
+                let message = read_string_or_null(queryStatement: queryStatement, index: 0)!
+                let status = read_string_or_null(queryStatement: queryStatement, index: 1)!
+                let createdAt = read_date_or_null(queryStatement: queryStatement, index: 2)!
+
+                let logEntry = LogEntry(message: message, status: status, createdAt: createdAt)
+                logs.append(logEntry)
+            }
+        }
+        sqlite3_finalize(queryStatement)
+        return logs
+    }
+    
+    func delete_auth() {
+        let deleteStatementString = "DELETE FROM auth;"
+        var statement: OpaquePointer? = nil
+        sqlite3_prepare_v2(db, deleteStatementString, -1, &statement, nil);
+        sqlite3_step(statement)
+        sqlite3_finalize(statement);
+    }
+    
+    func insert_log(message: String, status: String) {
+//        let sql = "INSERT INTO syslog (message, status, created_at) VALUES (?, ?, ?);"
+//        var statement: OpaquePointer? = nil
+//        if sqlite3_prepare_v2(db, sql, -1, &statement, nil) == SQLITE_OK {
+//            bind_string(queryStatement: statement, index: 2, value: message)
+//            bind_string(queryStatement: statement, index: 3, value: status)
+//            bind_date(queryStatement: statement, index: 4, value: Date())
+//            if sqlite3_step(statement) == SQLITE_DONE {
+////                print("Successfully inserted row.")
+//            } else {
+//                let errorMessage = String(cString: sqlite3_errmsg(db))
+//                print("Could not insert row: \(errorMessage)")
+//            }
+//        } else {
+//            let errorMessage = String(cString: sqlite3_errmsg(db))
+//            print("INSERT statement could not be prepared. \(errorMessage)")
+//        }
+//        sqlite3_finalize(statement)
+    }
+    
+    func insert_auth(email: String, password: String, url: String) {
+        delete_auth();
+        var statement: OpaquePointer? = nil
+        let sql = "INSERT INTO auth (email, password, url) VALUES (?, ?, ?);"
+        if sqlite3_prepare_v2(db, sql, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_text(statement, 1, (email as NSString).utf8String, -1, SQLITE_TRANSIENT)
+            sqlite3_bind_text(statement, 2, (password as NSString).utf8String, -1, SQLITE_TRANSIENT)
+            sqlite3_bind_text(statement, 3, (url as NSString).utf8String, -1, SQLITE_TRANSIENT)
+            if sqlite3_step(statement) != SQLITE_DONE {
+                let errorMessage = String(cString: sqlite3_errmsg(db))
+                insert_log(message: "Could not insert auth row: \(errorMessage)", status: "ERROR")
+            }
+        } else {
+            let errorMessage = String(cString: sqlite3_errmsg(db))
+            insert_log(message: "Could not prepare insert auth statement: \(errorMessage)", status: "ERROR")
+        }
+        sqlite3_finalize(statement)
     }
     
     func read_catchments() -> [Catchment] {
@@ -564,6 +706,7 @@ class DBStorage {
             sqlite3_finalize(deleteStatement)
         }
     }
+
     
     func storeNewSurvey(newSurveyId: String) {
         let sql = "UPDATE survey_observation SET survey_id = ? WHERE survey_id = '0';"

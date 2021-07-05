@@ -9,45 +9,70 @@ struct Settings: View {
     @EnvironmentObject var userData: UserData
     @EnvironmentObject var exportManager: ExportManager
     @EnvironmentObject var importManager: ImportManager
-    @State var isExportView = false
+    @State private var showingAlert = false
     
     var body: some View {
         NavigationView {
             Form {
-                if exportManager.multimediaToExport.count > 0 {
-                    HStack {
-                        VStack {
-                            Text("Uploading: \(exportManager.transferInMb())")
-                            ProgressBar(value: exportManager.progress())
-                        }
+                Section(header: Text("Display settings")) {
+                    NavigationLink(destination: SettingsCatchments()) {
+                        Text("Display catchments")
                         Spacer()
-                        if exportManager.isExportingNow {
-                            Button(action: {
-                                self.exportManager.exportToggle()
-                            }, label: {
-                                Image(systemName: "pause.circle")
-                            })
-                        } else {
-                            Button(action: {
-                                self.exportManager.exportToggle()
-                            }, label: {
-                                Image(systemName: "play.circle")
-                            })
+                        Text("\(self.userData.displayCatchments.count)/\(self.userData.catchments.count)")
+                    }
+                    
+                    NavigationLink(destination: SettingsSurveys()) {
+                        Text("Display surveys")
+                        Spacer()
+                        Text("\(self.userData.displaySurveys.count)/\(self.userData.surveys.count)")
+                    }
+                }
+            
+                if self.exportManager.multimediaToExport.count > 0 {
+                    Section(header: Text("Exporting")) {
+                        NavigationLink(destination: SettingsExporting(), isActive: $userData.isExportView) {
+                            Text("Multimedia export status")
+                            Spacer()
+                            Text("\(self.exportManager.multimediaToExport.count)")
                         }
                     }
                 }
-                NavigationLink(destination: SettingsCatchments()) {
-                    Text("Display catchments")
-                    Spacer()
-                    Text("\(self.userData.displayCatchments.count)/\(self.userData.catchments.count)")
+                
+                Section(header: Text("Debuging")) {
+                    NavigationLink(destination: SettingsLogs()) {
+                        Text("Logs")
+                    }
+                    Button(action: {
+                        showingAlert = true;
+                    }) {
+                        Text("Remove all data")
+                    }
+                    .foregroundColor(.red)
+                    .alert(isPresented:$showingAlert) {
+                            Alert(title: Text("Are you sure you want to remove all data?"),
+                                  message: Text("Just make sure you have exported the current survey. The rest can be synced from the server."),
+                                  primaryButton: .destructive(Text("Delete")) {
+                                        // TODO
+                                        // db.deleteNewSurvey()
+                                        // self.userData.observations = []
+                                        //  self.userData.surveyExportObservations = Set()
+                                        //  self.userData.surveyExportParticipants = Set()
+                                        // TODO: remove catchments and surveys
+                                  }, secondaryButton: .cancel())
+                    }
                 }
                 
-                NavigationLink(destination: SettingsSurveys()) {
-                    Text("Display surveys")
-                    Spacer()
-                    Text("\(self.userData.displaySurveys.count)/\(self.userData.surveys.count)")
+                Section() {
+                    Button(action: {
+                        db.delete_auth();
+                        userData.authenticationCredentials = nil;
+                        userData.selection = 0;
+                    }) {
+                        Text("Log out")
+                    }
+                    
                 }
-            }.navigationBarTitle("Settings", displayMode: .inline)
+            }.navigationBarTitle("\(userData.authenticationCredentials?.email ?? "")", displayMode: .inline)
             .navigationBarItems(trailing: Button(action: {
                 self.importManager.sync(userData: self.userData)
                 }, label: {
@@ -55,12 +80,5 @@ struct Settings: View {
                     Image(systemName: "arrow.clockwise")
                 }))
         }
-        
-    }
-}
-
-struct Settings_Previews: PreviewProvider {
-    static var previews: some View {
-        Settings()
     }
 }

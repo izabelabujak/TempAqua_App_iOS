@@ -5,16 +5,16 @@
 
 import SwiftUI
 
-struct ObservationsView: View {
+struct SurveyView: View {
     @EnvironmentObject var userData: UserData
     @EnvironmentObject var exportManager: ExportManager
-    @State var isExportView = false    
+    @State var isPrepareExportView = false
     
     var body: some View {        
         NavigationView {
             List {
                 ForEach(userData.observations, id: \.self) { observation in
-                    NavigationLink(destination: ObservationDetail(observation: observation, userData: self.userData)) {
+                    NavigationLink(destination: MappingObservation(observation: observation, userData: self.userData)) {
                         HStack {
                             VStack {
                                 HStack {
@@ -43,14 +43,14 @@ struct ObservationsView: View {
             .listStyle(PlainListStyle())
             .navigationBarTitle("Observations", displayMode: .inline)
             .navigationBarItems(trailing: Button(action: {
-                    self.isExportView.toggle()
+                    self.isPrepareExportView.toggle()
                     userData.surveyExportObservations = Set(userData.observations)
                 }, label: {
                     Image(systemName: "icloud.and.arrow.up")
                     Text("Export")
-                }).disabled(userData.observations.isEmpty))
-        }.sheet(isPresented: $isExportView) {
-            SurveyExport(isExportView: self.$isExportView).environmentObject(self.userData).environmentObject(self.exportManager)
+                }).disabled(userData.observations.isEmpty || userData.authenticationCredentials == nil))
+        }.sheet(isPresented: $isPrepareExportView) {
+            SurveyExport(isPrepareExportView: self.$isPrepareExportView).environmentObject(self.userData).environmentObject(self.exportManager)
         }
     }
     
@@ -61,11 +61,5 @@ struct ObservationsView: View {
         }
         userData.observations.remove(atOffsets: offsets)
         renderMapObservations = true
-    }
-}
-
-struct ObservationList_Previews: PreviewProvider {
-    static var previews: some View {
-        ObservationsView().environmentObject(UserData())
     }
 }

@@ -18,7 +18,7 @@ final class ImportManager: UIViewController, ObservableObject {
         userData.displayCatchments = []
         // sync catchments
         self.fetchCatchments(userData: userData)
-        
+        usleep(2000000) // wait 2 sec
         // sync surveys
         self.fetchSurveys(userData: userData)
         

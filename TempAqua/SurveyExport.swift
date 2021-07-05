@@ -17,7 +17,7 @@ struct SurveyExport: View {
     @EnvironmentObject var exportManager: ExportManager
     @State var removeAfterExporting: Bool = false
     @State var confirmationEmail: Bool = true
-    @Binding var isExportView: Bool
+    @Binding var isPrepareExportView: Bool
     @State private var showingAlert = false
     
     var body: some View {
@@ -70,8 +70,9 @@ struct SurveyExport: View {
                 Spacer()
                 Button(action: {
                     self.exportManager.export(userData: self.userData)
-                    self.isExportView = false
+                    self.isPrepareExportView = false
                     self.userData.selection = 3
+                    self.userData.isExportView = true
                 }) {
                     HStack {
                         Spacer()
@@ -84,7 +85,7 @@ struct SurveyExport: View {
             .navigationBarTitle("Survey export")
             .navigationBarItems(
                 leading: Button(action: {
-                        self.isExportView = false
+                        self.isPrepareExportView = false
                     }, label: {
                         Text("Back")
                     }).disabled(userData.observations.isEmpty),
@@ -100,7 +101,7 @@ struct SurveyExport: View {
                             self.userData.observations = []
                             self.userData.surveyExportObservations = Set()
                             self.userData.surveyExportParticipants = Set()
-                            self.isExportView = false
+                            self.isPrepareExportView = false
                           }, secondaryButton: .cancel())
                 }
             )

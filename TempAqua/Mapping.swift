@@ -8,7 +8,7 @@ struct Mapping: View {
     @ViewBuilder
     var body: some View {
         NavigationView {
-            ObservationDetail()
+            MappingObservation()
         }
     }
 }

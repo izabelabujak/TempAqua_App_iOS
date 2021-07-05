@@ -41,8 +41,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         //load photos that still have to be uploaded to the remote server
         let exportManager = ExportManager()
-        let multimedia = db.read_media_to_export()
-        exportManager.multimediaToExport = Set(multimedia)
+        let multimedia = db.read_media_to_export()        
+        exportManager.setMultimediaToExport(multimediaToExport: Set(multimedia))
         
         // Create the SwiftUI view that provides the window contents.
         let rootView = MainPage()

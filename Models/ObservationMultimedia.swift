@@ -5,13 +5,15 @@
 
 import SwiftUI
 
-struct ObservationMultimedia: Hashable, Codable {
+struct ObservationMultimedia: Hashable, Codable, Identifiable {
+    let id = UUID()
     var surveyId: String
     var observationId: Int
     var takenAt: Date
     var format: String = "jpg"
     var data: Data = Data()
     var persisted = true
+    var exportStatus: ExportStatus = ExportStatus.none
     
     func image() -> Image {
         return Image(uiImage: self.uiImage())
@@ -47,6 +49,13 @@ struct ObservationMultimedia: Hashable, Codable {
     }
     
     func sizeInMb() -> Double {
-        return Double(self.data.count / 1000000).rounded(toPlaces: 2)
+        return Double(Double(self.data.count) / 1000000.0).rounded(toPlaces: 2)
     }
 }
+
+enum ExportStatus: String, CaseIterable, Codable, Hashable {
+    case none = "none"
+    case pending = "pending"
+    case exported = "exported"
+}
+
