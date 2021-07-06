@@ -6,10 +6,11 @@
 import Combine
 import SwiftUI
 import os
+import OSLog
 
-let getCatchmentsEndpoint = "https://izabelabujak.com/tempaqua/api/get_catchments.php"
-let getCatchmentsGeometryEndpoint = "https://izabelabujak.com/tempaqua/api/get_catchment_geometry.php"
-let getSurveysEndpoint = "https://izabelabujak.com/tempaqua/api/get_surveys.php"
+let getCatchmentsEndpoint = "/api/get_catchments.php"
+let getCatchmentsGeometryEndpoint = "/api/get_catchment_geometry.php"
+let getSurveysEndpoint = "/api/get_surveys.php"
 
 final class ImportManager: UIViewController, ObservableObject {
     func sync(userData: UserData) {
@@ -26,7 +27,7 @@ final class ImportManager: UIViewController, ObservableObject {
     }
     
     func fetchSurvey(userData: UserData, survey_id: String) {
-        var request = URLRequest(url: URL(string: "\(getSurveysEndpoint)?id=\(survey_id)")!)
+        var request = URLRequest(url: URL(string: "\(serverEndpoint)\(getSurveysEndpoint)?id=\(survey_id)")!)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         let session = URLSession.shared
@@ -38,7 +39,7 @@ final class ImportManager: UIViewController, ObservableObject {
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 survey = try decoder.decode(Survey.self, from: data!)
             } catch {
-                print("Couldn't parse \(error)")
+                Logger().warning("Could not parse the result of fetch survey call")
                 return
             }
             DispatchQueue.main.async {
@@ -56,7 +57,7 @@ final class ImportManager: UIViewController, ObservableObject {
     }
     
     func fetchSurveys(userData: UserData) {
-        var request = URLRequest(url: URL(string: "\(getSurveysEndpoint)")!)
+        var request = URLRequest(url: URL(string: "\(serverEndpoint)\(getSurveysEndpoint)")!)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         let session = URLSession.shared
@@ -89,7 +90,7 @@ final class ImportManager: UIViewController, ObservableObject {
     }
     
     func fetchCatchments(userData: UserData) {
-        var request = URLRequest(url: URL(string: "\(getCatchmentsEndpoint)")!)
+        var request = URLRequest(url: URL(string: "\(serverEndpoint)\(getCatchmentsEndpoint)")!)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         let session = URLSession.shared
@@ -121,7 +122,7 @@ final class ImportManager: UIViewController, ObservableObject {
     }
     
     func fetchCatchmentStreams(catchment_id: String) {
-        var request = URLRequest(url: URL(string: "\(getCatchmentsGeometryEndpoint)?id=\(catchment_id)")!)
+        var request = URLRequest(url: URL(string: "\(serverEndpoint)\(getCatchmentsGeometryEndpoint)?id=\(catchment_id)")!)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         let session = URLSession.shared
@@ -140,7 +141,7 @@ final class ImportManager: UIViewController, ObservableObject {
     }
     
     func fetchCatchmentBorders(catchment_id: String) {
-        var request = URLRequest(url: URL(string: "\(getCatchmentsGeometryEndpoint)?type=border&id=\(catchment_id)")!)
+        var request = URLRequest(url: URL(string: "\(serverEndpoint)\(getCatchmentsGeometryEndpoint)?type=border&id=\(catchment_id)")!)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         let session = URLSession.shared

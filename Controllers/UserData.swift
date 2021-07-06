@@ -20,8 +20,7 @@ final class UserData: UIViewController, CLLocationManagerDelegate, ObservableObj
     @Published var surveyExportParticipants = Set<Participant>()
     
     // authenticated user
-    @Published var authenticationCredentials = db.read_auth()
-    @Published var loading = false
+    @Published var authenticationCredentials: AuthenticationCredential?
 
     func surveyDuration() -> String {
         let observations = Array(self.surveyExportObservations)

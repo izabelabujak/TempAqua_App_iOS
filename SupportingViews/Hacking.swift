@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import UIKit
 
 // copied from https://stackoverflow.com/questions/57021722/swiftui-optional-textfield
 // it allows to keep null strings in e.g. TextField

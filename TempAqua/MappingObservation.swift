@@ -301,7 +301,7 @@ struct MappingObservation: View {
                                     Image(systemName: "plus").frame(width: 50, height: 50).border(Color.gray, width: 1).aspectRatio(contentMode: .fill)
                                 }
                                 ForEach(self.observationMultimedia, id: \.self) { multimedia in
-                                    NavigationLink(destination: ObservationPhotos(multimedia: self.$observationMultimedia, showCaptureImageView: false, currentlyDisplayedImage: multimedia)) {
+                                    NavigationLink(destination: MappingObservationMultimedia(multimedia: self.$observationMultimedia, showCaptureImageView: false, currentlyDisplayedImage: multimedia)) {
                                         if multimedia.format == "jpg" {
                                             multimedia.image().resizable()
                                                 .frame(width: 50, height: 50).aspectRatio(contentMode: .fill)

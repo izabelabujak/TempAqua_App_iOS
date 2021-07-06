@@ -6,6 +6,7 @@
 import Foundation
 import SQLite3
 import SwiftUI
+import OSLog
 
 var db = DBStorage()
 let SQLITE_STATIC = unsafeBitCast(0, to: sqlite3_destructor_type.self)
@@ -97,16 +98,6 @@ auth
 );
 """
 
-let CREATE_LOG_TABLE_SQL = """
-CREATE TABLE IF NOT EXISTS
-syslog
-(id INTEGER PRIMARY KEY AUTOINCREMENT,
- message TEXT,
- status TEXT,
- created_at TEXT
-);
-"""
-
 
 class DBStorage {
     init() {
@@ -118,10 +109,9 @@ class DBStorage {
         createTable(sql: CREATE_SURVEY_OBSERATION_MULTIMEDIA_TABLE_SQL)
         createTable(sql: CREATE_MEDIA_TO_EXPORT_TABLE_SQL)
         createTable(sql: CREATE_AUTH_TABLE_SQL)
-        createTable(sql: CREATE_LOG_TABLE_SQL)
     }
 
-    let dbPath: String = "tempaqua27.sqlite"
+    let dbPath: String = "tempaqua32.sqlite"
     var db:OpaquePointer?
 
     func openDatabase() -> OpaquePointer? {
@@ -129,10 +119,10 @@ class DBStorage {
             .appendingPathComponent(dbPath)
         var db: OpaquePointer? = nil
         if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
-            print("Error opening database at \(dbPath)")
+            Logger().error("Error opening database at \(self.dbPath)")
             return nil
         } else {
-            print("Successfully opened connection to database at \(dbPath)")
+            Logger().info("Successfully opened connection to database at \(self.dbPath)")
             return db
         }
     }
@@ -140,15 +130,13 @@ class DBStorage {
     func createTable(sql: String) {
         var createTableStatement: OpaquePointer? = nil
         if sqlite3_prepare_v2(db, sql, -1, &createTableStatement, nil) == SQLITE_OK {
-            if sqlite3_step(createTableStatement) == SQLITE_DONE {
-//                print("Database schema ok.")
-            } else {
+            if sqlite3_step(createTableStatement) != SQLITE_DONE {
                 let errorMessage = String(cString: sqlite3_errmsg(db))
-                print("Could not create database schema \(errorMessage)")
+                Logger().error("Could not create database schema \(errorMessage)")
             }
         } else {
             let errorMessage = String(cString: sqlite3_errmsg(db))
-            print("CREATE TABLE statement could not be prepared. \(errorMessage)")
+            Logger().error("CREATE TABLE statement could not be prepared. \(errorMessage)")
         }
         sqlite3_finalize(createTableStatement)
     }
@@ -164,15 +152,13 @@ class DBStorage {
             sqlite3_bind_text(statement, 1, (survey.id as NSString).utf8String, -1, SQLITE_TRANSIENT)
             sqlite3_bind_text(statement, 2, (ISO8601DateFormatter().string(from: survey.createdAt) as NSString).utf8String, -1, SQLITE_TRANSIENT)
             sqlite3_bind_text(statement, 3, (survey.catchmentId as NSString).utf8String, -1, SQLITE_TRANSIENT)
-            if sqlite3_step(statement) == SQLITE_DONE {
-//                print("Successfully inserted row.")
-            } else {
+            if sqlite3_step(statement) != SQLITE_DONE {
                 let errorMessage = String(cString: sqlite3_errmsg(db))
-                print("Could not insert row: \(errorMessage)")
+                Logger().error("Could not insert survey row: \(errorMessage)")
             }
         } else {
             let errorMessage = String(cString: sqlite3_errmsg(db))
-            print("INSERT statement could not be prepared. \(errorMessage)")
+            Logger().error("Insert survey statement could not be prepared. \(errorMessage)")
         }
         sqlite3_finalize(statement)
     }
@@ -536,23 +522,6 @@ class DBStorage {
     }
     
     func insert_log(message: String, status: String) {
-//        let sql = "INSERT INTO syslog (message, status, created_at) VALUES (?, ?, ?);"
-//        var statement: OpaquePointer? = nil
-//        if sqlite3_prepare_v2(db, sql, -1, &statement, nil) == SQLITE_OK {
-//            bind_string(queryStatement: statement, index: 2, value: message)
-//            bind_string(queryStatement: statement, index: 3, value: status)
-//            bind_date(queryStatement: statement, index: 4, value: Date())
-//            if sqlite3_step(statement) == SQLITE_DONE {
-////                print("Successfully inserted row.")
-//            } else {
-//                let errorMessage = String(cString: sqlite3_errmsg(db))
-//                print("Could not insert row: \(errorMessage)")
-//            }
-//        } else {
-//            let errorMessage = String(cString: sqlite3_errmsg(db))
-//            print("INSERT statement could not be prepared. \(errorMessage)")
-//        }
-//        sqlite3_finalize(statement)
     }
     
     func insert_auth(email: String, password: String, url: String) {

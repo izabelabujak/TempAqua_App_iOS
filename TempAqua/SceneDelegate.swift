@@ -16,6 +16,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
         let userData = UserData()
+        // load logged in user
+        userData.authenticationCredentials = db.read_auth()
+        if let authenticationCredentials = userData.authenticationCredentials {
+            serverEndpoint = authenticationCredentials.url
+        }
         // load previous surveys stored in the database
         var surveys = db.read_surveys()
         // the survey with ID=0 is the current survey that should be modifiable
@@ -27,11 +32,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
         userData.surveys = surveys
-        // by default turn display on the map the latest survey
-        if !userData.surveys.isEmpty {
-            userData.displaySurveys.insert(userData.surveys[userData.surveys.count-1])
-        }
-        //
         let catchments = db.read_catchments()
         userData.catchments = catchments
         for (_, catchment) in userData.catchments.enumerated() {

@@ -20,6 +20,7 @@ var employees: [Participant] = [Participant(id: 0, name: "Other"),
                                 Participant(id: 5, name: "Nina")]
 var renderMapStreams = true
 var renderMapObservations = true
+var serverEndpoint = "";
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {

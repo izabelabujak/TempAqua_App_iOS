@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		B3117B8924C9E94300884F92 /* Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3117B8824C9E94300884F92 /* Mapping.swift */; };
-		B3117B8B24CAC60200884F92 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3117B8A24CAC60200884F92 /* TextView.swift */; };
 		B34505122690D98D00FA6898 /* AuthenticationCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34505112690D98D00FA6898 /* AuthenticationCredentials.swift */; };
 		B34505142690DAB700FA6898 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34505132690DAB700FA6898 /* Login.swift */; };
 		B34505162690F46100FA6898 /* SettingsExporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34505152690F46100FA6898 /* SettingsExporting.swift */; };
@@ -25,8 +24,6 @@
 		C224968E24979FF3009239B3 /* SurveyExportParticipants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224968D24979FF3009239B3 /* SurveyExportParticipants.swift */; };
 		C22496902497A921009239B3 /* Survey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224968F2497A921009239B3 /* Survey.swift */; };
 		C22496922497F653009239B3 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22496912497F653009239B3 /* DateFormatter.swift */; };
-		C22496942497FEE3009239B3 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22496932497FEE3009239B3 /* CustomTextField.swift */; };
-		C224969624981541009239B3 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224969524981541009239B3 /* Colors.swift */; };
 		C22496982498321B009239B3 /* SettingsSurveys.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22496972498321B009239B3 /* SettingsSurveys.swift */; };
 		C2691DD92494C7F000E9FC3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691DD82494C7F000E9FC3A /* AppDelegate.swift */; };
 		C2691DDB2494C7F000E9FC3A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691DDA2494C7F000E9FC3A /* SceneDelegate.swift */; };
@@ -45,16 +42,14 @@
 		C2691EC8249600DB00E9FC3A /* DBStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691EC7249600DB00E9FC3A /* DBStorage.swift */; };
 		C2691ECA249644D900E9FC3A /* GPSConverer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691EC9249644D900E9FC3A /* GPSConverer.swift */; };
 		C2691ECE2496A6A000E9FC3A /* ArcgisStreams.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691ECD2496A6A000E9FC3A /* ArcgisStreams.swift */; };
-		C2BF41352498E6B400706DFD /* KeyboardAdaptive.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF41342498E6B400706DFD /* KeyboardAdaptive.swift */; };
 		C2BF41372498EC9C00706DFD /* Hacking.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF41362498EC9C00706DFD /* Hacking.swift */; };
-		C2BF413924992C0800706DFD /* ObservationPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF413824992C0800706DFD /* ObservationPhotos.swift */; };
+		C2BF413924992C0800706DFD /* MappingObservationMultimedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF413824992C0800706DFD /* MappingObservationMultimedia.swift */; };
 		C2BF4142249B603100706DFD /* ExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF4141249B603100706DFD /* ExportManager.swift */; };
 		C2BF4148249B88C400706DFD /* ObservationCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF4147249B88C400706DFD /* ObservationCategory.swift */; };
 		C2BF414A249B88D700706DFD /* ObservationMultimedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF4149249B88D700706DFD /* ObservationMultimedia.swift */; };
 		C2BF414C249B88FD00706DFD /* ObservationMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF414B249B88FD00706DFD /* ObservationMarker.swift */; };
 		C2BF414F249B8D9200706DFD /* RestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF414E249B8D9200706DFD /* RestStatus.swift */; };
 		C2BF4151249B963B00706DFD /* ImportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF4150249B963B00706DFD /* ImportManager.swift */; };
-		C2BF4155249BECF200706DFD /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF4154249BECF200706DFD /* VideoPlayer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,7 +71,6 @@
 
 /* Begin PBXFileReference section */
 		B3117B8824C9E94300884F92 /* Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mapping.swift; sourceTree = "<group>"; };
-		B3117B8A24CAC60200884F92 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		B34505112690D98D00FA6898 /* AuthenticationCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCredentials.swift; sourceTree = "<group>"; };
 		B34505132690DAB700FA6898 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		B34505152690F46100FA6898 /* SettingsExporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsExporting.swift; sourceTree = "<group>"; };
@@ -93,8 +87,6 @@
 		C224968D24979FF3009239B3 /* SurveyExportParticipants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyExportParticipants.swift; sourceTree = "<group>"; };
 		C224968F2497A921009239B3 /* Survey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Survey.swift; sourceTree = "<group>"; };
 		C22496912497F653009239B3 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
-		C22496932497FEE3009239B3 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
-		C224969524981541009239B3 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		C22496972498321B009239B3 /* SettingsSurveys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSurveys.swift; sourceTree = "<group>"; };
 		C2691DD52494C7F000E9FC3A /* TempAqua.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TempAqua.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2691DD82494C7F000E9FC3A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -120,16 +112,14 @@
 		C2691EC7249600DB00E9FC3A /* DBStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBStorage.swift; sourceTree = "<group>"; };
 		C2691EC9249644D900E9FC3A /* GPSConverer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPSConverer.swift; sourceTree = "<group>"; };
 		C2691ECD2496A6A000E9FC3A /* ArcgisStreams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcgisStreams.swift; sourceTree = "<group>"; };
-		C2BF41342498E6B400706DFD /* KeyboardAdaptive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardAdaptive.swift; sourceTree = "<group>"; };
 		C2BF41362498EC9C00706DFD /* Hacking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hacking.swift; sourceTree = "<group>"; };
-		C2BF413824992C0800706DFD /* ObservationPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationPhotos.swift; sourceTree = "<group>"; };
+		C2BF413824992C0800706DFD /* MappingObservationMultimedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappingObservationMultimedia.swift; sourceTree = "<group>"; };
 		C2BF4141249B603100706DFD /* ExportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportManager.swift; sourceTree = "<group>"; };
 		C2BF4147249B88C400706DFD /* ObservationCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationCategory.swift; sourceTree = "<group>"; };
 		C2BF4149249B88D700706DFD /* ObservationMultimedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationMultimedia.swift; sourceTree = "<group>"; };
 		C2BF414B249B88FD00706DFD /* ObservationMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationMarker.swift; sourceTree = "<group>"; };
 		C2BF414E249B8D9200706DFD /* RestStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestStatus.swift; sourceTree = "<group>"; };
 		C2BF4150249B963B00706DFD /* ImportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportManager.swift; sourceTree = "<group>"; };
-		C2BF4154249BECF200706DFD /* VideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,7 +150,6 @@
 		C2691DCC2494C7F000E9FC3A = {
 			isa = PBXGroup;
 			children = (
-				C2BF414D249B8A1400706DFD /* hacking */,
 				C2BF4140249B601400706DFD /* Controllers */,
 				C2691E30249531B600E9FC3A /* SupportingViews */,
 				C2691E0F24952FE400E9FC3A /* Resources */,
@@ -191,9 +180,9 @@
 				C2691DDE2494C7F400E9FC3A /* Assets.xcassets */,
 				C2691DE32494C7F400E9FC3A /* LaunchScreen.storyboard */,
 				C2691DE62494C7F400E9FC3A /* Info.plist */,
-				C2691E7D24954E9600E9FC3A /* MappingObservation.swift */,
 				B3117B8824C9E94300884F92 /* Mapping.swift */,
-				C2BF413824992C0800706DFD /* ObservationPhotos.swift */,
+				C2691E7D24954E9600E9FC3A /* MappingObservation.swift */,
+				C2BF413824992C0800706DFD /* MappingObservationMultimedia.swift */,
 				B3CC625424CED32400ABEA7F /* CapturePhoto.swift */,
 				C2691E8324956DFC00E9FC3A /* MainPage.swift */,
 				C2691E35249536C200E9FC3A /* SurveyView.swift */,
@@ -242,10 +231,10 @@
 		C2691E0E24952FDF00E9FC3A /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				C2691E7B24954D8400E9FC3A /* Observation.swift */,
 				B3CC625224CEC20A00ABEA7F /* ArcgisBorder.swift */,
 				C2691ECD2496A6A000E9FC3A /* ArcgisStreams.swift */,
 				C224968F2497A921009239B3 /* Survey.swift */,
+				C2691E7B24954D8400E9FC3A /* Observation.swift */,
 				C2BF4147249B88C400706DFD /* ObservationCategory.swift */,
 				C2BF4149249B88D700706DFD /* ObservationMultimedia.swift */,
 				C2BF414B249B88FD00706DFD /* ObservationMarker.swift */,
@@ -267,13 +256,10 @@
 		C2691E30249531B600E9FC3A /* SupportingViews */ = {
 			isa = PBXGroup;
 			children = (
+				C2BF41362498EC9C00706DFD /* Hacking.swift */,
 				C2691EC9249644D900E9FC3A /* GPSConverer.swift */,
 				C224968B2497988A009239B3 /* MultipleSelectionRow.swift */,
 				C22496912497F653009239B3 /* DateFormatter.swift */,
-				C22496932497FEE3009239B3 /* CustomTextField.swift */,
-				C224969524981541009239B3 /* Colors.swift */,
-				C2BF4154249BECF200706DFD /* VideoPlayer.swift */,
-				B3117B8A24CAC60200884F92 /* TextView.swift */,
 			);
 			path = SupportingViews;
 			sourceTree = "<group>";
@@ -295,15 +281,6 @@
 				C2BF4150249B963B00706DFD /* ImportManager.swift */,
 			);
 			path = Controllers;
-			sourceTree = "<group>";
-		};
-		C2BF414D249B8A1400706DFD /* hacking */ = {
-			isa = PBXGroup;
-			children = (
-				C2BF41342498E6B400706DFD /* KeyboardAdaptive.swift */,
-				C2BF41362498EC9C00706DFD /* Hacking.swift */,
-			);
-			path = hacking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -439,18 +416,14 @@
 				B34505122690D98D00FA6898 /* AuthenticationCredentials.swift in Sources */,
 				B39920C324C0D24F00153AEF /* Catchment.swift in Sources */,
 				C22496922497F653009239B3 /* DateFormatter.swift in Sources */,
-				C224969624981541009239B3 /* Colors.swift in Sources */,
-				C2BF41352498E6B400706DFD /* KeyboardAdaptive.swift in Sources */,
 				B34505162690F46100FA6898 /* SettingsExporting.swift in Sources */,
 				C2691DD92494C7F000E9FC3A /* AppDelegate.swift in Sources */,
 				B3CC625324CEC20A00ABEA7F /* ArcgisBorder.swift in Sources */,
 				C2691EC8249600DB00E9FC3A /* DBStorage.swift in Sources */,
 				C2691EC22495769F00E9FC3A /* SurveyMap.swift in Sources */,
-				C2BF4155249BECF200706DFD /* VideoPlayer.swift in Sources */,
 				C22496902497A921009239B3 /* Survey.swift in Sources */,
 				B3117B8924C9E94300884F92 /* Mapping.swift in Sources */,
 				C2BF41372498EC9C00706DFD /* Hacking.swift in Sources */,
-				C22496942497FEE3009239B3 /* CustomTextField.swift in Sources */,
 				C224968E24979FF3009239B3 /* SurveyExportParticipants.swift in Sources */,
 				B34505142690DAB700FA6898 /* Login.swift in Sources */,
 				C2BF414F249B8D9200706DFD /* RestStatus.swift in Sources */,
@@ -473,10 +446,9 @@
 				C2BF414A249B88D700706DFD /* ObservationMultimedia.swift in Sources */,
 				B39920C124C0CD8200153AEF /* Settings.swift in Sources */,
 				B3450518269107E000FA6898 /* SettingsLogs.swift in Sources */,
-				C2BF413924992C0800706DFD /* ObservationPhotos.swift in Sources */,
+				C2BF413924992C0800706DFD /* MappingObservationMultimedia.swift in Sources */,
 				C22496982498321B009239B3 /* SettingsSurveys.swift in Sources */,
 				C2BF4148249B88C400706DFD /* ObservationCategory.swift in Sources */,
-				B3117B8B24CAC60200884F92 /* TextView.swift in Sources */,
 				C224968C2497988A009239B3 /* MultipleSelectionRow.swift in Sources */,
 				C2691E13249530A000E9FC3A /* SurveyViewObservationRow.swift in Sources */,
 			);
@@ -656,7 +628,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ch.aaaax.tempaqua;
+				MARKETING_VERSION = 2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = xaxaxa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -671,14 +644,15 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"TempAqua/Preview Content\"";
-				DEVELOPMENT_TEAM = 77BG628XYM;
+				DEVELOPMENT_TEAM = 3WZPS4N428;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = TempAqua/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ch.aaaax.tempaqua;
+				MARKETING_VERSION = 2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.epfl.tempaqua;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

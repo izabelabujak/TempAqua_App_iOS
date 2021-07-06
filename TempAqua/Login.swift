@@ -9,7 +9,7 @@ struct Login: View {
     @EnvironmentObject var userData: UserData
     @EnvironmentObject var importManager: ImportManager
     
-    @State var email: String = ""
+    @State var email: String = "izabela.bujak@epfl.ch"
     @State var password: String = ""
     @State var url: String = "izabelabujak.com/tempaqua"
     let lightGreyColor = Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0)
@@ -47,9 +47,7 @@ struct Login: View {
                     .padding(.bottom, 20)
                 
                 Button(action: {
-                    userData.loading = true
                     login()
-                    userData.loading = false
                 }) {
                     Text("Login")
                 }.alert(isPresented: $showingAlert) {
@@ -79,10 +77,11 @@ struct Login: View {
                     if let status = responseJSON["status"] as? String {
                         if status == "OK" {
                             DispatchQueue.main.async {
-                                db.insert_auth(email: email, password: password, url: host)
+                                serverEndpoint = "https://\(host)"
+                                db.insert_auth(email: email, password: password, url: serverEndpoint)
                                 userData.authenticationCredentials = AuthenticationCredential(email: email, password: password, url: host)
                                 userData.selection = 0
-                                self.importManager.sync(userData: self.userData)
+                                self.importManager.sync(userData: self.userData)                                
                             }
                         } else {
                             self.showingAlert = true
@@ -102,3 +101,13 @@ struct Login: View {
     }
 }
 
+struct LoadingView: View {
+    var body: some View {
+        ZStack {
+            Color.black
+                .opacity(0.6)
+                .edgesIgnoringSafeArea(.all)
+            Text("Please wait...")
+        }
+    }
+}

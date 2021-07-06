@@ -4,6 +4,8 @@
 //
 
 import SwiftUI
+import Foundation
+import OSLog
 
 struct SettingsLogs: View {
     @EnvironmentObject var userData: UserData

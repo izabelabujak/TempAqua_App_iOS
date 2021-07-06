@@ -8,7 +8,6 @@ import SwiftUI
 enum ObservationCategory: String, CaseIterable, Codable, Hashable {
     case dryStreambed = "D"
     case wetStreambed = "WS"
-//    case isolatedPool = "IP"
     case standingWater = "S"
     case weaklyTrickling = "WT"
     case trickling = "T"
@@ -23,8 +22,6 @@ enum ObservationCategory: String, CaseIterable, Codable, Hashable {
             return "Dry streambed"
         } else if self == ObservationCategory.wetStreambed {
             return "Wet streambed"
-//        } else if self == ObservationCategory.isolatedPool {
-//            return "Isolated pool"
         } else if self == ObservationCategory.standingWater {
             return "Standing water"
         } else if self == ObservationCategory.weaklyTrickling {

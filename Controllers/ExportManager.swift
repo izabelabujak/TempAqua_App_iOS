@@ -7,9 +7,9 @@ import Combine
 import SwiftUI
 import os
 
-let multimediaEndoint = "https://izabelabujak.com/tempaqua/api/multimedia.php"
-let multimediaVerifyEndoint = "https://izabelabujak.com/tempaqua/api/verify_multimedia.php"
-let surveyEndpoint = "https://izabelabujak.com/tempaqua/api/survey.php"
+let multimediaEndoint = "/api/multimedia.php"
+let multimediaVerifyEndoint = "/api/verify_multimedia.php"
+let surveyEndpoint = "/api/survey.php"
 
 final class ExportManager: UIViewController, ObservableObject {
     @Published var multimediaToExport = Set<ObservationMultimedia>()
@@ -128,7 +128,7 @@ final class ExportManager: UIViewController, ObservableObject {
             db.insert_log(message: "Could not convert sruvey into JSON during exporting", status: "ERROR")
             return
         }
-        if let url = URL(string: "\(surveyEndpoint)") {
+        if let url = URL(string: "\(serverEndpoint)\(surveyEndpoint)") {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             request.httpBody = jsonData
@@ -151,7 +151,7 @@ final class ExportManager: UIViewController, ObservableObject {
                 }
             }.resume()
         } else {
-            db.insert_log(message: "Could not export the survey. Invalid export survey URL: \(surveyEndpoint)", status: "ERROR")
+            db.insert_log(message: "Could not export the survey. Invalid export survey URL: \(serverEndpoint)\(surveyEndpoint)", status: "ERROR")
         }
         resumeUploading()
     }
@@ -166,7 +166,7 @@ final class ExportManager: UIViewController, ObservableObject {
                             "data": "\(multimedia.base64encoded())"
                         }
                       """
-        if let url = URL(string: multimediaEndoint) {
+        if let url = URL(string: "\(serverEndpoint)\(multimediaEndoint)") {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             request.httpBody = content.data(using: .utf8)!
@@ -204,7 +204,7 @@ final class ExportManager: UIViewController, ObservableObject {
         let surveyId = multimedia.surveyId
         let observationId = multimedia.observationId
         let takenAt = getDateTimeFormatter().string(from: multimedia.takenAt)
-        if let url = URL(string: "\(multimediaVerifyEndoint)") {
+        if let url = URL(string: "\(serverEndpoint)\(multimediaVerifyEndoint)") {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             request.httpBody = content.data(using: .utf8)!
