@@ -29,6 +29,9 @@ struct MappingObservation: View {
     @State var discharge: String?
     @State var waterLevel: String?
     
+    @State var longitudeColor = Color.black
+    @State var latitudeColor = Color.black
+    
     init() {
         self._latitude = State(initialValue: "")
         self._longitude = State(initialValue: "")
@@ -123,12 +126,27 @@ struct MappingObservation: View {
                     }
                     VStack {
                         Text("Easting (x)")
-                        TextField("CH-1903", text: $longitude).font(.system(size: 30)).keyboardType(.numberPad)
+                        TextField("CH-1903", text: $longitude).onChange(of: longitude) { newValue in
+                            let intValue = Int(newValue) ?? 0
+                            if intValue < 450000 || intValue > 850000 {
+                                longitudeColor = Color.red
+                            } else {
+                                longitudeColor = Color.black
+                            }
+                        }.font(.system(size: 30)).foregroundColor(self.longitudeColor).keyboardType(.numberPad)
+                            
                     }
                     Spacer()
                     VStack {
                         Text("Northing (y)")
-                        TextField("CH-1903", text: $latitude).font(.system(size: 30)).keyboardType(.numberPad)
+                        TextField("CH-1903", text: $latitude).onChange(of: latitude) { newValue in
+                            let intValue = Int(newValue) ?? 0
+                            if intValue < 70000 || intValue > 300000 {
+                                latitudeColor = Color.red
+                            } else {
+                                latitudeColor = Color.black
+                            }
+                        }.font(.system(size: 30)).foregroundColor(self.latitudeColor).keyboardType(.numberPad)
                     }
                 }
                 HStack {
@@ -148,7 +166,10 @@ struct MappingObservation: View {
                     }
                 }
             }.onAppear {
-                readPhoneLocation()
+                // make sure there are no coordinates specified yet
+                if self.longitude == "" && self.latitude == "" {
+                    readPhoneLocation()
+                }
             }
             Section(header: Text("Anchor points and stream flow")) {
                 if self.nearCatchmentLocations.count > 0 {
