@@ -9,18 +9,18 @@ struct Survey: Hashable, Codable {
     var id: String
     var createdAt: Date
     var catchmentId: String
-    var participants: [Participant]?
+    var employees: [Employee]?
     var observations: [Observation]?
     
-    init(id: String, createdAt: Date, catchmentId: String, participants: [Participant]?, observations: [Observation]?) {
+    init(id: String, createdAt: Date, catchmentId: String, employees: [Employee]?, observations: [Observation]?) {
         self.id = id
         self.createdAt = createdAt
         self.catchmentId = catchmentId
-        self.participants = participants
+        self.employees = employees
         self.observations = observations
     }
     
-    init(catchment: Catchment, participants: [Participant], observations: [Observation]) {
+    init(catchment: Catchment, employees: [Employee], observations: [Observation]) {
         var id: String = " "
         if let earliestCreationDate = observations.min(by: { $0.observedAt < $1.observedAt }) {
             let formatter1 = DateFormatter()
@@ -32,7 +32,7 @@ struct Survey: Hashable, Codable {
         self.id = id
         self.createdAt = Date()
         self.catchmentId = catchment.id
-        self.participants = participants
+        self.employees = employees
         self.observations = observations
     }
 }

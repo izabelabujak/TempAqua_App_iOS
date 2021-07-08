@@ -12,12 +12,15 @@ let multimediaVerifyEndoint = "/api/verify_multimedia.php"
 let surveyEndpoint = "/api/survey.php"
 
 final class ExportManager: UIViewController, ObservableObject {
+    @EnvironmentObject var userData: UserData
     @Published var multimediaToExport = Set<ObservationMultimedia>()
     @Published var isExportingNow = false
     var backgroundTask: UIBackgroundTaskIdentifier = .invalid
     @Published var transferredInMb = 0.0
     @Published var toTransferInMb = 0.0
-       
+    @Published var surveyExportedSuccessfully = false
+    @Published var surveyExportedFinished = false
+    
     func progress() -> Float {
         if self.toTransferInMb > 0 {
             return Float(self.transferredInMb / self.toTransferInMb)
@@ -43,41 +46,48 @@ final class ExportManager: UIViewController, ObservableObject {
             self.toTransferInMb = 0
             self.transferredInMb = 0
         }
+        self.surveyExportedSuccessfully = false
         // at this moment we generate a unique ID for the survey
-        let survey = Survey(catchment: userData.catchment!, participants: Array(userData.surveyExportParticipants), observations: Array(userData.surveyExportObservations))
+        let survey = Survey(catchment: userData.catchment!, employees: Array(userData.surveyExportEmployees), observations: Array(userData.surveyExportObservations))
         // first export the survey
-        exportSurvey(survey: survey)
-        
-        var newMultimediaToExport = Set<ObservationMultimedia>()
-        if var unwrapped = survey.observations {
-            for (oindex, observation) in unwrapped.enumerated() {
-                for (index, _) in unwrapped[oindex].multimedia.enumerated() {
-                    unwrapped[oindex].multimedia[index].surveyId = survey.id
-                    unwrapped[oindex].multimedia[index].observationId = observation.id
-                    self.toTransferInMb += unwrapped[oindex].multimedia[index].sizeInMb()
-                    newMultimediaToExport.insert(unwrapped[oindex].multimedia[index])
+        exportSurvey(survey: survey) { (error) in
+            if let error = error {
+                DispatchQueue.main.async {
+                    userData.alertItem = AlertItem(title: Text("Error"), message: Text("There was an error when exporting the survey! Server responded: \(error)"), dismissButton: .default(Text("Ok, I will try later again")))
+                }
+                return
+            }
+            var newMultimediaToExport = Set<ObservationMultimedia>()
+            if var unwrapped = survey.observations {
+                for (oindex, observation) in unwrapped.enumerated() {
+                    for (index, _) in unwrapped[oindex].multimedia.enumerated() {
+                        unwrapped[oindex].multimedia[index].surveyId = survey.id
+                        unwrapped[oindex].multimedia[index].observationId = observation.id
+                        DispatchQueue.main.async {
+                            self.toTransferInMb += unwrapped[oindex].multimedia[index].sizeInMb()
+                        }
+                        newMultimediaToExport.insert(unwrapped[oindex].multimedia[index])
+                    }
                 }
             }
+            if !db.insert_media_to_export(multimediaList: Array(newMultimediaToExport)) {
+                userData.alertItem = AlertItem(title: Text("Error"), message: Text("There was an error when exporting the survey! Could not insert multimedia into export tables"), dismissButton: .default(Text("Ok, I will try later again")))
+                return
+            }
+            DispatchQueue.main.async {
+                self.multimediaToExport = self.multimediaToExport.union(newMultimediaToExport)
+                db.deleteNewSurvey()
+                userData.observations = []
+                userData.surveyExportObservations = Set()
+                userData.surveyExportEmployees = Set()
+                userData.renderMapObservations = true
+                // start the process that will upload multimedia to the server
+                self.resumeUploading(userData: userData)
+            }
         }
-        if !db.insert_media_to_export(multimediaList: Array(newMultimediaToExport)) {
-            db.insert_log(message: "Could not insert multimedia into export tables", status: "ERROR")
-            // throw an error
-            return
-        }
-        // place all multimedia to a cache
-        self.multimediaToExport = self.multimediaToExport.union(newMultimediaToExport)
-        
-        // remove all observations
-        //db.deleteNewSurvey()
-        //userData.observations = []
-        //userData.surveyExportObservations = Set()
-        //userData.surveyExportParticipants = Set()
-        
-        // start the process that will upload multimedia to the server
-        resumeUploading()
     }
     
-    func resumeUploading() {
+    func resumeUploading(userData: UserData) {
         self.isExportingNow = true
         backgroundTask = UIApplication.shared.beginBackgroundTask(withName: "Uploading survey photos") { [weak self] in
             self?.pauseUploading()
@@ -88,10 +98,14 @@ final class ExportManager: UIViewController, ObservableObject {
                 guard self.isExportingNow else { return }
                 if let multimedia = self.multimediaToExport.first {
                     self.exportMultimedia(session: session, multimedia: multimedia)
-                    usleep(2500000) // sleep 2.5 sec to make sure we do not ddos the server
                     self.verifyAndRemoveMultimedia(session: session, multimedia: multimedia)
+                    usleep(2000000) // sleep 2.5 sec to make sure we do not ddos the server
                 } else {
-                    // finish exporting because there is no more multimedia to export in the database
+                    // finish exporting because there is no more multimedia to export
+                    self.pauseUploading()
+                    DispatchQueue.main.async {
+                        userData.alertItem = AlertItem(title: Text("Success"), message: Text("The survey has been exported to the database successfully."), dismissButton: .default(Text("Ok, that's great!")))
+                    }
                     break
                 }
             }
@@ -110,15 +124,16 @@ final class ExportManager: UIViewController, ObservableObject {
         backgroundTask = .invalid
     }
 
-    func exportToggle() {
+    func exportToggle(userData: UserData) {
         if !self.isExportingNow {
-            resumeUploading()
+            resumeUploading(userData: userData)
         } else {
             pauseUploading()
         }
     }
     
-    func exportSurvey(survey: Survey) {
+    func exportSurvey(survey: Survey, completionBlock: @escaping (String?) -> Void) -> Void {
+        let sem = DispatchSemaphore.init(value: 0)
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
         let jsonData: Data
@@ -132,31 +147,35 @@ final class ExportManager: UIViewController, ObservableObject {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             request.httpBody = jsonData
+            //request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
             URLSession.shared.dataTask(with: request) { data, response, error in
+                defer { sem.signal() }
                 guard let data = data, error == nil else {
-                    db.insert_log(message: "Server returned an error when exporting survey", status: "ERROR")
+                    completionBlock("Server returned an error when exporting survey");
                     return
                 }
                 let response: RestStatus
                 do {
                     response = try JSONDecoder().decode(RestStatus.self, from: data)
                 } catch {
-                    db.insert_log(message: "Server returned an error when exporting survey: could not convert data from JSON)", status: "ERROR")
+                    completionBlock("Server returned an error when exporting survey: could not convert data from JSON");
                     return
                 }
                 if response.status == "error" {
-                    db.insert_log(message: "Server returned an error when exporting survey: \(response.details ?? "")", status: "ERROR")
+                    completionBlock("Server returned an error when exporting survey: \(response.details ?? "")");
+                    return
                 } else {
-                    db.insert_log(message: "New survey \(survey.id) exported to the database.", status: "ERROR")
+                    completionBlock(nil);
                 }
             }.resume()
+            sem.wait()
         } else {
             db.insert_log(message: "Could not export the survey. Invalid export survey URL: \(serverEndpoint)\(surveyEndpoint)", status: "ERROR")
         }
-        resumeUploading()
     }
     
     func exportMultimedia(session: URLSession, multimedia: ObservationMultimedia) {
+        let sem = DispatchSemaphore.init(value: 0)
         let content = """
                         {
                             "survey_id": "\(multimedia.surveyId)",
@@ -172,6 +191,7 @@ final class ExportManager: UIViewController, ObservableObject {
             request.httpBody = content.data(using: .utf8)!
             
             session.dataTask(with: request) { data, response, error in
+                defer { sem.signal() }
                 guard let data = data, error == nil else {
                     db.insert_log(message: "Server returned an error when exporting multimedia", status: "ERROR")
                     return
@@ -187,12 +207,14 @@ final class ExportManager: UIViewController, ObservableObject {
                     db.insert_log(message: "Server returned an error when exporting survey: \(response.details ?? "")", status: "ERROR")
                 }
             }.resume()
+            sem.wait()
         } else {
             db.insert_log(message: "Could not export the multimedia. Invalid export multimedia URL: \(multimediaEndoint)", status: "ERROR")
         }
     }
     
     func verifyAndRemoveMultimedia(session: URLSession, multimedia: ObservationMultimedia) {
+        let sem = DispatchSemaphore.init(value: 0)
         let content = """
                         {
                             "survey_id": "\(multimedia.surveyId)",
@@ -209,6 +231,7 @@ final class ExportManager: UIViewController, ObservableObject {
             request.httpMethod = "POST"
             request.httpBody = content.data(using: .utf8)!
             session.dataTask(with: request) { data, response, error in
+                defer { sem.signal() }
                 guard let data = data, error == nil else {
                     db.insert_log(message: "Server returned an error when verifying exported multimedia (survey: \(surveyId), observation: \(observationId), taken at: \(takenAt)", status: "ERROR")
                     return
@@ -230,6 +253,7 @@ final class ExportManager: UIViewController, ObservableObject {
                     }
                 }
             }.resume()
+            sem.wait()
         } else {
             db.insert_log(message: "Could not verify that the multimedia was exported correctly. Invalid verify data URL: \(multimediaVerifyEndoint)", status: "ERROR")
         }

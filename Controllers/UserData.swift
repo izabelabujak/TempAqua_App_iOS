@@ -8,19 +8,25 @@ final class UserData: UIViewController, CLLocationManagerDelegate, ObservableObj
     @Published var displaySurveys = Set<Survey>()
     @Published var catchments: [Catchment] = []
     @Published var displayCatchments = Set<Catchment>()
+    @Published var employees: [Employee] = []
     
     // observations
     @Published var observations = db.read()
-    @Published var selection = 1
+    @Published var selection = 3
     @Published var isExportView = false
     
     // data to export
     @Published var catchment: Catchment? = nil
     @Published var surveyExportObservations = Set<Observation>()
-    @Published var surveyExportParticipants = Set<Participant>()
+    @Published var surveyExportEmployees = Set<Employee>()
     
     // authenticated user
     @Published var authenticationCredentials: AuthenticationCredential?
+    
+    //
+    @Published var alertItem : AlertItem?
+    @Published var renderMapStreams = true
+    @Published var renderMapObservations = true
 
     func surveyDuration() -> String {
         let observations = Array(self.surveyExportObservations)

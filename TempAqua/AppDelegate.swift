@@ -12,14 +12,6 @@ var geolocation_accuracy = 0.0
 var geolocationAltitude: Int? = nil
 var geolocationCourse: Int? = nil
 var arcgisGeometry: [ArcgisGeometry] = []
-var employees: [Participant] = [Participant(id: 0, name: "Other"),
-                                Participant(id: 1, name: "Izabela Bujak", isSelected: true),
-                                Participant(id: 2, name: "Barbara Strobl"),
-                                Participant(id: 3, name: "Jana von Freyberg"),
-                                Participant(id: 4, name: "Joshua"),
-                                Participant(id: 5, name: "Nina")]
-var renderMapStreams = true
-var renderMapObservations = true
 var serverEndpoint = "";
 
 @UIApplicationMain

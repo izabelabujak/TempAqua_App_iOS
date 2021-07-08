@@ -15,6 +15,7 @@ struct MappingObservation: View {
     @State var latitude: String = ""
     @State var longitude: String = ""
     @State var accuracy: String = ""
+    @State var gpsDevice: String = "iPhone"
     @State var direction: String?
     @State var elevation: String?
     @State var marker: ObservationMarker = .red
@@ -55,6 +56,7 @@ struct MappingObservation: View {
         self._latitude = State(initialValue: String(observation.latitude))
         self._longitude = State(initialValue: String(observation.longitude))
         self._accuracy = State(initialValue: String(observation.accuracy))
+        self._gpsDevice = State(initialValue: String(observation.gpsDevice))
         if let unwrapped = observation.direction {
             self._direction = State(initialValue: String(unwrapped))
         }
@@ -75,7 +77,7 @@ struct MappingObservation: View {
         self._observationMultimedia = State(initialValue: observation.multimedia)
         self._parent = State(initialValue: observation.parent)
         var from: Set<Observation> = Set()
-        for (_i, o) in userData.observations.enumerated() {
+        for (_, o) in userData.observations.enumerated() {
             if let parent = observation.parent {
                 if o.id == parent {
                     self._observationTo = State(initialValue: o)
@@ -93,7 +95,7 @@ struct MappingObservation: View {
     func findNearCatchmentLocations(userData: UserData) -> [NearCatchmentLocation] {
         let geo = geolocation
         var heap : Set<NearCatchmentLocation> = Set()
-        for (catchment) in userData.catchments {
+        for (catchment) in userData.displayCatchments {
             for (location) in catchment.locations {
                 let anchorPointId = "\(catchment.id)@\(location.id)";
                 let parent = location.parent
@@ -133,6 +135,7 @@ struct MappingObservation: View {
                             } else {
                                 longitudeColor = Color.black
                             }
+                            self.gpsDevice = "Garmin"
                         }.font(.system(size: 30)).foregroundColor(self.longitudeColor).keyboardType(.numberPad)
                             
                     }
@@ -146,6 +149,7 @@ struct MappingObservation: View {
                             } else {
                                 latitudeColor = Color.black
                             }
+                            self.gpsDevice = "Garmin"
                         }.font(.system(size: 30)).foregroundColor(self.latitudeColor).keyboardType(.numberPad)
                     }
                 }
@@ -197,19 +201,18 @@ struct MappingObservation: View {
                                                     }
                                                 }
                                                 // check if there is our child observation
-                                                var childAnchorPoint: String? = nil
-                                                for catchment in userData.catchments {
+                                                var childAnchorPoints: [String] = []
+                                                for catchment in userData.displayCatchments {
                                                     if catchment.id != c.catchmentId {
                                                         continue
                                                     }
                                                     for location in catchment.locations {
                                                         if location.parent == c.locationId {
-                                                            childAnchorPoint = "\(catchment.id)@\(location.id)"
-                                                            break
+                                                            childAnchorPoints.append("\(catchment.id)@\(location.id)")
                                                         }
                                                     }
                                                 }
-                                                if childAnchorPoint != nil {
+                                                for childAnchorPoint in childAnchorPoints {
                                                     for observation in userData.observations {
                                                         if observation.anchorPoint == childAnchorPoint {
                                                             self.observationFrom.insert(observation)
@@ -363,12 +366,6 @@ struct MappingObservation: View {
             .gesture(DragGesture().onChanged{_ in UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)})
             .navigationBarTitle(Text("Observation \(getTimeHourMinutesFormatter().string(from: self.observedAt))"), displayMode: .inline)
             .navigationBarItems(
-                leading: Button(action: {
-                    self.userData.selection = 2
-                    self.presentationMode.wrappedValue.dismiss()
-                }, label: {
-                    Text("Cancel")
-                }),
                 trailing: Button(action: {
                 var index = -1
                 for (i, observation) in self.userData.observations.enumerated() {
@@ -392,7 +389,7 @@ struct MappingObservation: View {
                 // hack to convert from comma separated decimal format to the dot notation.
                 self.userData.observations[index].waterLevel = Double((self.waterLevel ?? "").replacingOccurrences(of: ",", with: ".")) ?? 0
                 self.userData.observations[index].discharge = Double((self.discharge ?? "").replacingOccurrences(of: ",", with: ".")) ?? 0
-                self.userData.observations[index].gpsDevice = "Garmin"
+                self.userData.observations[index].gpsDevice = self.gpsDevice
                 self.userData.observations[index].multimedia = self.observationMultimedia
                 if let obs = self.observationTo {
                     self.userData.observations[index].parent = obs.id
@@ -454,6 +451,7 @@ struct MappingObservation: View {
                 self.direction = nil
                 self.elevation = nil
                 self.waterLevel = nil
+                self.gpsDevice = "iPhone"
                 self.discharge = nil
                 self.anchorPoint = nil
                 self.marker = ObservationMarker.red
@@ -463,7 +461,7 @@ struct MappingObservation: View {
                 self.observationTo = nil
 
                 self.userData.selection = 1
-                renderMapObservations = true
+                self.userData.renderMapObservations = true
             }, label: {
                 Text("Save")
             }).disabled(self.latitude.isEmpty || self.longitude.isEmpty)
@@ -484,6 +482,7 @@ struct MappingObservation: View {
         }
         self.observedAt = Date()
         self.nearCatchmentLocations = self.findNearCatchmentLocations(userData: self.userData)
+        self.gpsDevice = "iPhone"
     }
 }
 

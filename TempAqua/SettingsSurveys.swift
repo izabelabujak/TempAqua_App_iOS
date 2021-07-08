@@ -20,7 +20,7 @@ struct SettingsSurveys: View {
                         Spacer()
                         Button(action: {
                             self.importManager.fetchSurvey(userData: self.userData, survey_id: survey.id)
-                            renderMapStreams = true
+                            self.userData.renderMapStreams = true
                         }, label: {
                             Image(systemName: "icloud.and.arrow.down")
                         })
@@ -29,14 +29,14 @@ struct SettingsSurveys: View {
                         if self.userData.displaySurveys.contains(survey) {
                             Button(action: {
                                 self.userData.displaySurveys.remove(survey)
-                                renderMapStreams = true
+                                self.userData.renderMapStreams = true
                             }) {
                                 Image(systemName: "eye")
                             }
                         } else {
                             Button(action: {
                                 self.userData.displaySurveys.insert(survey)
-                                renderMapStreams = true
+                                self.userData.renderMapStreams = true
                             }) {
                                 Image(systemName: "eye.slash")
                             }
@@ -46,11 +46,5 @@ struct SettingsSurveys: View {
             }
         }
         .navigationBarTitle("Display surveys", displayMode: .inline)
-    }
-}
-
-struct SettingsSurveys_Previews: PreviewProvider {
-    static var previews: some View {
-        Settings()
     }
 }

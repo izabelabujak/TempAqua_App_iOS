@@ -2,8 +2,6 @@
 //  CapturePhoto.swift
 //  TempAqua
 //
-//  Created by Wojciech Ozga   on 27.07.20.
-//
 
 import Foundation
 import Foundation

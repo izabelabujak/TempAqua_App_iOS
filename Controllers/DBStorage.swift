@@ -98,6 +98,14 @@ auth
 );
 """
 
+let CREATE_EMPLOYEE_TABLE_SQL = """
+CREATE TABLE IF NOT EXISTS
+employee
+(id TEXT PRIMARY KEY,
+ name TEXT
+);
+"""
+
 
 class DBStorage {
     init() {
@@ -109,9 +117,10 @@ class DBStorage {
         createTable(sql: CREATE_SURVEY_OBSERATION_MULTIMEDIA_TABLE_SQL)
         createTable(sql: CREATE_MEDIA_TO_EXPORT_TABLE_SQL)
         createTable(sql: CREATE_AUTH_TABLE_SQL)
+        createTable(sql: CREATE_EMPLOYEE_TABLE_SQL)
     }
 
-    let dbPath: String = "tempaqua32.sqlite"
+    let dbPath: String = "tempaqua43.sqlite"
     var db:OpaquePointer?
 
     func openDatabase() -> OpaquePointer? {
@@ -143,6 +152,54 @@ class DBStorage {
     
     func read() -> [Observation] {
         return read_survey_observations(surveyId: "0")
+    }
+        
+    func insert_employee(employee: Employee) {
+        let sql = "INSERT INTO employee (id, name) VALUES (?, ?);"
+        var statement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, sql, -1, &statement, nil) == SQLITE_OK {
+            bind_int(queryStatement: statement, index: 1, value: employee.id)
+            bind_string(queryStatement: statement, index: 2, value: employee.name)
+            if sqlite3_step(statement) != SQLITE_DONE {
+                let errorMessage = String(cString: sqlite3_errmsg(db))
+                Logger().error("Could not insert employee row: \(errorMessage)")
+            }
+        } else {
+            let errorMessage = String(cString: sqlite3_errmsg(db))
+            Logger().error("Insert survey statement could not be prepared. \(errorMessage)")
+        }
+        sqlite3_finalize(statement)
+    }
+    
+    func read_employees() -> [Employee] {
+        let queryStatementString = "SELECT * FROM employee ORDER BY id;"
+        var queryStatement: OpaquePointer? = nil
+        var employees: [Employee] = []
+        if sqlite3_prepare_v2(db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
+            while sqlite3_step(queryStatement) == SQLITE_ROW {
+                let id = read_int(queryStatement: queryStatement, index: 0)
+                let name = read_string(queryStatement: queryStatement, index: 1)
+                let employee = Employee(id: id, name: name)
+                employees.append(employee)
+            }
+        } else {
+            print("SELECT statement could not be prepared")
+        }
+        sqlite3_finalize(queryStatement)
+        return employees
+    }
+    
+    func removeEmployees() {
+        let deleteStatementString = "DELETE FROM employee"
+        var statement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, deleteStatementString, -1, &statement, nil) == SQLITE_OK {
+            if sqlite3_step(statement) != SQLITE_DONE {
+                print("Could not delete row.")
+            }
+        } else {
+            print("DELETE statement could not be prepared")
+        }
+        sqlite3_finalize(statement)
     }
     
     func insert_survey(survey: Survey) {
@@ -438,7 +495,7 @@ class DBStorage {
                 let createdAt = ISO8601DateFormatter().date(from: String(cString: sqlite3_column_text(queryStatement, 1)))!
                 let catchmentId = String(cString: sqlite3_column_text(queryStatement, 2))
                 let observations = read_survey_observations(surveyId: surveyId)
-                let survey = Survey(id: surveyId, createdAt: createdAt, catchmentId: catchmentId, participants: nil, observations: observations)
+                let survey = Survey(id: surveyId, createdAt: createdAt, catchmentId: catchmentId, employees: nil, observations: observations)
                 surveys.append(survey)
             }
         } else {
@@ -446,6 +503,21 @@ class DBStorage {
         }
         sqlite3_finalize(queryStatement)
         return surveys
+    }
+    
+    func remove_surveys() {
+        let deleteStatementString = "DELETE FROM survey;"
+        var deleteStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, deleteStatementString, -1, &deleteStatement, nil) == SQLITE_OK {
+            if sqlite3_step(deleteStatement) == SQLITE_DONE {
+//                print("Successfully deleted row.")
+            } else {
+                print("Could not delete row.")
+            }
+        } else {
+            print("DELETE statement could not be prepared")
+        }
+        sqlite3_finalize(deleteStatement)
     }
     
     func remove_catchments() {
@@ -748,6 +820,15 @@ class DBStorage {
     func bind_int(queryStatement: OpaquePointer?, index: Int, value: Int) {
         sqlite3_bind_int(queryStatement, Int32(index), Int32(value))
     }
+
+    func read_string(queryStatement: OpaquePointer?, index: Int) -> String {
+        return String(describing: String(cString: sqlite3_column_text(queryStatement, Int32(index))))
+    }
+    
+    func read_int(queryStatement: OpaquePointer?, index: Int) -> Int {
+        return Int(sqlite3_column_int(queryStatement, Int32(index)))
+    }
+    
     
     func read_string_or_null(queryStatement: OpaquePointer?, index: Int) -> String? {
         var value: String? = nil

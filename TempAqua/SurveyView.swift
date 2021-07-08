@@ -60,6 +60,6 @@ struct SurveyView: View {
             db.deleteById(id: id)
         }
         userData.observations.remove(atOffsets: offsets)
-        renderMapObservations = true
+        self.userData.renderMapObservations = true
     }
 }

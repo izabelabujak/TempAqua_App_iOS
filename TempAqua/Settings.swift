@@ -52,12 +52,19 @@ struct Settings: View {
                             Alert(title: Text("Are you sure you want to remove all data?"),
                                   message: Text("Just make sure you have exported the current survey. The rest can be synced from the server."),
                                   primaryButton: .destructive(Text("Delete")) {
-                                        // TODO
-                                        // db.deleteNewSurvey()
-                                        // self.userData.observations = []
-                                        //  self.userData.surveyExportObservations = Set()
-                                        //  self.userData.surveyExportParticipants = Set()
-                                        // TODO: remove catchments and surveys
+                                        db.deleteNewSurvey()
+                                        self.userData.observations = []
+                                        self.userData.surveyExportObservations = Set()
+                                        self.userData.surveyExportEmployees = Set()
+                                        db.remove_catchments()
+                                        userData.catchments = []
+                                        userData.displayCatchments = []
+                                        db.remove_surveys()
+                                        userData.surveys = []
+                                        userData.displaySurveys = []
+                                        db.removeAllMultimediaToExport()
+                                        self.exportManager.multimediaToExport = Set()
+                                        userData.renderMapObservations = true
                                   }, secondaryButton: .cancel())
                     }
                 }
@@ -80,5 +87,6 @@ struct Settings: View {
                     Image(systemName: "arrow.clockwise")
                 }))
         }
+        
     }
 }

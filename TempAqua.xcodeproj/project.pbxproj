@@ -19,6 +19,8 @@
 		B3CC625324CEC20A00ABEA7F /* ArcgisBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CC625224CEC20A00ABEA7F /* ArcgisBorder.swift */; };
 		B3CC625524CED32400ABEA7F /* CapturePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CC625424CED32400ABEA7F /* CapturePhoto.swift */; };
 		B3F026DC2516833800F30A2A /* SurveyExportObservations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F026DB2516833800F30A2A /* SurveyExportObservations.swift */; };
+		B3FDF63C26976E710095A0DC /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FDF63B26976E710095A0DC /* Alert.swift */; };
+		B3FDF63E26978E1A0095A0DC /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FDF63D26978E1A0095A0DC /* Employee.swift */; };
 		C224968824978B95009239B3 /* SurveyExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224968724978B95009239B3 /* SurveyExport.swift */; };
 		C224968C2497988A009239B3 /* MultipleSelectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224968B2497988A009239B3 /* MultipleSelectionRow.swift */; };
 		C224968E24979FF3009239B3 /* SurveyExportParticipants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224968D24979FF3009239B3 /* SurveyExportParticipants.swift */; };
@@ -82,6 +84,8 @@
 		B3CC625224CEC20A00ABEA7F /* ArcgisBorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcgisBorder.swift; sourceTree = "<group>"; };
 		B3CC625424CED32400ABEA7F /* CapturePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturePhoto.swift; sourceTree = "<group>"; };
 		B3F026DB2516833800F30A2A /* SurveyExportObservations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyExportObservations.swift; sourceTree = "<group>"; };
+		B3FDF63B26976E710095A0DC /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		B3FDF63D26978E1A0095A0DC /* Employee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
 		C224968724978B95009239B3 /* SurveyExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyExport.swift; sourceTree = "<group>"; };
 		C224968B2497988A009239B3 /* MultipleSelectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionRow.swift; sourceTree = "<group>"; };
 		C224968D24979FF3009239B3 /* SurveyExportParticipants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyExportParticipants.swift; sourceTree = "<group>"; };
@@ -242,6 +246,7 @@
 				B39920C224C0D24F00153AEF /* Catchment.swift */,
 				B34505112690D98D00FA6898 /* AuthenticationCredentials.swift */,
 				B34505192691088800FA6898 /* LogEntry.swift */,
+				B3FDF63D26978E1A0095A0DC /* Employee.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -260,6 +265,7 @@
 				C2691EC9249644D900E9FC3A /* GPSConverer.swift */,
 				C224968B2497988A009239B3 /* MultipleSelectionRow.swift */,
 				C22496912497F653009239B3 /* DateFormatter.swift */,
+				B3FDF63B26976E710095A0DC /* Alert.swift */,
 			);
 			path = SupportingViews;
 			sourceTree = "<group>";
@@ -431,6 +437,7 @@
 				C2691E7C24954D8500E9FC3A /* Observation.swift in Sources */,
 				C2691E8424956DFC00E9FC3A /* MainPage.swift in Sources */,
 				C224968824978B95009239B3 /* SurveyExport.swift in Sources */,
+				B3FDF63C26976E710095A0DC /* Alert.swift in Sources */,
 				C2BF414C249B88FD00706DFD /* ObservationMarker.swift in Sources */,
 				C2691E7E24954E9600E9FC3A /* MappingObservation.swift in Sources */,
 				B345051A2691088800FA6898 /* LogEntry.swift in Sources */,
@@ -445,6 +452,7 @@
 				C2691E36249536C200E9FC3A /* SurveyView.swift in Sources */,
 				C2BF414A249B88D700706DFD /* ObservationMultimedia.swift in Sources */,
 				B39920C124C0CD8200153AEF /* Settings.swift in Sources */,
+				B3FDF63E26978E1A0095A0DC /* Employee.swift in Sources */,
 				B3450518269107E000FA6898 /* SettingsLogs.swift in Sources */,
 				C2BF413924992C0800706DFD /* MappingObservationMultimedia.swift in Sources */,
 				C22496982498321B009239B3 /* SettingsSurveys.swift in Sources */,

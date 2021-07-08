@@ -9,8 +9,8 @@ struct SurveyExportParticipants: View {
     @EnvironmentObject var userData: UserData
     
     var body: some View {
-        List(employees, id: \.self, selection: $userData.surveyExportParticipants){ p in
-            Text(p.name)
+        List(userData.employees, id: \.self, selection: $userData.surveyExportEmployees){ employee in
+            Text(employee.name)
         }.environment(\.editMode, .constant(EditMode.active))
     }
 }

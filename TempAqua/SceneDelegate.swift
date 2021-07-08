@@ -20,7 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         userData.authenticationCredentials = db.read_auth()
         if let authenticationCredentials = userData.authenticationCredentials {
             serverEndpoint = authenticationCredentials.url
+            userData.selection = 1
         }
+        userData.employees = db.read_employees()
         // load previous surveys stored in the database
         var surveys = db.read_surveys()
         // the survey with ID=0 is the current survey that should be modifiable
@@ -40,9 +42,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         display_catchments(userData: userData)
         
         //load photos that still have to be uploaded to the remote server
-        let exportManager = ExportManager()
+        let exportManager = ExportManager()        
         let multimedia = db.read_media_to_export()        
         exportManager.setMultimediaToExport(multimediaToExport: Set(multimedia))
+        
         
         // Create the SwiftUI view that provides the window contents.
         let rootView = MainPage()

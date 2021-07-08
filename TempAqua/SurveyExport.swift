@@ -6,12 +6,6 @@
 import SwiftUI
 import MessageUI
 
-struct Participant: Hashable, Codable, Identifiable, SelectableRow {
-    var id: Int
-    var name: String
-    var isSelected: Bool = false
-}
-
 struct SurveyExport: View {
     @EnvironmentObject var userData: UserData
     @EnvironmentObject var exportManager: ExportManager
@@ -53,7 +47,7 @@ struct SurveyExport: View {
                 NavigationLink(destination: SurveyExportParticipants()) {
                     Text("Participants: ")
                     Spacer()
-                    Text("\(self.userData.surveyExportParticipants.count)")
+                    Text("\(self.userData.surveyExportEmployees.count)")
                 }
                 if userData.surveyExportObservations.count > 2 {
                     HStack {
@@ -79,7 +73,7 @@ struct SurveyExport: View {
                         Text("Export")
                         Spacer()
                     }
-                }.disabled(userData.surveyExportObservations.isEmpty || userData.surveyExportParticipants.isEmpty || userData.catchment == nil)
+                }.disabled(userData.surveyExportObservations.isEmpty || userData.surveyExportEmployees.isEmpty || userData.catchment == nil)
             }
             .listStyle(PlainListStyle())
             .navigationBarTitle("Survey export")
@@ -100,7 +94,7 @@ struct SurveyExport: View {
                             db.deleteNewSurvey()
                             self.userData.observations = []
                             self.userData.surveyExportObservations = Set()
-                            self.userData.surveyExportParticipants = Set()
+                            self.userData.surveyExportEmployees = Set()
                             self.isPrepareExportView = false
                           }, secondaryButton: .cancel())
                 }

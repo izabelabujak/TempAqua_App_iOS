@@ -18,14 +18,14 @@ struct SettingsCatchments: View {
                         if self.userData.displayCatchments.contains(catchment) {
                             Button(action: {
                                 self.userData.displayCatchments.remove(catchment)
-                                renderMapStreams = true
+                                self.userData.renderMapStreams = true
                             }) {
                                 Image(systemName: "eye")
                             }
                         } else {
                             Button(action: {
                                 self.userData.displayCatchments.insert(catchment)
-                                renderMapStreams = true
+                                self.userData.renderMapStreams = true
                             }) {
                                 Image(systemName: "eye.slash")
                             }
@@ -38,8 +38,3 @@ struct SettingsCatchments: View {
     }
 }
 
-struct SettingsCatchments_Previews: PreviewProvider {
-    static var previews: some View {
-        Settings()
-    }
-}

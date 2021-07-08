@@ -6,61 +6,9 @@
 import SwiftUI
 import MapKit
 
-class MapPin: NSObject, MKAnnotation {
-    let observationId: String?
-    let title: String?
-    let locationName: String?
-    let markerTintColor: UIColor
-    let coordinate: CLLocationCoordinate2D
-    var old = false
-    var type: String
-
-    init(
-        observationId: String,
-        title: String?,
-        locationName: String?,
-        markerTintColor: UIColor,
-        coordinate: CLLocationCoordinate2D,
-        type: String
-    ) {
-        self.observationId = observationId
-        self.title = title
-        self.locationName = locationName
-        self.markerTintColor = markerTintColor
-        self.coordinate = coordinate
-        self.type = type
-
-        super.init()
-    }
-
-    var subtitle: String? {
-      return locationName
-    }
-}
-
-class MapPinMarkerView: MKMarkerAnnotationView {
-    override var annotation: MKAnnotation? {
-        willSet {
-            guard let artwork = newValue as? MapPin else {
-                return
-            }
-            canShowCallout = true
-            calloutOffset = CGPoint(x: 0, y: 0)
-            rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-            markerTintColor = artwork.markerTintColor
-            
-            if artwork.old {
-                glyphText = artwork.observationId ?? ""
-            } else {
-                glyphText = artwork.observationId ?? ""
-            }
-        }
-    }
-}
-
 struct SurveyMap: UIViewRepresentable {
-    var userData: UserData
-
+    @EnvironmentObject var userData: UserData
+    
     func makeUIView(context: Context) -> MKMapView {
         if userData.displayCatchments.count > 0 && arcgisGeometry.count == 0 {
             display_catchments(userData: userData)
@@ -89,7 +37,7 @@ struct SurveyMap: UIViewRepresentable {
     }
     
     func renderCatchments(uiView: MKMapView) {
-        if !renderMapStreams {
+        if !userData.renderMapStreams {
             // make sure not to render the map twice.
             // otherwise, when we change the tab (for example, we go to observations tab)
             // the map will be rendered again. this will cause delay and bad
@@ -139,11 +87,13 @@ struct SurveyMap: UIViewRepresentable {
         }
         uiView.showAnnotations(bbb, animated: false)
         
-        renderMapStreams = false // uiView.annotations.count != 0 && uiView.overlays.count != 0
+        DispatchQueue.main.async {
+            userData.renderMapStreams = false // uiView.annotations.count != 0 && uiView.overlays.count != 0
+        }
     }
     
     func renderObservations(uiView: MKMapView) {
-        if !renderMapObservations {
+        if !userData.renderMapObservations {
             // make sure not to render the map twice.
             // otherwise, when we change the tab (for example, we go to observations tab)
             // the map will be rendered again. this will cause delay and bad
@@ -183,8 +133,6 @@ struct SurveyMap: UIViewRepresentable {
         }
         uiView.showAnnotations(aaa, animated: false)
         
-        
-        
         // if in mapping mode then try to display reconstructed stream
         for observation in userData.observations {
             if let parent_id = observation.parent {
@@ -195,8 +143,9 @@ struct SurveyMap: UIViewRepresentable {
                 }
             }
         }
-        
-        renderMapObservations = false
+        DispatchQueue.main.async {
+            userData.renderMapObservations = false
+        }
     }
 
     func updateUIView(_ uiView: MKMapView, context: Context) {
@@ -259,5 +208,57 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         renderer.lineWidth = CGFloat(lw)
 
         return renderer
+    }
+}
+
+class MapPin: NSObject, MKAnnotation {
+    let observationId: String?
+    let title: String?
+    let locationName: String?
+    let markerTintColor: UIColor
+    let coordinate: CLLocationCoordinate2D
+    var old = false
+    var type: String
+
+    init(
+        observationId: String,
+        title: String?,
+        locationName: String?,
+        markerTintColor: UIColor,
+        coordinate: CLLocationCoordinate2D,
+        type: String
+    ) {
+        self.observationId = observationId
+        self.title = title
+        self.locationName = locationName
+        self.markerTintColor = markerTintColor
+        self.coordinate = coordinate
+        self.type = type
+
+        super.init()
+    }
+
+    var subtitle: String? {
+      return locationName
+    }
+}
+
+class MapPinMarkerView: MKMarkerAnnotationView {
+    override var annotation: MKAnnotation? {
+        willSet {
+            guard let artwork = newValue as? MapPin else {
+                return
+            }
+            canShowCallout = true
+            calloutOffset = CGPoint(x: 0, y: 0)
+            rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+            markerTintColor = artwork.markerTintColor
+            
+            if artwork.old {
+                glyphText = artwork.observationId ?? ""
+            } else {
+                glyphText = artwork.observationId ?? ""
+            }
+        }
     }
 }

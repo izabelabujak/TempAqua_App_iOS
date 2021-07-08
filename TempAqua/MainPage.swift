@@ -22,7 +22,7 @@ struct MainPage: View {
                     Image(systemName: "list.dash")
                     Text("Observations")
                 }.tag(1)
-            SurveyMap(userData: userData)
+            SurveyMap()
                 .tabItem {
                     Image(systemName: "map")
                     Text("Map")
@@ -40,6 +40,11 @@ struct MainPage: View {
                         Text("Login")
                     }.tag(3)
             }
+        }.alert(item: $userData.alertItem) { alertItem in
+            guard let primaryButton = alertItem.primaryButton, let secondaryButton = alertItem.secondaryButton else {
+                return Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
+            }
+            return Alert(title: alertItem.title, message: alertItem.message, primaryButton: primaryButton, secondaryButton: secondaryButton)
         }
     }
 }

@@ -11,6 +11,7 @@ import OSLog
 let getCatchmentsEndpoint = "/api/get_catchments.php"
 let getCatchmentsGeometryEndpoint = "/api/get_catchment_geometry.php"
 let getSurveysEndpoint = "/api/get_surveys.php"
+let getEmployeesEndpoint = "/api/get_employees.php"
 
 final class ImportManager: UIViewController, ObservableObject {
     func sync(userData: UserData) {
@@ -22,8 +23,8 @@ final class ImportManager: UIViewController, ObservableObject {
         usleep(2000000) // wait 2 sec
         // sync surveys
         self.fetchSurveys(userData: userData)
-        
-        renderMapStreams = true
+        self.fetchEmployees(userData: userData)
+        userData.renderMapStreams = true
     }
     
     func fetchSurvey(userData: UserData, survey_id: String) {
@@ -84,6 +85,31 @@ final class ImportManager: UIViewController, ObservableObject {
                     }
                 }
                 userData.surveys = surveys
+            }
+        })
+        task.resume()
+    }
+    
+    func fetchEmployees(userData: UserData) {
+        var request = URLRequest(url: URL(string: "\(serverEndpoint)\(getEmployeesEndpoint)")!)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let session = URLSession.shared
+        let task = session.dataTask(with: request, completionHandler: { data, response, error -> Void in
+            var employees: [Employee]
+            do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                employees = try decoder.decode([Employee].self, from: data!)
+            } catch {
+                print("Couldn't parse \(error)")
+                return
+            }
+            DispatchQueue.main.async {
+                for employee in employees {
+                    db.insert_employee(employee: employee)
+                }
+                userData.employees = employees
             }
         })
         task.resume()
