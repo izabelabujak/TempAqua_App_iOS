@@ -54,7 +54,7 @@ struct Settings: View {
                                   primaryButton: .destructive(Text("Delete")) {
                                         db.deleteNewSurvey()
                                         self.userData.observations = []
-                                        self.userData.surveyExportObservations = Set()
+                                        self.userData.surveyExportObservations = []
                                         self.userData.surveyExportEmployees = Set()
                                         db.remove_catchments()
                                         userData.catchments = []

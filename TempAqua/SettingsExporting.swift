@@ -48,21 +48,21 @@ struct SettingsExporting: View {
             }
         }.frame(maxHeight: .infinity)
         .navigationBarTitle("Exporting Observations", displayMode: .inline)
-//        .navigationBarItems(
-//            trailing: Button(action: {
-//                self.showingAlert = true
-//            }, label: {
-//                Text("Remove").foregroundColor(.red)
-//            }).alert(isPresented: $showingAlert) {
-//                Alert(title: Text("Are you sure you want to remove all multimedia queued for export?"),
-//                      message: Text("There is no undo. I hope you know what you are doing."),
-//                      primaryButton: .destructive(Text("Delete")) {
-//                        db.removeAllMultimediaToExport()
-//                        self.exportManager.multimediaToExport = Set()
-//                        self.presentationMode.wrappedValue.dismiss()
-//                      }, secondaryButton: .cancel())
-//            }
-//        )        
+        .navigationBarItems(
+            trailing: Button(action: {
+                self.showingAlert = true
+            }, label: {
+                Text("Remove").foregroundColor(.red)
+            }).alert(isPresented: $showingAlert) {
+                Alert(title: Text("Are you sure you want to remove all multimedia queued for export?"),
+                      message: Text("There is no undo. I hope you know what you are doing."),
+                      primaryButton: .destructive(Text("Delete")) {
+                            db.removeAllMultimediaToExport()
+                            self.exportManager.multimediaToExport = Set()
+                            self.presentationMode.wrappedValue.dismiss()
+                      }, secondaryButton: .cancel())
+            }
+        )
     }
 }
 

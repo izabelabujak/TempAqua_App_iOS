@@ -18,12 +18,10 @@
 		B39920C524C0D59E00153AEF /* SettingsCatchments.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39920C424C0D59E00153AEF /* SettingsCatchments.swift */; };
 		B3CC625324CEC20A00ABEA7F /* ArcgisBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CC625224CEC20A00ABEA7F /* ArcgisBorder.swift */; };
 		B3CC625524CED32400ABEA7F /* CapturePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CC625424CED32400ABEA7F /* CapturePhoto.swift */; };
-		B3F026DC2516833800F30A2A /* SurveyExportObservations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F026DB2516833800F30A2A /* SurveyExportObservations.swift */; };
 		B3FDF63C26976E710095A0DC /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FDF63B26976E710095A0DC /* Alert.swift */; };
 		B3FDF63E26978E1A0095A0DC /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FDF63D26978E1A0095A0DC /* Employee.swift */; };
-		C224968824978B95009239B3 /* SurveyExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224968724978B95009239B3 /* SurveyExport.swift */; };
+		C224968824978B95009239B3 /* SurveyViewExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224968724978B95009239B3 /* SurveyViewExport.swift */; };
 		C224968C2497988A009239B3 /* MultipleSelectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224968B2497988A009239B3 /* MultipleSelectionRow.swift */; };
-		C224968E24979FF3009239B3 /* SurveyExportParticipants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224968D24979FF3009239B3 /* SurveyExportParticipants.swift */; };
 		C22496902497A921009239B3 /* Survey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224968F2497A921009239B3 /* Survey.swift */; };
 		C22496922497F653009239B3 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22496912497F653009239B3 /* DateFormatter.swift */; };
 		C22496982498321B009239B3 /* SettingsSurveys.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22496972498321B009239B3 /* SettingsSurveys.swift */; };
@@ -34,7 +32,6 @@
 		C2691DE52494C7F400E9FC3A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2691DE32494C7F400E9FC3A /* LaunchScreen.storyboard */; };
 		C2691DF02494C7F400E9FC3A /* TempAquaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691DEF2494C7F400E9FC3A /* TempAquaTests.swift */; };
 		C2691DFB2494C7F400E9FC3A /* TempAquaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691DFA2494C7F400E9FC3A /* TempAquaUITests.swift */; };
-		C2691E13249530A000E9FC3A /* SurveyViewObservationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691E12249530A000E9FC3A /* SurveyViewObservationRow.swift */; };
 		C2691E36249536C200E9FC3A /* SurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691E35249536C200E9FC3A /* SurveyView.swift */; };
 		C2691E43249543FB00E9FC3A /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691E40249543FA00E9FC3A /* UserData.swift */; };
 		C2691E7C24954D8500E9FC3A /* Observation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2691E7B24954D8400E9FC3A /* Observation.swift */; };
@@ -83,12 +80,10 @@
 		B39920C424C0D59E00153AEF /* SettingsCatchments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCatchments.swift; sourceTree = "<group>"; };
 		B3CC625224CEC20A00ABEA7F /* ArcgisBorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcgisBorder.swift; sourceTree = "<group>"; };
 		B3CC625424CED32400ABEA7F /* CapturePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturePhoto.swift; sourceTree = "<group>"; };
-		B3F026DB2516833800F30A2A /* SurveyExportObservations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyExportObservations.swift; sourceTree = "<group>"; };
 		B3FDF63B26976E710095A0DC /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		B3FDF63D26978E1A0095A0DC /* Employee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
-		C224968724978B95009239B3 /* SurveyExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyExport.swift; sourceTree = "<group>"; };
+		C224968724978B95009239B3 /* SurveyViewExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyViewExport.swift; sourceTree = "<group>"; };
 		C224968B2497988A009239B3 /* MultipleSelectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionRow.swift; sourceTree = "<group>"; };
-		C224968D24979FF3009239B3 /* SurveyExportParticipants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyExportParticipants.swift; sourceTree = "<group>"; };
 		C224968F2497A921009239B3 /* Survey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Survey.swift; sourceTree = "<group>"; };
 		C22496912497F653009239B3 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		C22496972498321B009239B3 /* SettingsSurveys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSurveys.swift; sourceTree = "<group>"; };
@@ -105,7 +100,6 @@
 		C2691DF62494C7F400E9FC3A /* TempAquaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TempAquaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2691DFA2494C7F400E9FC3A /* TempAquaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempAquaUITests.swift; sourceTree = "<group>"; };
 		C2691DFC2494C7F400E9FC3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C2691E12249530A000E9FC3A /* SurveyViewObservationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyViewObservationRow.swift; sourceTree = "<group>"; };
 		C2691E35249536C200E9FC3A /* SurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyView.swift; sourceTree = "<group>"; };
 		C2691E40249543FA00E9FC3A /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		C2691E7B24954D8400E9FC3A /* Observation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observation.swift; sourceTree = "<group>"; };
@@ -190,18 +184,15 @@
 				B3CC625424CED32400ABEA7F /* CapturePhoto.swift */,
 				C2691E8324956DFC00E9FC3A /* MainPage.swift */,
 				C2691E35249536C200E9FC3A /* SurveyView.swift */,
-				C2691E12249530A000E9FC3A /* SurveyViewObservationRow.swift */,
-				C224968724978B95009239B3 /* SurveyExport.swift */,
-				B3F026DB2516833800F30A2A /* SurveyExportObservations.swift */,
-				C224968D24979FF3009239B3 /* SurveyExportParticipants.swift */,
+				C224968724978B95009239B3 /* SurveyViewExport.swift */,
 				B39920C024C0CD8200153AEF /* Settings.swift */,
 				C22496972498321B009239B3 /* SettingsSurveys.swift */,
 				B39920C424C0D59E00153AEF /* SettingsCatchments.swift */,
 				B34505152690F46100FA6898 /* SettingsExporting.swift */,
 				C2691EC12495769F00E9FC3A /* SurveyMap.swift */,
-				C2691DE02494C7F400E9FC3A /* Preview Content */,
-				B34505132690DAB700FA6898 /* Login.swift */,
 				B3450517269107E000FA6898 /* SettingsLogs.swift */,
+				B34505132690DAB700FA6898 /* Login.swift */,
+				C2691DE02494C7F400E9FC3A /* Preview Content */,
 			);
 			path = TempAqua;
 			sourceTree = "<group>";
@@ -430,13 +421,12 @@
 				C22496902497A921009239B3 /* Survey.swift in Sources */,
 				B3117B8924C9E94300884F92 /* Mapping.swift in Sources */,
 				C2BF41372498EC9C00706DFD /* Hacking.swift in Sources */,
-				C224968E24979FF3009239B3 /* SurveyExportParticipants.swift in Sources */,
 				B34505142690DAB700FA6898 /* Login.swift in Sources */,
 				C2BF414F249B8D9200706DFD /* RestStatus.swift in Sources */,
 				C2691DDB2494C7F000E9FC3A /* SceneDelegate.swift in Sources */,
 				C2691E7C24954D8500E9FC3A /* Observation.swift in Sources */,
 				C2691E8424956DFC00E9FC3A /* MainPage.swift in Sources */,
-				C224968824978B95009239B3 /* SurveyExport.swift in Sources */,
+				C224968824978B95009239B3 /* SurveyViewExport.swift in Sources */,
 				B3FDF63C26976E710095A0DC /* Alert.swift in Sources */,
 				C2BF414C249B88FD00706DFD /* ObservationMarker.swift in Sources */,
 				C2691E7E24954E9600E9FC3A /* MappingObservation.swift in Sources */,
@@ -446,7 +436,6 @@
 				C2691E43249543FB00E9FC3A /* UserData.swift in Sources */,
 				B3CC625524CED32400ABEA7F /* CapturePhoto.swift in Sources */,
 				C2691ECE2496A6A000E9FC3A /* ArcgisStreams.swift in Sources */,
-				B3F026DC2516833800F30A2A /* SurveyExportObservations.swift in Sources */,
 				C2691ECA249644D900E9FC3A /* GPSConverer.swift in Sources */,
 				C2BF4142249B603100706DFD /* ExportManager.swift in Sources */,
 				C2691E36249536C200E9FC3A /* SurveyView.swift in Sources */,
@@ -458,7 +447,6 @@
 				C22496982498321B009239B3 /* SettingsSurveys.swift in Sources */,
 				C2BF4148249B88C400706DFD /* ObservationCategory.swift in Sources */,
 				C224968C2497988A009239B3 /* MultipleSelectionRow.swift in Sources */,
-				C2691E13249530A000E9FC3A /* SurveyViewObservationRow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -556,7 +544,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -611,7 +599,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = NO;

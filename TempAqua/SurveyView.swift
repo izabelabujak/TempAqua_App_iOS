@@ -50,14 +50,13 @@ struct SurveyView: View {
                     Text("Export")
                 }).disabled(userData.observations.isEmpty || userData.authenticationCredentials == nil))
         }.sheet(isPresented: $isPrepareExportView) {
-            SurveyExport(isPrepareExportView: self.$isPrepareExportView).environmentObject(self.userData).environmentObject(self.exportManager)
+            SurveyViewExport(isPrepareExportView: self.$isPrepareExportView).environmentObject(self.userData).environmentObject(self.exportManager)
         }
     }
     
     func delete(at offsets: IndexSet) {
         offsets.forEach { (i) in
-            let id = userData.observations[i].id
-            db.deleteById(id: id)
+            db.deleteObservation(observation: userData.observations[i])
         }
         userData.observations.remove(atOffsets: offsets)
         self.userData.renderMapObservations = true

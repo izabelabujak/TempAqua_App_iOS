@@ -18,8 +18,6 @@ final class ExportManager: UIViewController, ObservableObject {
     var backgroundTask: UIBackgroundTaskIdentifier = .invalid
     @Published var transferredInMb = 0.0
     @Published var toTransferInMb = 0.0
-    @Published var surveyExportedSuccessfully = false
-    @Published var surveyExportedFinished = false
     
     func progress() -> Float {
         if self.toTransferInMb > 0 {
@@ -46,11 +44,10 @@ final class ExportManager: UIViewController, ObservableObject {
             self.toTransferInMb = 0
             self.transferredInMb = 0
         }
-        self.surveyExportedSuccessfully = false
         // at this moment we generate a unique ID for the survey
         let survey = Survey(catchment: userData.catchment!, employees: Array(userData.surveyExportEmployees), observations: Array(userData.surveyExportObservations))
         // first export the survey
-        exportSurvey(survey: survey) { (error) in
+        exportSurvey(survey: survey) { (survey, error) in
             if let error = error {
                 DispatchQueue.main.async {
                     userData.alertItem = AlertItem(title: Text("Error"), message: Text("There was an error when exporting the survey! Server responded: \(error)"), dismissButton: .default(Text("Ok, I will try later again")))
@@ -76,8 +73,14 @@ final class ExportManager: UIViewController, ObservableObject {
             }
             DispatchQueue.main.async {
                 self.multimediaToExport = self.multimediaToExport.union(newMultimediaToExport)
-                db.deleteNewSurvey()
-                userData.observations = []
+                // remove only observations that are stored now in the database.
+                // the other observation could not yet had be set for exporting
+                for o in survey.observations ?? [] {
+                    db.deleteObservation(observation: o)
+                    if let index = userData.observations.firstIndex(where: {$0.id == o.id && $0.observedAt == o.observedAt}) {
+                        userData.observations.remove(at: index)
+                    }
+                }
                 userData.surveyExportObservations = Set()
                 userData.surveyExportEmployees = Set()
                 userData.renderMapObservations = true
@@ -132,7 +135,7 @@ final class ExportManager: UIViewController, ObservableObject {
         }
     }
     
-    func exportSurvey(survey: Survey, completionBlock: @escaping (String?) -> Void) -> Void {
+    func exportSurvey(survey: Survey, completionBlock: @escaping (Survey, String?) -> Void) -> Void {
         let sem = DispatchSemaphore.init(value: 0)
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
@@ -140,7 +143,7 @@ final class ExportManager: UIViewController, ObservableObject {
         do {
             jsonData = try encoder.encode(survey)
         } catch {
-            db.insert_log(message: "Could not convert sruvey into JSON during exporting", status: "ERROR")
+            completionBlock(survey, "Could not convert survey into JSON during exporting");
             return
         }
         if let url = URL(string: "\(serverEndpoint)\(surveyEndpoint)") {
@@ -151,26 +154,27 @@ final class ExportManager: UIViewController, ObservableObject {
             URLSession.shared.dataTask(with: request) { data, response, error in
                 defer { sem.signal() }
                 guard let data = data, error == nil else {
-                    completionBlock("Server returned an error when exporting survey");
+                    completionBlock(survey, "Server returned an error when exporting survey");
                     return
                 }
                 let response: RestStatus
                 do {
                     response = try JSONDecoder().decode(RestStatus.self, from: data)
                 } catch {
-                    completionBlock("Server returned an error when exporting survey: could not convert data from JSON");
+                    completionBlock(survey, "Server returned an error when exporting survey: could not convert data from JSON");
                     return
                 }
                 if response.status == "error" {
-                    completionBlock("Server returned an error when exporting survey: \(response.details ?? "")");
+                    completionBlock(survey, "Server returned an error when exporting survey: \(response.details ?? "")");
                     return
                 } else {
-                    completionBlock(nil);
+                    completionBlock(survey, nil);
                 }
             }.resume()
             sem.wait()
         } else {
-            db.insert_log(message: "Could not export the survey. Invalid export survey URL: \(serverEndpoint)\(surveyEndpoint)", status: "ERROR")
+            completionBlock(survey, "Could not export the survey. Invalid export survey URL: \(serverEndpoint)\(surveyEndpoint)");
+            return
         }
     }
     
@@ -249,7 +253,9 @@ final class ExportManager: UIViewController, ObservableObject {
                     DispatchQueue.main.async {
                         self.transferredInMb += multimedia.sizeInMb()
                         db.removeFromMediaToExport(multimedia: multimedia)
-                        self.multimediaToExport = self.multimediaToExport.filter { $0.surveyId != multimedia.surveyId || $0.observationId != multimedia.observationId || $0.takenAt != multimedia.takenAt }
+                        if let index = self.multimediaToExport.firstIndex(where: {$0.surveyId == multimedia.surveyId && $0.observationId == multimedia.observationId && $0.takenAt == multimedia.takenAt}) {
+                            self.multimediaToExport.remove(at: index)
+                        }
                     }
                 }
             }.resume()

@@ -32,32 +32,50 @@ struct Login: View {
                     .textCase(.lowercase)
                     .padding()
                     .background(lightGreyColor)
-                    .cornerRadius(5.0)
+                    .cornerRadius(12)
                     .padding(.bottom, 10)
                 TextField("Username", text: $email)
                     .textCase(.lowercase)
                     .padding()
                     .background(lightGreyColor)
-                    .cornerRadius(5.0)
+                    .cornerRadius(12)
                     .padding(.bottom, 10)
                 SecureField("Password", text: $password)
                     .padding()
                     .background(lightGreyColor)
-                    .cornerRadius(5.0)
+                    .cornerRadius(12)
                     .padding(.bottom, 20)
                 
                 Button(action: {
-                    login()
+                    self.userData.showLoadingScreen = true
+                    login() { (host, error) in
+                        usleep(3000000) // wait
+                        if let _ = error {
+                            DispatchQueue.main.async {
+                                self.userData.showLoadingScreen = false
+                                userData.alertItem = AlertItem(title: Text("Error"), message: Text("Invalid email or password! Please try again."), dismissButton: .default(Text("Ok")))
+                            }
+                            return
+                        }
+                        DispatchQueue.main.async {
+                            self.userData.showLoadingScreen = false
+                            serverEndpoint = "https://\(host)"
+                            db.insert_auth(email: email, password: password, url: serverEndpoint)
+                            userData.authenticationCredentials = AuthenticationCredential(email: email, password: password, url: host)
+                            userData.selection = 0
+                            self.importManager.sync(userData: self.userData)
+                        }
+                    }
                 }) {
                     Text("Login")
                 }.alert(isPresented: $showingAlert) {
-                    Alert(title: Text("Authentication"), message: Text("Invalid email or password"), dismissButton: .default(Text("OK")))
+                    Alert(title: Text("Authentication"), message: Text("Invalid email or password"), dismissButton: .default(Text("Ok")))
                 }
             }.padding()
         }
     }
     
-    func login() {
+    func login(completionBlock: @escaping (String, String?) -> Void) {
         let json: [String: Any] = ["email": self.email, "password": self.password]
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         let host = url.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
@@ -67,47 +85,29 @@ struct Login: View {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             request.httpBody = jsonData
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in                
                 guard let data = data, error == nil else {
-                    self.showingAlert = true
+                    completionBlock(host, "Server returned an error when login");
                     return
                 }
-                let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-                if let responseJSON = responseJSON as? [String: Any] {
-                    if let status = responseJSON["status"] as? String {
-                        if status == "OK" {
-                            DispatchQueue.main.async {
-                                serverEndpoint = "https://\(host)"
-                                db.insert_auth(email: email, password: password, url: serverEndpoint)
-                                userData.authenticationCredentials = AuthenticationCredential(email: email, password: password, url: host)
-                                userData.selection = 0
-                                self.importManager.sync(userData: self.userData)                                
-                            }
-                        } else {
-                            self.showingAlert = true
-                        }
-                    } else {
-                        self.showingAlert = true
-                    }
+                let response: RestStatus
+                do {
+                    response = try JSONDecoder().decode(RestStatus.self, from: data)
+                } catch {
+                    completionBlock(host, "Server returned an error when login: could not convert data from JSON");
+                    return
+                }
+                if response.status == "error" {
+                    completionBlock(host, "Server returned an error when login: \(response.details ?? "")");
+                    return
                 } else {
-                    self.showingAlert = true
+                    completionBlock(host, nil);
                 }
             }
             task.resume()
         } else {
-            self.showingAlert = true
+            completionBlock(host, "Invalid login endpoint");
             return
-        }
-    }
-}
-
-struct LoadingView: View {
-    var body: some View {
-        ZStack {
-            Color.black
-                .opacity(0.6)
-                .edgesIgnoringSafeArea(.all)
-            Text("Please wait...")
         }
     }
 }

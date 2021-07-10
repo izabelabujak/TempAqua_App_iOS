@@ -312,7 +312,9 @@ struct MappingObservation: View {
                 HStack {
                     VStack {
                         Text("Comment")
-                        TextEditor(text: $comment).border(Color.gray, width: 1)
+                        TextEditor(text: $comment).frame(height: 100)
+                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray, lineWidth: 1))
+                            
                     }
                 }
                 HStack {
@@ -322,16 +324,20 @@ struct MappingObservation: View {
                             HStack(spacing: 5) {
                                 NavigationLink(destination: CapturePhotoView(multimedia: self.$observationMultimedia)
                                 ) {
-                                    Image(systemName: "plus").frame(width: 50, height: 50).border(Color.gray, width: 1).aspectRatio(contentMode: .fill)
+                                    Image(systemName: "plus").frame(width: 50, height: 50).aspectRatio(contentMode: .fill).overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray, lineWidth: 1))
                                 }
                                 ForEach(self.observationMultimedia, id: \.self) { multimedia in
                                     NavigationLink(destination: MappingObservationMultimedia(multimedia: self.$observationMultimedia, showCaptureImageView: false, currentlyDisplayedImage: multimedia)) {
                                         if multimedia.format == "jpg" {
                                             multimedia.image().resizable()
-                                                .frame(width: 50, height: 50).aspectRatio(contentMode: .fill)
+                                                .frame(width: 50, height: 50)
+                                                .aspectRatio(contentMode: .fill)
+                                                .cornerRadius(12)
                                         } else {
                                             Image(systemName: "film")
-                                                .frame(width: 50, height: 50).aspectRatio(contentMode: .fill)
+                                                .frame(width: 50, height: 50)
+                                                .aspectRatio(contentMode: .fill)
+                                                .cornerRadius(25)
                                         }
                                     }
                                 }
@@ -534,4 +540,43 @@ func convertToIds(observations: Set<Observation>) -> String {
         }
     }
     return ret
+}
+
+struct ObservationRow: View {
+    var observation: Observation
+    var longitude: String
+    var latitude: String
+    
+    var body: some View {
+        HStack {
+            VStack {
+                HStack {
+                    Text("#\(observation.id)")
+                    if let anchorPoint = observation.anchorPoint {
+                        Text("\(anchorPoint)").font(.footnote)
+                    } else {
+                        Text("\(calculateDistance(p1: geolocation, p2: observation.location()))m away").font(.footnote)
+                        if let elevation = observation.elevation {
+                            if let elevation2 = geolocationAltitude {
+                                if elevation > 0 && elevation2 > 0 {
+                                    Text("\(elevation-elevation2)m higher").font(.footnote)
+                                }
+                            }
+                        }
+                    }
+                    Spacer()
+                    if let parent_id = observation.parent {
+                        Image(systemName: "arrow.right.to.line.alt")
+                        Text("#\(parent_id)")
+                    }
+                }
+                HStack {
+                    Image(systemName: "smallcircle.fill.circle").foregroundColor(observation.marker.color()).font(.footnote)
+                    Text(observation.category.description())
+                    Spacer()
+                    Text("\(getFullDateFormatter().string(from: observation.observedAt))").font(.footnote)
+                }
+            }
+        }
+    }
 }

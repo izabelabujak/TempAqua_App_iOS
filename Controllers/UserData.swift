@@ -12,7 +12,7 @@ final class UserData: UIViewController, CLLocationManagerDelegate, ObservableObj
     
     // observations
     @Published var observations = db.read()
-    @Published var selection = 3
+    @Published var selection = 3 // by default show `Login` view
     @Published var isExportView = false
     
     // data to export
@@ -25,8 +25,11 @@ final class UserData: UIViewController, CLLocationManagerDelegate, ObservableObj
     
     //
     @Published var alertItem : AlertItem?
+    // a way to signal to the map renderer that it should
+    // render map again is to set any of these flags to true
     @Published var renderMapStreams = true
     @Published var renderMapObservations = true
+    @Published var showLoadingScreen = false
 
     func surveyDuration() -> String {
         let observations = Array(self.surveyExportObservations)

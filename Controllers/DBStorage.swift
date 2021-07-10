@@ -266,6 +266,21 @@ class DBStorage {
         sqlite3_finalize(statement)
     }
     
+    func deleteObservation(observation: Observation) {
+        let deleteStatementString = "DELETE FROM survey_observation WHERE survey_id='0' AND observation_id=? AND observed_at=?;"
+        var statement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, deleteStatementString, -1, &statement, nil) == SQLITE_OK {
+            bind_int(queryStatement: statement, index: 1, value: observation.id)
+            bind_date(queryStatement: statement, index: 2, value: observation.observedAt)
+            if sqlite3_step(statement) != SQLITE_DONE {
+                print("Could not delete row.")
+            }
+        } else {
+            print("DELETE statement could not be prepared")
+        }
+        sqlite3_finalize(statement)
+    }
+    
     func update_survey_observation(survey_id: String, observation: Observation) {
         let sql = """
                      UPDATE survey_observation SET category = ?, comment = ?, latitude = ?, longitude = ?, accuracy = ?, direction = ?, elevation = ?,
@@ -704,22 +719,6 @@ class DBStorage {
         }
         sqlite3_finalize(queryStatement)
         return observations
-    }
-    
-    func deleteById(id: Int) {
-        let deleteStatementString = "DELETE FROM survey_observation WHERE survey_id='0' and observation_id = ?;"
-        var deleteStatement: OpaquePointer? = nil
-        if sqlite3_prepare_v2(db, deleteStatementString, -1, &deleteStatement, nil) == SQLITE_OK {
-            sqlite3_bind_int(deleteStatement, 1, Int32(id))
-            if sqlite3_step(deleteStatement) == SQLITE_DONE {
-//                print("Successfully deleted row.")
-            } else {
-                print("Could not delete row.")
-            }
-        } else {
-            print("DELETE statement could not be prepared")
-        }
-        sqlite3_finalize(deleteStatement)
     }
     
     func deleteNewSurvey() {
