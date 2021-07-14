@@ -56,9 +56,7 @@ struct MainPage: View {
 
 struct LoadingView: View {
     @State private var isLoading = false
-    @State private var isLoading2 = false
     private let animation = Animation.easeInOut(duration: 1).repeatForever(autoreverses: true)
-    private let animation2 = Animation.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.3)
     
     var body: some View {
         ZStack {
@@ -66,10 +64,10 @@ struct LoadingView: View {
                 ZStack {
                     Circle()
                         .frame(width: 120, height: 120)
-                        .foregroundColor(isLoading ? Color(.systemGray5) : .red)
+                        .foregroundColor(isLoading ? Color(.systemGray5) : .blue)
                         .animation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.3))
-                    Image(systemName: "heart.fill")
-                        .foregroundColor(isLoading ? .red : .white)
+                    Image(systemName: "cloud.bolt.rain.fill")
+                        .foregroundColor(isLoading ? .blue : .white)
                         .font(.system(size: 70))
                         .scaleEffect(isLoading ? 1.0 : 0.5)
                 }.onAppear() {
