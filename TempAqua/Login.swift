@@ -9,9 +9,9 @@ struct Login: View {
     @EnvironmentObject var userData: UserData
     @EnvironmentObject var importManager: ImportManager
     
-    @State var email: String = "izabela.bujak@epfl.ch"
+    @State var email: String = ""
     @State var password: String = ""
-    @State var url: String = "izabelabujak.com/tempaqua"
+    @State var url: String = ""
     let lightGreyColor = Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0)
     @State private var showingAlert = false
     @State private var alertMessage: String = ""
@@ -19,14 +19,14 @@ struct Login: View {
     var body: some View {
         ScrollView {
             VStack {
-                Image("A7F92D54-B2B8-403C-A756-9064AC37569D_1_105_c")
+                Image("img")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 150, height: 150)
                         .clipped()
                         .cornerRadius(150)
                         .padding(.bottom, 20)
-                Text("TempAqua").font(.system(size: 30))
+                Text("TempAqua Login").font(.system(size: 30))
                     .padding(.bottom, 20)
                 TextField("Hostname", text: $url)
                     .textCase(.lowercase)
@@ -71,6 +71,8 @@ struct Login: View {
                 }.alert(isPresented: $showingAlert) {
                     Alert(title: Text("Authentication"), message: Text("Invalid email or password"), dismissButton: .default(Text("Ok")))
                 }
+                
+                Text("Login is only required if you want to import/export the data from/to a server. Contact izabela.bujak@epfl.ch or jana.vonfreyberg@epfl.ch to get instructions on how to set up your server.").foregroundColor(.gray).font(.system(size: 10)).padding(.top, 30)
             }.padding()
         }
     }

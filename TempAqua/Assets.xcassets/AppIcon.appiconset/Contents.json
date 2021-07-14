@@ -31,13 +31,13 @@
       "size" : "40x40"
     },
     {
-      "filename" : "aa5.jpg",
+      "filename" : "aaa3.jpeg",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
-      "filename" : "aa4-1.jpg",
+      "filename" : "aaa2.jpeg",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
@@ -88,6 +88,7 @@
       "size" : "83.5x83.5"
     },
     {
+      "filename" : "thumbnail_aaa.jpg",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
