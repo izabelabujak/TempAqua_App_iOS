@@ -322,7 +322,7 @@ struct MappingObservation: View {
                         Text("Photos/Videos")
                         ScrollView (.horizontal) {
                             HStack(spacing: 5) {
-                                NavigationLink(destination: CapturePhotoView(multimedia: self.$observationMultimedia)
+                                NavigationLink(destination: CapturePhotoView(observationId: self.$id, multimedia: self.$observationMultimedia)
                                 ) {
                                     Image(systemName: "plus").frame(width: 50, height: 50).aspectRatio(contentMode: .fill).overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray, lineWidth: 1))
                                 }

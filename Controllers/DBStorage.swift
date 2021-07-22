@@ -266,6 +266,39 @@ class DBStorage {
         sqlite3_finalize(statement)
     }
     
+    func deleteObservationMultimediaFile(surveyId: String, observationId: Int, takenAt: Date) {
+        let deleteStatementString = "DELETE FROM survey_observation_multimedia WHERE survey_id=? AND observation_id=? AND taken_at=?;"
+        var deleteStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, deleteStatementString, -1, &deleteStatement, nil) == SQLITE_OK {
+            bind_string(queryStatement: deleteStatement, index: 1, value: surveyId)
+            bind_int(queryStatement: deleteStatement, index: 2, value: observationId)
+            bind_date(queryStatement: deleteStatement, index: 3, value: takenAt)
+            if sqlite3_step(deleteStatement) != SQLITE_DONE {
+                print("Could not delete row.")
+            }
+        } else {
+            print("DELETE statement could not be prepared")
+        }
+        sqlite3_finalize(deleteStatement)
+        
+    }
+    
+    
+    func deleteObservationMultimedia(surveyId: String, observationId: Int) {
+        let deleteStatementString = "DELETE FROM survey_observation_multimedia WHERE survey_id=? AND observation_id=?;"
+        var deleteStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, deleteStatementString, -1, &deleteStatement, nil) == SQLITE_OK {
+            bind_string(queryStatement: deleteStatement, index: 1, value: surveyId)
+            bind_int(queryStatement: deleteStatement, index: 2, value: observationId)
+            if sqlite3_step(deleteStatement) != SQLITE_DONE {
+                print("Could not delete row.")
+            }
+        } else {
+            print("DELETE statement could not be prepared")
+        }
+        sqlite3_finalize(deleteStatement)
+    }
+    
     func deleteObservation(observation: Observation) {
         let deleteStatementString = "DELETE FROM survey_observation WHERE survey_id='0' AND observation_id=? AND observed_at=?;"
         var statement: OpaquePointer? = nil
@@ -274,6 +307,8 @@ class DBStorage {
             bind_date(queryStatement: statement, index: 2, value: observation.observedAt)
             if sqlite3_step(statement) != SQLITE_DONE {
                 print("Could not delete row.")
+            } else {
+                deleteObservationMultimedia(surveyId: "0", observationId: observation.id)
             }
         } else {
             print("DELETE statement could not be prepared")

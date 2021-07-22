@@ -614,10 +614,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"TempAqua/Preview Content\"";
-				DEVELOPMENT_TEAM = J8A6UP2TFJ;
+				DEVELOPMENT_TEAM = 77BG628XYM;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = TempAqua/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -625,9 +625,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ch.epfl.enac.echo.tempaqua;
+				PRODUCT_BUNDLE_IDENTIFIER = asdasdasadasda;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "TempAqua Provisioning Profile (2)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -637,10 +637,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"TempAqua/Preview Content\"";
-				DEVELOPMENT_TEAM = J8A6UP2TFJ;
+				DEVELOPMENT_TEAM = 77BG628XYM;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = TempAqua/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -648,9 +648,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ch.epfl.enac.echo.tempaqua;
+				PRODUCT_BUNDLE_IDENTIFIER = asdasdasadasda;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "TempAqua Provisioning Profile (2)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

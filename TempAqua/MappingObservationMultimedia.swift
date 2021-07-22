@@ -14,6 +14,7 @@ struct MappingObservationMultimedia: View {
     @Binding var multimedia: [ObservationMultimedia]
     @State var showCaptureImageView: Bool = false
     @State var currentlyDisplayedImage: ObservationMultimedia?
+    @EnvironmentObject var userData: UserData
 
     var body: some View {
         VStack {
@@ -29,6 +30,17 @@ struct MappingObservationMultimedia: View {
                 for (i,m) in self.multimedia.enumerated() {
                     if m == self.currentlyDisplayedImage {
                         self.multimedia.remove(at: i)
+                        db.deleteObservationMultimediaFile(surveyId: "0", observationId: m.observationId, takenAt: m.takenAt)
+                        for (i2,observation) in self.userData.observations.enumerated() {
+                            if observation.id == m.observationId {
+                                for (i3,m2) in observation.multimedia.enumerated() {
+                                    if m2 == self.currentlyDisplayedImage {
+                                        self.userData.observations[i2].multimedia.remove(at: i3)
+                                    }
+                                }
+                                
+                            }
+                        }
                     }
                 }
             }) {

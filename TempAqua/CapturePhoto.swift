@@ -14,10 +14,12 @@ import MobileCoreServices
 
 class CapturePhotoCoordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     @Binding var multimedia: [ObservationMultimedia]
+    @Binding var observationId: Int
     @Binding var presentationMode: PresentationMode
-    
-    init(multimedia: Binding<[ObservationMultimedia]>, presentationMode: Binding<PresentationMode>) {
+
+    init(observationId: Binding<Int>, multimedia: Binding<[ObservationMultimedia]>, presentationMode: Binding<PresentationMode>) {
         _multimedia = multimedia
+        _observationId = observationId
         _presentationMode = presentationMode
     }
     
@@ -47,12 +49,18 @@ class CapturePhotoCoordinator: NSObject, UINavigationControllerDelegate, UIImage
             // process video
             let data = try! Data(contentsOf: unwrapVideoUrl.absoluteURL!)
             let dataBase64 = data.base64EncodedData()
-            currentlyDisplayedMultimedia = ObservationMultimedia(surveyId: "", observationId: 0, takenAt: Date(), format: "mov", data: dataBase64)
+            currentlyDisplayedMultimedia = ObservationMultimedia(surveyId: "0", observationId: observationId, takenAt: Date(), format: "mov", data: dataBase64)
         } else {
             os_log("Could not read photo/video")
             return
         }
-        if let unwrapped = currentlyDisplayedMultimedia {
+        if var unwrapped = currentlyDisplayedMultimedia {            
+            if observationId > 0 {
+                // if we are editting existing observation, then automatically persist all changes
+                // because people forgot to click the save button
+                db.insert_multimedia(surveyId: "0", observationId: observationId, multimedia: unwrapped)
+                unwrapped.persisted = true
+            }
             multimedia.append(unwrapped)
         }
         self.presentationMode.dismiss()
@@ -66,11 +74,12 @@ class CapturePhotoCoordinator: NSObject, UINavigationControllerDelegate, UIImage
  
 
 struct CapturePhotoView {
+    @Binding var observationId: Int
     @Binding var multimedia: [ObservationMultimedia]
     @Environment(\.presentationMode) var presentationMode
     
     func makeCoordinator() -> CapturePhotoCoordinator {
-        return CapturePhotoCoordinator(multimedia: $multimedia, presentationMode: presentationMode)
+        return CapturePhotoCoordinator(observationId: $observationId, multimedia: $multimedia, presentationMode: presentationMode)
     }
 }
  

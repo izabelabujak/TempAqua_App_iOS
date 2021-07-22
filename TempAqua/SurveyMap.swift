@@ -49,9 +49,13 @@ struct SurveyMap: UIViewRepresentable {
         for catchment in self.userData.displayCatchments {
             for location in catchment.locations {
                 var color = UIColor.cyan
-                if location.id.starts(with: "CA") {
+                if location.id.starts(with: "CA") || location.id.starts(with: "LA") || location.id.starts(with: "EA") {
                     color = UIColor.orange
                 }
+//                let anchorPointName = "\(catchment.id)@\(location.id)"
+//                if self.userData.observations.contains(where: { $0.anchorPoint == anchorPointName }) {
+//                    continue
+//                }
                 let newLocation = MapPin(observationId: String(location.id),
                                          title: "\(location.id)",
                                          locationName: "\(location.id), \(location.equipment)",
@@ -123,6 +127,9 @@ struct SurveyMap: UIViewRepresentable {
         
         var aaa: [MapPin] = []
         for observation in self.userData.observations {
+            if anchorPoint = observation.anchorPoint {
+                continue
+            }
             let newLocation = MapPin(observationId: String(observation.id),
                                      title: "new",
                                      locationName: "\(getTimeFormatter().string(from: observation.observedAt)), \(observation.category.description())",
