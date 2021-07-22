@@ -119,13 +119,11 @@ struct MappingObservation: View {
         List {
             Section(header: Text("GPS Coordinates")) {
                 HStack {
-                    if self.id == 0 {
-                        Button(action: {
-                            readPhoneLocation()
-                        }) {
-                            Image(systemName: "arrow.clockwise")
-                        }.buttonStyle(BorderlessButtonStyle())
-                    }
+                    Button(action: {
+                        readPhoneLocation()
+                    }) {
+                        Image(systemName: "arrow.clockwise")
+                    }.buttonStyle(BorderlessButtonStyle())
                     VStack {
                         Text("Easting (x)")
                         TextField("CH-1903", text: $longitude).onChange(of: longitude) { newValue in

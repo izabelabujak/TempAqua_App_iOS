@@ -127,7 +127,7 @@ struct SurveyMap: UIViewRepresentable {
         
         var aaa: [MapPin] = []
         for observation in self.userData.observations {
-            if anchorPoint = observation.anchorPoint {
+            if observation.anchorPoint != nil {
                 continue
             }
             let newLocation = MapPin(observationId: String(observation.id),
@@ -145,7 +145,7 @@ struct SurveyMap: UIViewRepresentable {
             if let parent_id = observation.parent {
                 if let parent = userData.observations.first(where: { $0.id == parent_id }) {
                     let myPolyline = MKPolyline(coordinates: [observation.locationAnchorPoint(catchments: self.userData.catchments), parent.locationAnchorPoint(catchments: self.userData.catchments)], count: 2)
-                    myPolyline.title = "\(parent.category.rawValue)_mapping"
+                    myPolyline.title = "\(observation.category.rawValue)_mapping"
                     uiView.addOverlay(myPolyline)
                 }
             }
