@@ -243,7 +243,7 @@ struct MappingObservation: View {
                     }
                 }
                 HStack {
-                    Text("Water flows FROM:")
+                    Text("Flows from:")
                     Spacer()
                     NavigationLink(destination: ObservationDetailFrom(observationFrom: self.$observationFrom, longitude: self.longitude, latitude: self.latitude)
                     ) {
@@ -255,7 +255,7 @@ struct MappingObservation: View {
                     }
                 }
                 HStack {
-                    Text("Water flows TO:")
+                    Text("Flows to:")
                     Spacer()
                     NavigationLink(destination: ObservationDetailTo(observationTo: self.$observationTo, longitude: self.longitude, latitude: self.latitude)) {
                         if let obs = observationTo {
