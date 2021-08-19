@@ -14,17 +14,33 @@ struct Settings: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Display settings")) {
-                    NavigationLink(destination: SettingsCatchments()) {
-                        Text("Display catchments")
-                        Spacer()
-                        Text("\(self.userData.displayCatchments.count)/\(self.userData.catchments.count)")
-                    }
-                    
-                    NavigationLink(destination: SettingsSurveys()) {
-                        Text("Display surveys")
-                        Spacer()
-                        Text("\(self.userData.displaySurveys.count)/\(self.userData.surveys.count)")
+                Section(header: Text("Display catchments")) {
+                    List {
+                        ForEach(userData.catchments, id: \.id) { catchment in
+                            HStack {
+                                Text(catchment.name)
+                                Spacer()
+                                if self.userData.displayCatchments.contains(catchment) {
+                                    Button(action: {
+                                        self.userData.displayCatchments.remove(catchment)
+                                        db.update_catchment(catchment_id: catchment.id, display: false)
+                                        arcgisGeometry = [] // will force rerendering catchments and streams on the map
+                                        self.userData.renderMapStreams = true
+                                    }) {
+                                        Image(systemName: "eye")
+                                    }
+                                } else {
+                                    Button(action: {
+                                        self.userData.displayCatchments.insert(catchment)
+                                        db.update_catchment(catchment_id: catchment.id, display: true)
+                                        arcgisGeometry = [] // will force rerendering catchments and streams on the map
+                                        self.userData.renderMapStreams = true
+                                    }) {
+                                        Image(systemName: "eye.slash")
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             

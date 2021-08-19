@@ -25,7 +25,8 @@ let CREATE_CATCHMENT_TABLE_SQL = """
 CREATE TABLE IF NOT EXISTS
 catchment
 (id TEXT PRIMARY KEY,
- name TEXT
+ name TEXT,
+ display INTEGER
 );
 """
 
@@ -106,7 +107,6 @@ employee
 );
 """
 
-
 class DBStorage {
     init() {
         db = openDatabase()
@@ -120,7 +120,7 @@ class DBStorage {
         createTable(sql: CREATE_EMPLOYEE_TABLE_SQL)
     }
 
-    let dbPath: String = "tempaqua43.sqlite"
+    let dbPath: String = "tempaqua45.sqlite"
     var db:OpaquePointer?
 
     func openDatabase() -> OpaquePointer? {
@@ -221,7 +221,7 @@ class DBStorage {
     }
     
     func insert_catchment(catchment: Catchment) {
-        let sql = "INSERT INTO catchment (id, name) VALUES (?, ?);"
+        let sql = "INSERT INTO catchment (id, name, display) VALUES (?, ?, 1);"
         var statement: OpaquePointer? = nil
         if sqlite3_prepare_v2(db, sql, -1, &statement, nil) == SQLITE_OK {
             sqlite3_bind_text(statement, 1, (catchment.id as NSString).utf8String, -1, SQLITE_TRANSIENT)
@@ -242,6 +242,30 @@ class DBStorage {
         }
         sqlite3_finalize(statement)
     }
+    
+    func update_catchment(catchment_id: String, display: Bool) {
+        let sql = """
+                     UPDATE catchment SET display = ? WHERE id = ?;
+                  """
+        var statement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, sql, -1, &statement, nil) == SQLITE_OK {
+            bind_string(queryStatement: statement, index: 2, value: catchment_id)
+            var display_int = 1
+            if !display {
+                display_int = 0
+            }
+            bind_int(queryStatement: statement, index: 1, value: display_int)
+            if sqlite3_step(statement) == SQLITE_DONE {
+//                print("Successfully updated row.")
+            } else {
+                print("Could not update row.")
+            }
+        } else {
+            print("UPDATE statement could not be prepared.")
+        }
+        sqlite3_finalize(statement)
+    }
+    
     
     func insert_catchment_location(catchment_id: String, location: CatchmentLocation) {
         let sql = "INSERT INTO catchment_location (catchment_id, location_id, latitude, longitude, equipment, parent) VALUES (?, ?, ?, ?, ?, ?);"
@@ -673,6 +697,7 @@ class DBStorage {
             while sqlite3_step(queryStatement) == SQLITE_ROW {
                 let id = String(cString: sqlite3_column_text(queryStatement, 0))
                 let name = String(cString: sqlite3_column_text(queryStatement, 1))
+                let display =  read_int(queryStatement: queryStatement, index: 2)
                 let queryStatementString = "SELECT location_id, longitude, latitude, equipment, parent FROM catchment_location WHERE catchment_id = ? ORDER BY location_id;"
                 var queryStatement: OpaquePointer? = nil
                 var locations: [CatchmentLocation] = []
@@ -688,7 +713,7 @@ class DBStorage {
                         locations.append(catchmentLocation)
                     }
                 }
-                let catchment = Catchment(id: id, name: name, locations: locations)
+                let catchment = Catchment(id: id, name: name, display: display == 1, locations: locations)
                 catchments.append(catchment)
             }
         } else {

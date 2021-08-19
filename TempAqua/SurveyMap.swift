@@ -5,6 +5,7 @@
 
 import SwiftUI
 import MapKit
+import SwisstopoMapSDK
 
 struct SurveyMap: UIViewRepresentable {
     @EnvironmentObject var userData: UserData
@@ -14,7 +15,7 @@ struct SurveyMap: UIViewRepresentable {
             display_catchments(userData: userData)
         }
         let coorindate = CLLocationCoordinate2D(latitude: geolocation.latitude, longitude: geolocation.longitude)
-        let span = MKCoordinateSpan(latitudeDelta: 0.00001, longitudeDelta: 0.00001)
+        let span = MKCoordinateSpan(latitudeDelta: 0.0000001, longitudeDelta: 0.0000001)
         let region = MKCoordinateRegion(center: coorindate, span: span)
         
         let uiView = MKMapView(frame: .zero)
@@ -44,6 +45,18 @@ struct SurveyMap: UIViewRepresentable {
             // user experience
             return
         }
+        if userData.displayCatchments.count > 0 && arcgisGeometry.count == 0 {
+            display_catchments(userData: userData)
+        }
+        var annotationsToRemove: [MKAnnotation] = []
+        for annotation in uiView.annotations {
+            if let a = annotation as? MapPin {
+                if a.type == "CatchmentLocation" {
+                    annotationsToRemove.append(annotation)
+                }
+            }
+        }
+        uiView.removeAnnotations(annotationsToRemove)
         
         var ccc: [MapPin] = []
         for catchment in self.userData.displayCatchments {
@@ -75,21 +88,6 @@ struct SurveyMap: UIViewRepresentable {
                 uiView.addOverlay(myPolyline)
             }
         }
-        
-        var bbb: [MapPin] = []
-        for survey in self.userData.displaySurveys {
-            for observation in survey.observations ?? [] {
-                let newLocation = MapPin(observationId: String(survey.id),
-                                         title: getShortDayFormatter().string(from: observation.observedAt),
-                                         locationName: "\(getFullDateFormatter().string(from: observation.observedAt)), \(observation.category.description())",
-                                         markerTintColor: observation.marker.uiColor(),
-                                         coordinate: observation.location(),
-                                         type: "ArchivedObservation")
-                newLocation.old = true
-                bbb.append(newLocation)
-            }
-        }
-        uiView.showAnnotations(bbb, animated: false)
         
         DispatchQueue.main.async {
             userData.renderMapStreams = false // uiView.annotations.count != 0 && uiView.overlays.count != 0
@@ -213,6 +211,7 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         renderer.fillColor = col.withAlphaComponent(CGFloat(0.5))
         renderer.strokeColor = col.withAlphaComponent(CGFloat(0.8))
         renderer.lineWidth = CGFloat(lw)
+        
 
         return renderer
     }

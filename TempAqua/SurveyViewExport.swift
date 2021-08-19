@@ -7,7 +7,9 @@ import SwiftUI
 import MessageUI
 
 struct SurveyViewExport: View {
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var importManager: ImportManager
     @EnvironmentObject var exportManager: ExportManager
     @Binding var isPrepareExportView: Bool
     
@@ -44,8 +46,13 @@ struct SurveyViewExport: View {
             }
             .listStyle(InsetGroupedListStyle())
             .navigationBarTitle("Survey Export", displayMode: .inline)
-            .navigationBarItems(trailing: Button(action: {
-                    self.exportManager.export(userData: self.userData)
+            .navigationBarItems(
+                leading: Button(action: {self.presentationMode.wrappedValue.dismiss()}){
+                    Image(systemName: "chevron.backward").imageScale(.large)
+                    Text("Cancel")
+                },
+                trailing: Button(action: {                    
+                    self.exportManager.export(userData: self.userData, importManager: self.importManager)
                     self.isPrepareExportView = false
                     self.userData.selection = 3
                     self.userData.isExportView = true

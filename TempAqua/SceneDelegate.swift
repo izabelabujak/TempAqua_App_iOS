@@ -23,21 +23,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             userData.selection = 1
         }
         userData.employees = db.read_employees()
-        // load previous surveys stored in the database
-        var surveys = db.read_surveys()
-        // the survey with ID=0 is the current survey that should be modifiable
-        for (index, survey) in surveys.enumerated() {
-            if survey.id == "0" {
-                userData.observations = survey.observations ?? []
-                surveys.remove(at: index)
-                break
-            }
-        }
-        userData.surveys = surveys
-        let catchments = db.read_catchments()
-        userData.catchments = catchments
+        userData.catchments = db.read_catchments()
         for (_, catchment) in userData.catchments.enumerated() {
-            userData.displayCatchments.insert(catchment)
+            if (catchment.display) {
+                userData.displayCatchments.insert(catchment)
+            }
         }
         display_catchments(userData: userData)
         

@@ -7,6 +7,7 @@ import SwiftUI
 
 struct SettingsExporting: View {
     @EnvironmentObject var userData: UserData
+    @EnvironmentObject var importManager: ImportManager
     @EnvironmentObject var exportManager: ExportManager
     @State private var showingAlert = false
     @Environment(\.presentationMode) var presentationMode
@@ -19,7 +20,7 @@ struct SettingsExporting: View {
                 if exportManager.multimediaToExport.count > 0 {
                     if exportManager.isExportingNow {
                         Button(action: {
-                            self.exportManager.exportToggle(userData: self.userData)
+                            self.exportManager.exportToggle(userData: self.userData, importManager: self.importManager)
                         }, label: {
                             HStack {
                                 Text("Pause")
@@ -28,7 +29,7 @@ struct SettingsExporting: View {
                         }).padding(.bottom, 20)
                     } else {
                         Button(action: {
-                            self.exportManager.exportToggle(userData: self.userData)
+                            self.exportManager.exportToggle(userData: self.userData, importManager: self.importManager)
                         }, label: {
                             HStack {
                                 Text("Resume")

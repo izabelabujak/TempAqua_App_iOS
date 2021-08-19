@@ -4,7 +4,7 @@
 //
 
 import Foundation
-import Foundation
+import AVFoundation
 import SwiftUI
 import os
 // import this due to a problem when using video camara:
@@ -46,10 +46,31 @@ class CapturePhotoCoordinator: NSObject, UINavigationControllerDelegate, UIImage
                 }
             }
         } else if let unwrapVideoUrl = info[UIImagePickerController.InfoKey.mediaURL] as? NSURL {
-            // process video
-            let data = try! Data(contentsOf: unwrapVideoUrl.absoluteURL!)
-            let dataBase64 = data.base64EncodedData()
-            currentlyDisplayedMultimedia = ObservationMultimedia(surveyId: "0", observationId: observationId, takenAt: Date(), format: "mov", data: dataBase64)
+            let sem = DispatchSemaphore.init(value: 0)
+            let compressedURL = NSURL.fileURL(withPath: NSTemporaryDirectory() + UUID().uuidString + ".mp4")
+            compressVideo(inputURL: unwrapVideoUrl as URL, outputURL: compressedURL) { exportSession in
+                guard let session = exportSession else {
+                    return
+                }
+                defer { sem.signal() }
+                switch session.status {
+                    case .unknown:
+                        break
+                    case .waiting:
+                        break
+                    case .exporting:
+                        break
+                    case .completed:
+                        let data = try! Data(contentsOf: compressedURL.absoluteURL)
+                        let dataBase64 = data.base64EncodedData()
+                        currentlyDisplayedMultimedia = ObservationMultimedia(surveyId: "0", observationId: self.observationId, takenAt: Date(), format: "mp4", data: dataBase64)
+                    case .failed:
+                        break
+                    case .cancelled:
+                        break
+                }
+            }
+            sem.wait()
         } else {
             os_log("Could not read photo/video")
             return
@@ -71,6 +92,19 @@ class CapturePhotoCoordinator: NSObject, UINavigationControllerDelegate, UIImage
     }
 }
 
+func compressVideo(inputURL: URL,outputURL: URL, handler:@escaping (_ exportSession: AVAssetExportSession?) -> Void) {
+    let urlAsset = AVURLAsset(url: inputURL, options: nil)
+    guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetMediumQuality) else {
+        handler(nil)
+        return
+    }
+
+    exportSession.outputURL = outputURL
+    exportSession.outputFileType = .mp4
+    exportSession.exportAsynchronously {
+        handler(exportSession)
+    }
+}
  
 
 struct CapturePhotoView {
@@ -93,7 +127,7 @@ extension CapturePhotoView: UIViewControllerRepresentable {
         picker.delegate = context.coordinator
         picker.sourceType = .camera
         picker.showsCameraControls = true
-        picker.videoMaximumDuration = 5
+        picker.videoMaximumDuration = 2
         picker.videoQuality = .type640x480
         picker.mediaTypes = [kUTTypeMovie as String, kUTTypeImage as String]
         picker.cameraCaptureMode = .photo

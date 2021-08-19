@@ -20,7 +20,7 @@ enum ObservationMarker: String, CaseIterable, Codable, Hashable {
         } else if self == ObservationMarker.blue {
             return "Blue - Water level"
         } else if self == ObservationMarker.yellow {
-            return "Yellow"
+            return "Yellow - Stream mapping"
         }
        return "Orange"
     }

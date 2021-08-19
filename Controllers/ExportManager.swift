@@ -36,7 +36,7 @@ final class ExportManager: UIViewController, ObservableObject {
         }
     }
     
-    func export(userData: UserData) {
+    func export(userData: UserData, importManager: ImportManager) {
         // make sure no exporting is taking place now
         self.pauseUploading()
         // reset the current export stats because there is no active export
@@ -85,12 +85,12 @@ final class ExportManager: UIViewController, ObservableObject {
                 userData.surveyExportEmployees = Set()
                 userData.renderMapObservations = true
                 // start the process that will upload multimedia to the server
-                self.resumeUploading(userData: userData)
+                self.resumeUploading(userData: userData, importManager: importManager)
             }
         }
     }
     
-    func resumeUploading(userData: UserData) {
+    func resumeUploading(userData: UserData, importManager: ImportManager) {
         self.isExportingNow = true
         backgroundTask = UIApplication.shared.beginBackgroundTask(withName: "Uploading survey photos") { [weak self] in
             self?.pauseUploading()
@@ -107,6 +107,7 @@ final class ExportManager: UIViewController, ObservableObject {
                     // finish exporting because there is no more multimedia to export
                     self.pauseUploading()
                     DispatchQueue.main.async {
+                        importManager.sync(userData: userData)
                         userData.alertItem = AlertItem(title: Text("Success"), message: Text("The survey has been exported to the database successfully."), dismissButton: .default(Text("Ok, that's great!")))
                     }
                     break
@@ -127,9 +128,9 @@ final class ExportManager: UIViewController, ObservableObject {
         backgroundTask = .invalid
     }
 
-    func exportToggle(userData: UserData) {
+    func exportToggle(userData: UserData, importManager: ImportManager) {
         if !self.isExportingNow {
-            resumeUploading(userData: userData)
+            resumeUploading(userData: userData, importManager: importManager)
         } else {
             pauseUploading()
         }

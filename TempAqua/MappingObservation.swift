@@ -9,7 +9,7 @@ import CoreLocation
 struct MappingObservation: View {
     @EnvironmentObject var userData: UserData
     @Environment(\.presentationMode) var presentationMode
-    @State var category: ObservationCategory = .trickling
+    @State var category: ObservationCategory = ObservationCategory.other
     @State var id: Int = 0
     @State var comment: String = " "
     @State var latitude: String = ""
@@ -280,6 +280,9 @@ struct MappingObservation: View {
                                 ForEach(ObservationCategory.allCases, id: \.self) { c in
                                     Button(action: {
                                         self.category = c
+                                        if self.marker == .red {
+                                            self.marker = .yellow
+                                        }
                                     }) {
                                         HStack(spacing: 10) {
                                             if self.category == c {
@@ -310,7 +313,7 @@ struct MappingObservation: View {
                 HStack {
                     VStack {
                         Text("Comment")
-                        TextEditor(text: $comment).frame(height: 100)
+                        TextEditor(text: $comment).frame(height: 160)
                             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray, lineWidth: 1))
                             
                     }
@@ -322,20 +325,20 @@ struct MappingObservation: View {
                             HStack(spacing: 5) {
                                 NavigationLink(destination: CapturePhotoView(observationId: self.$id, multimedia: self.$observationMultimedia)
                                 ) {
-                                    Image(systemName: "plus").frame(width: 50, height: 50).aspectRatio(contentMode: .fill).overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray, lineWidth: 1))
+                                    Image(systemName: "plus").frame(width: 60, height: 60).aspectRatio(contentMode: .fill).overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray, lineWidth: 1))
                                 }
                                 ForEach(self.observationMultimedia, id: \.self) { multimedia in
                                     NavigationLink(destination: MappingObservationMultimedia(multimedia: self.$observationMultimedia, showCaptureImageView: false, currentlyDisplayedImage: multimedia)) {
                                         if multimedia.format == "jpg" {
                                             multimedia.image().resizable()
-                                                .frame(width: 50, height: 50)
+                                                .frame(width: 60, height: 60)
                                                 .aspectRatio(contentMode: .fill)
                                                 .cornerRadius(12)
                                         } else {
                                             Image(systemName: "film")
-                                                .frame(width: 50, height: 50)
+                                                .frame(width: 60, height: 60)
                                                 .aspectRatio(contentMode: .fill)
-                                                .cornerRadius(25)
+                                                .cornerRadius(12)
                                         }
                                     }
                                 }

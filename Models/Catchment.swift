@@ -10,12 +10,14 @@ import CoreLocation
 struct Catchment: Hashable, Codable {
     var id: String
     var name: String
+    var display: Bool
     var locations: [CatchmentLocation]
     
-    init(id: String, name: String, locations: [CatchmentLocation]) {
+    init(id: String, name: String, display: Bool, locations: [CatchmentLocation]) {
         self.id = id
         self.name = name
         self.locations = locations
+        self.display = display
     }
 }
 
