@@ -9,9 +9,9 @@ struct Login: View {
     @EnvironmentObject var userData: UserData
     @EnvironmentObject var importManager: ImportManager
     
-    @State var email: String = "test"
-    @State var password: String = "test"
-    @State var url: String = "izabelabujak.com/tempaqua_dev"
+    @State var email: String = ""
+    @State var password: String = ""
+    @State var url: String = ""
     let lightGreyColor = Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0)
     @State private var showingAlert = false
     @State private var alertMessage: String = ""

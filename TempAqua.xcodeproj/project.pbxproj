@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -367,7 +367,6 @@
 			);
 			mainGroup = C2691DCC2494C7F000E9FC3A;
 			packageReferences = (
-				B375BF2926CEF2B000F303B6 /* XCRemoteSwiftPackageReference "lib-open-swiss-maps-sdk" */,
 			);
 			productRefGroup = C2691DD62494C7F000E9FC3A /* Products */;
 			projectDirPath = "";
@@ -777,17 +776,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		B375BF2926CEF2B000F303B6 /* XCRemoteSwiftPackageReference "lib-open-swiss-maps-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/geoadmin/lib-open-swiss-maps-sdk.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.1.4;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = C2691DCD2494C7F000E9FC3A /* Project object */;
 }

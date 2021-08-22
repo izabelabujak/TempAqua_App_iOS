@@ -5,7 +5,6 @@
 
 import SwiftUI
 import MapKit
-import SwisstopoMapSDK
 
 struct SurveyMap: UIViewRepresentable {
     @EnvironmentObject var userData: UserData

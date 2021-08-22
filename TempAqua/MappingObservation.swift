@@ -65,9 +65,13 @@ struct MappingObservation: View {
         }
         if let unwrapped = observation.waterLevel {
             self._waterLevel = State(initialValue: String(unwrapped))
+        } else {
+            self._waterLevel = State(initialValue: nil)
         }
         if let unwrapped = observation.discharge {
             self._discharge = State(initialValue: String(unwrapped))
+        } else {
+            self._discharge = State(initialValue: nil)
         }
         if let unwrapped = observation.anchorPoint {
             self._anchorPoint = State(initialValue: String(unwrapped))
@@ -394,8 +398,8 @@ struct MappingObservation: View {
                 self.userData.observations[index].accuracy = Int(self.accuracy) ?? 99
                 self.userData.observations[index].anchorPoint = self.anchorPoint
                 // hack to convert from comma separated decimal format to the dot notation.
-                self.userData.observations[index].waterLevel = Double((self.waterLevel ?? "").replacingOccurrences(of: ",", with: ".")) ?? 0
-                self.userData.observations[index].discharge = Double((self.discharge ?? "").replacingOccurrences(of: ",", with: ".")) ?? 0
+                self.userData.observations[index].waterLevel = Double((self.waterLevel ?? "").replacingOccurrences(of: ",", with: ".")) ?? nil
+                self.userData.observations[index].discharge = Double((self.discharge ?? "").replacingOccurrences(of: ",", with: ".")) ?? nil
                 self.userData.observations[index].gpsDevice = self.gpsDevice
                 self.userData.observations[index].multimedia = self.observationMultimedia
                 if let obs = self.observationTo {
