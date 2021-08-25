@@ -68,6 +68,8 @@ class CapturePhotoCoordinator: NSObject, UINavigationControllerDelegate, UIImage
                         break
                     case .cancelled:
                         break
+                    @unknown default:
+                        break
                 }
             }
             sem.wait()
@@ -127,7 +129,7 @@ extension CapturePhotoView: UIViewControllerRepresentable {
         picker.delegate = context.coordinator
         picker.sourceType = .camera
         picker.showsCameraControls = true
-        picker.videoMaximumDuration = 2
+        picker.videoMaximumDuration = 3
         picker.videoQuality = .type640x480
         picker.mediaTypes = [kUTTypeMovie as String, kUTTypeImage as String]
         picker.cameraCaptureMode = .photo

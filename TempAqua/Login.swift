@@ -53,7 +53,7 @@ struct Login: View {
                         if let _ = error {
                             DispatchQueue.main.async {
                                 self.userData.showLoadingScreen = false
-                                userData.alertItem = AlertItem(title: Text("Error"), message: Text("Invalid email or password! Please try again."), dismissButton: .default(Text("Ok")))
+                                userData.alertItem = AlertItem(title: Text("Error"), message: Text("Invalid email or password, or no internet access! Please try again."), dismissButton: .default(Text("Ok")))
                             }
                             return
                         }
@@ -69,10 +69,10 @@ struct Login: View {
                 }) {
                     Text("Login")
                 }.alert(isPresented: $showingAlert) {
-                    Alert(title: Text("Authentication"), message: Text("Invalid email or password"), dismissButton: .default(Text("Ok")))
+                    Alert(title: Text("Authentication"), message: Text("Invalid email or password, or no internet access."), dismissButton: .default(Text("Ok")))
                 }
                 
-                Text("Login is only required if you want to import/export the data from/to a server. Contact izabela.bujak@epfl.ch or jana.vonfreyberg@epfl.ch to get instructions on how to set up your server.").foregroundColor(.gray).font(.system(size: 10)).padding(.top, 30)
+                Text("Login is only required if you want to import/export the data from/to the server. Contact izabela.bujak@epfl.ch or jana.vonfreyberg@epfl.ch to get instructions on how to set up your server.").foregroundColor(.gray).font(.system(size: 11)).padding(.top, 30)
             }.padding()
         }
     }

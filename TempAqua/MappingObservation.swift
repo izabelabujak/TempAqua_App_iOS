@@ -303,7 +303,7 @@ struct MappingObservation: View {
                 }
                 HStack {
                     VStack {
-                        Text("Water level (cm)")
+                        Text("Water level [cm]")
                         TextField("?", text: $waterLevel.bound).font(.system(size: 30)).keyboardType(.decimalPad)
                     }
                     Spacer()
@@ -470,6 +470,7 @@ struct MappingObservation: View {
                 self.parent = nil
                 self.observationFrom = Set()
                 self.observationTo = nil
+                self.category = .other
 
                 self.userData.selection = 1
                 self.userData.renderMapObservations = true

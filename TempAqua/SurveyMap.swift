@@ -64,12 +64,12 @@ struct SurveyMap: UIViewRepresentable {
                 if location.id.starts(with: "CA") || location.id.starts(with: "LA") || location.id.starts(with: "EA") {
                     color = UIColor.orange
                 }
-//                let anchorPointName = "\(catchment.id)@\(location.id)"
+                //let anchorPointName = "\(catchment.id)@\(location.id)"
 //                if self.userData.observations.contains(where: { $0.anchorPoint == anchorPointName }) {
 //                    continue
 //                }
                 let newLocation = MapPin(observationId: String(location.id),
-                                         title: "\(location.id)",
+                                         title: String(location.id),
                                          locationName: "\(location.id), \(location.equipment)",
                                          markerTintColor: color,
                                          coordinate: location.wgs(),
@@ -258,6 +258,8 @@ class MapPinMarkerView: MKMarkerAnnotationView {
             calloutOffset = CGPoint(x: 0, y: 0)
             rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
             markerTintColor = artwork.markerTintColor
+            displayPriority = .required
+            titleVisibility = .adaptive
             
             if artwork.old {
                 glyphText = artwork.observationId ?? ""
