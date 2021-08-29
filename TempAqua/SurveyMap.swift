@@ -124,6 +124,7 @@ struct SurveyMap: UIViewRepresentable {
         
         var aaa: [MapPin] = []
         for observation in self.userData.observations {
+            // skip displaying anchor points
             if observation.anchorPoint != nil {
                 continue
             }
@@ -139,12 +140,42 @@ struct SurveyMap: UIViewRepresentable {
         
         // if in mapping mode then try to display reconstructed stream
         for observation in userData.observations {
-            if let parent_id = observation.parent {
-                if let parent = userData.observations.first(where: { $0.id == parent_id }) {
-                    let myPolyline = MKPolyline(coordinates: [observation.locationAnchorPoint(catchments: self.userData.catchments), parent.locationAnchorPoint(catchments: self.userData.catchments)], count: 2)
-                    myPolyline.title = "\(observation.category.rawValue)_mapping"
-                    uiView.addOverlay(myPolyline)
+            var parentLocation: CLLocationCoordinate2D? = nil
+            if let parentId = observation.parent {
+                if let parent = userData.observations.first(where: { $0.id == parentId }) {
+                    parentLocation = parent.locationAnchorPoint(catchments: self.userData.catchments)
                 }
+            } else if let anchorPoint = observation.anchorPoint {
+                // there might be not yet the parent point observed
+                // then, try to draw a line based on the original stream mapping
+                let c = anchorPoint.components(separatedBy: "@")
+                let catchmentId = c[0]
+                let locationId = c[1]
+                for catchment in userData.displayCatchments {
+                    if catchment.id != catchmentId {
+                        continue
+                    }
+                    var parentLocationId: String? = nil
+                    for location in catchment.locations {
+                        if location.id == locationId {
+                            parentLocationId = location.parent
+                            break
+                        }
+                    }
+                    if let parentLocationId = parentLocationId {
+                        for location in catchment.locations {
+                            if location.id == parentLocationId {
+                                parentLocation = locationFromCH1903(longitude: Double(location.longitude), latitude: Double(location.latitude))
+                                break
+                            }
+                        }
+                    }
+                }
+            }
+            if let parentLocation = parentLocation {
+                let myPolyline = MKPolyline(coordinates: [observation.locationAnchorPoint(catchments: self.userData.catchments), parentLocation], count: 2)
+                myPolyline.title = "\(observation.category.rawValue)_mapping"
+                uiView.addOverlay(myPolyline)
             }
         }
         DispatchQueue.main.async {

@@ -30,6 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
         display_catchments(userData: userData)
+        userData.surveys = db.read_surveys()
         
         //load photos that still have to be uploaded to the remote server
         let exportManager = ExportManager()
@@ -81,7 +82,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 }
 
 func display_catchments(userData: UserData) {
-    for catchment in userData.displayCatchments {
+    for catchment in userData.catchments {
         for type in ["", "_border"] {
             let filename = getDocumentsDirectory().appendingPathComponent("\(catchment.id)\(type).geojson")
             do {

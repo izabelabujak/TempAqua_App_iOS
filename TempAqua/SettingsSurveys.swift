@@ -15,7 +15,7 @@ struct SettingsSurveys: View {
         List {
             ForEach(userData.surveys, id: \.id) { survey in
                 HStack {
-                    Text(getDayFormatter().string(from: survey.createdAt))
+                    Text(getFullDateFormatter().string(from: survey.createdAt))
                     if survey.observations?.isEmpty ?? true {
                         Spacer()
                         Button(action: {
@@ -26,25 +26,44 @@ struct SettingsSurveys: View {
                         })
                     } else {
                         Spacer()
-                        if self.userData.displaySurveys.contains(survey) {
-                            Button(action: {
-                                self.userData.displaySurveys.remove(survey)
-                                self.userData.renderMapStreams = true
-                            }) {
-                                Image(systemName: "eye")
-                            }
-                        } else {
-                            Button(action: {
-                                self.userData.displaySurveys.insert(survey)
-                                self.userData.renderMapStreams = true
-                            }) {
-                                Image(systemName: "eye.slash")
-                            }
+                        NavigationLink(destination: SettingsSurveysDetails(survey: survey)) {
                         }
                     }
                 }
             }
         }
-        .navigationBarTitle("Display surveys", displayMode: .inline)
+        .listStyle(PlainListStyle())
+        .navigationBarTitle("Past surveys", displayMode: .inline)
     }
+}
+
+struct SettingsSurveysDetails: View {
+    @EnvironmentObject var userData: UserData
+    var survey: Survey
+    
+    var body: some View {
+        List {
+            ForEach(survey.observations ?? [], id: \.id) { observation in
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text(getTimeHourMinutesFormatter().string(from: observation.observedAt))
+                        Text(observation.anchorPoint ?? "")
+                    }
+                    VStack(alignment: .leading) {
+                        Text(observation.category.description()).font(.footnote)
+                        if let wl = observation.waterLevel {
+                            Text("Water level: \(wl, specifier: "%.2f") cm").font(.footnote)
+                        }
+                        if let d = observation.discharge {
+                            Text("Discharge: \(d, specifier: "%.2f") L/min").font(.footnote)
+                        }
+                        Text(observation.comment ?? "").font(.footnote)
+                    }
+                }
+            }
+        }
+        .listStyle(PlainListStyle())
+        .navigationBarTitle("Survey \(getDayFormatter().string(from: survey.createdAt))", displayMode: .inline)
+    }
+    
 }

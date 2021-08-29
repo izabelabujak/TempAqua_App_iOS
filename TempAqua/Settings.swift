@@ -14,7 +14,7 @@ struct Settings: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Display catchments")) {
+                Section(header: Text("Catchments")) {
                     List {
                         ForEach(userData.catchments, id: \.id) { catchment in
                             HStack {
@@ -41,6 +41,12 @@ struct Settings: View {
                                 }
                             }
                         }
+                    }
+                }
+                
+                Section(header: Text("Past surveys")) {
+                    NavigationLink(destination: SettingsSurveys()) {
+                        Text("View")
                     }
                 }
             

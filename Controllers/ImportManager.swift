@@ -15,6 +15,7 @@ let getEmployeesEndpoint = "/api/get_employees.php"
 
 final class ImportManager: UIViewController, ObservableObject {
     func sync(userData: UserData) {
+        userData.showLoadingScreen = true
         db.remove_catchments()
         userData.catchments = []
         userData.displayCatchments = []
@@ -22,9 +23,10 @@ final class ImportManager: UIViewController, ObservableObject {
         self.fetchCatchments(userData: userData)
         usleep(2000000) // wait 2 sec
         // sync surveys
-        //self.fetchSurveys(userData: userData)
+        self.fetchSurveys(userData: userData)
         self.fetchEmployees(userData: userData)
         userData.renderMapStreams = true
+        userData.showLoadingScreen = false
     }
     
     func fetchSurvey(userData: UserData, survey_id: String) {
