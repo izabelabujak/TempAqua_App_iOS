@@ -1,4 +1,4 @@
-# TempAqua_App_iOS
+# TempAqua App for iOS
 The TempAqua application facilitates mapping of intermittent streams. It is designed to make field work more efficient and less error-prone.
 
 You collect the data in the field and then export it directly to the database. The application helps you navigating among mark-points, record the stream-related data, including photos and videos. The application is configurable; You import mark-points, stream network, and catchment shapes from geo-json files. 
